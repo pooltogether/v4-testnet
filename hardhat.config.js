@@ -24,6 +24,9 @@ module.exports = {
   namedAccounts: {
     deployer: {
       default: 0
+    },
+    owner: {
+      rinkeby: '0x72c9aA4c753fc36cbF3d1fF6fEc0bC44ad41D7f2'
     }
   },
   external: {

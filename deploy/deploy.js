@@ -41,7 +41,7 @@ module.exports = async (hardhat) => {
     getNamedAccounts
   } = hardhat
   const { deploy } = deployments;
-  let { deployer } = await getNamedAccounts();
+  let { deployer, owner } = await getNamedAccounts();
 
   const chainId = parseInt(await getChainId(), 10)
   const isTestEnvironment = chainId === 31337 || chainId === 1337;
@@ -83,9 +83,9 @@ module.exports = async (hardhat) => {
   })
   displayResult('YieldSourcePrizePool', yieldSourcePrizePoolResult)
 
-  if (yieldSourcePrizePoolResult.newlyDeployed) {
+  const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
+  if (await yieldSourcePrizePool.owner() == ethers.constants.AddressZero) {
     cyan('\nInitializing YieldSourcePrizePool....')
-    const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
     await yieldSourcePrizePool.initializeYieldSourcePrizePool(
       registryResult.address,
       [ticketResult.address],
@@ -95,9 +95,15 @@ module.exports = async (hardhat) => {
     green(`Initialized!`)
   }
 
-  if (ticketResult.newlyDeployed) {
+  if (await yieldSourcePrizePool.owner() != owner) {
+    cyan(`\nSetting YieldSourcePrizePoolOwner to ${owner}...`)
+    await yieldSourcePrizePool.transferOwnership(owner)
+    green(`Done!`)
+  }
+
+  const ticket = await ethers.getContract('Ticket')
+  if (await ticket.controller() != yieldSourcePrizePoolResult.address) {
     cyan('\nInitializing Ticket....')
-    const ticket = await ethers.getContract('Ticket')
     await ticket.initialize(
       "Ticket",
       "TICK",
@@ -115,16 +121,13 @@ module.exports = async (hardhat) => {
 
   cyan('\nDeploying DrawHistory...')
   const drawHistoryResult = await deploy('DrawHistory', {
-    from: deployer,
-    args: [
-      
-    ]
+    from: deployer
   })
   displayResult('DrawHistory', drawHistoryResult)
 
-  if (drawBeaconResult.newlyDeployed) {
+  const drawBeacon = await ethers.getContract('DrawBeacon')
+  if (await drawBeacon.rng() == ethers.constants.AddressZero) {
     cyan('\nInitializing DrawBeacon')
-    const drawBeacon = await ethers.getContract('DrawBeacon')
     await drawBeacon.initialize(
       drawHistoryResult.address,
       rngServiceAddress,
@@ -133,12 +136,24 @@ module.exports = async (hardhat) => {
     )
     green(`initialized!`)
   }
+
+  if (await drawBeacon.owner() != owner) {
+    cyan(`\nSetting drawBeaconOwner to ${owner}...`)
+    await drawBeacon.transferOwnership(owner)
+    green(`Done!`)
+  }
   
-  if (drawHistoryResult.newlyDeployed) {
-    const drawHistory = await ethers.getContract('DrawHistory')
+  const drawHistory = await ethers.getContract('DrawHistory')
+  if (await drawHistory.manager() != drawBeaconResult.address) {
     cyan('\nInitialzing DrawHistory...')
     await drawHistory.initialize(drawBeaconResult.address)
     green('Set!')
+  }
+
+  if (await drawHistory.owner() != owner) {
+    cyan(`\nSetting drawHistoryOwner to ${owner}...`)
+    await drawHistory.transferOwnership(owner)
+    green(`Done!`)
   }
 
   cyan('\nDeploying TsunamiDrawCalculator...')
@@ -153,9 +168,9 @@ module.exports = async (hardhat) => {
   })
   displayResult('ClaimableDraw', claimableDrawResult)
 
-  if (claimableDrawResult.newlyDeployed) {
+  const claimableDraw = await ethers.getContract('ClaimableDraw')
+  if (await claimableDraw.drawHistory() != drawHistoryResult.address) {
     cyan('\nInitializing ClaimableDraw...')
-    const claimableDraw = await ethers.getContract('ClaimableDraw')
     await claimableDraw.initialize(
       drawCalculatorResult.address,
       drawHistoryResult.address
@@ -163,15 +178,27 @@ module.exports = async (hardhat) => {
     green(`Initialized!`)
   }
 
-  if (drawCalculatorResult.newlyDeployed) {
+  if (await claimableDraw.owner() != owner) {
+    cyan(`\nSetting claimableDrawOwner to ${owner}...`)
+    await claimableDraw.transferOwnership(owner)
+    green(`Done!`)
+  }
+
+  const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
+  if (await drawCalculator.claimableDraw() != claimableDrawResult.address) {
     cyan('\nInitializing TsunamiDrawCalculator...')
-    const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
     await drawCalculator.initialize(
       ticketResult.address,
       deployer,
       claimableDrawResult.address
     )
     green(`Initialized!`)
+  }
+
+  if (await drawCalculator.owner() != owner) {
+    cyan(`\nSetting drawCalculatorOwner to ${owner}...`)
+    await drawCalculator.transferOwnership(owner)
+    green(`Done!`)
   }
 
 }
