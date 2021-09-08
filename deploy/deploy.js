@@ -41,10 +41,11 @@ module.exports = async (hardhat) => {
     getNamedAccounts
   } = hardhat
   const { deploy } = deployments;
-  let { deployer, owner } = await getNamedAccounts();
+  let { deployer, owner, manager } = await getNamedAccounts();
 
   const chainId = parseInt(await getChainId(), 10)
   const isTestEnvironment = chainId === 31337 || chainId === 1337;
+  const isEthereum = chainId === 4
 
   let rngServiceAddress
   if (!isTestEnvironment) {
@@ -113,11 +114,16 @@ module.exports = async (hardhat) => {
     green(`Initialized!`)
   }
 
-  cyan('\nDeploying DrawBeacon...')
-  const drawBeaconResult = await deploy('DrawBeacon', {
-    from: deployer
-  })
-  displayResult('DrawBeacon', drawBeaconResult)
+  let drawBeaconResult
+  if (isEthereum) {
+    cyan('\nDeploying DrawBeacon...')
+    drawBeaconResult = await deploy('DrawBeacon', {
+      from: deployer
+    })
+    displayResult('DrawBeacon', drawBeaconResult)
+  } else {
+    dim(`\nSkipping DrawBeacon...`)
+  }
 
   cyan('\nDeploying DrawHistory...')
   const drawHistoryResult = await deploy('DrawHistory', {
@@ -125,37 +131,44 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawHistory', drawHistoryResult)
 
-  const drawBeacon = await ethers.getContract('DrawBeacon')
-  if (await drawBeacon.rng() == ethers.constants.AddressZero) {
-    cyan('\nInitializing DrawBeacon')
-    await drawBeacon.initialize(
-      drawHistoryResult.address,
-      rngServiceAddress,
-      parseInt('' + new Date().getTime() / 1000),
-      120 // 2 minute intervals
-    )
-    green(`initialized!`)
-  }
-
-  if (await drawBeacon.owner() != owner) {
-    cyan(`\nSetting drawBeaconOwner to ${owner}...`)
-    await drawBeacon.transferOwnership(owner)
-    green(`Done!`)
+  if (drawBeaconResult) {
+    const drawBeacon = await ethers.getContract('DrawBeacon')
+    if (await drawBeacon.rng() == ethers.constants.AddressZero) {
+      cyan('\nInitializing DrawBeacon')
+      await drawBeacon.initialize(
+        drawHistoryResult.address,
+        rngServiceAddress,
+        parseInt('' + new Date().getTime() / 1000),
+        120 // 2 minute intervals
+      )
+      green(`initialized!`)
+    }
+  
+    if (await drawBeacon.owner() != owner) {
+      cyan(`\nSetting drawBeaconOwner to ${owner}...`)
+      await drawBeacon.transferOwnership(owner)
+      green(`Done!`)
+    }
   }
   
   const drawHistory = await ethers.getContract('DrawHistory')
-  if (await drawHistory.manager() != drawBeaconResult.address) {
-    cyan('\nInitialzing DrawHistory...')
-    await drawHistory.initialize(drawBeaconResult.address)
-    green('Set!')
-  }
-
-  if (await drawHistory.owner() != owner) {
-    cyan(`\nSetting drawHistoryOwner to ${owner}...`)
-    await drawHistory.transferOwnership(owner)
+  if (await drawHistory.owner() == ethers.constants.AddressZero) {
+    cyan(`\nInitializing DrawHistory with manager ${manager}...`)
+    await drawHistory.initialize(manager)
     green(`Done!`)
   }
 
+  if (isEthereum &&
+    await drawHistory.manager() != drawBeaconResult.address) {
+    cyan('\nSetting DrawHistory manager to DrawBeacon...')
+    await drawHistory.setManager(drawBeaconResult.address)
+    green('Set!')
+  } else if (await drawHistory.manager() != manager) {
+    cyan(`\nSetting DrawHistory manager to ${manager}...`)
+    await drawHistory.setManager(manager)
+    green('Set!')
+  }
+  
   cyan('\nDeploying TsunamiDrawCalculator...')
   const drawCalculatorResult = await deploy('TsunamiDrawCalculator', {
     from: deployer
@@ -185,7 +198,7 @@ module.exports = async (hardhat) => {
   }
 
   const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
-  if (await drawCalculator.claimableDraw() != claimableDrawResult.address) {
+  if (await drawCalculator.owner() == ethers.constants.AddressZero) {
     cyan('\nInitializing TsunamiDrawCalculator...')
     await drawCalculator.initialize(
       ticketResult.address,
@@ -196,9 +209,15 @@ module.exports = async (hardhat) => {
   }
 
   if (await drawCalculator.owner() != owner) {
-    cyan(`\nSetting drawCalculatorOwner to ${owner}...`)
+    cyan(`\nTransferring drawCalculator ownership to ${owner}...`)
     await drawCalculator.transferOwnership(owner)
     green(`Done!`)
+  }
+
+  if (await drawCalculator.manager() != manager) {
+    cyan(`\nSetting drawCalculator manager to ${manager}...`)
+    await drawCalculator.setManager(manager)
+    green('Done!')
   }
 
 }

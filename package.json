@@ -6,7 +6,8 @@
   "author": "Brendan Asselstine <mail.asselstine@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "deploy": "hardhat deploy --network "
   },
   "dependencies": {
     "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami",

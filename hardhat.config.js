@@ -28,6 +28,10 @@ module.exports = {
     owner: {
       default: 0,
       rinkeby: '0x72c9aA4c753fc36cbF3d1fF6fEc0bC44ad41D7f2'
+    },
+    manager: {
+      rinkeby: '0xb889e88c6dc2f652ad319e1c0d9a30f5b08b9354',
+      mumbai: '0xbce45a1c2c1eff18e77f217a62a44f885b26099f'
     }
   },
   external: {
