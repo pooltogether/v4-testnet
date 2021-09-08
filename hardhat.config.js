@@ -26,6 +26,7 @@ module.exports = {
       default: 0
     },
     owner: {
+      default: 0,
       rinkeby: '0x72c9aA4c753fc36cbF3d1fF6fEc0bC44ad41D7f2'
     }
   },
@@ -40,6 +41,7 @@ module.exports = {
     ],
     deployments: {
       rinkeby: ["node_modules/@pooltogether/pooltogether-rng-contracts/deployments/rinkeby"],
+      mumbai: ["node_modules/@pooltogether/pooltogether-rng-contracts/deployments/mumbai_80001"],
     },
   },
   dependencyCompiler: {
