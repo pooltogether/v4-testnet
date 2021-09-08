@@ -1,0 +1,25 @@
+{
+  "name": "v4-rinkeby",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:pooltogether/v4-rinkeby.git",
+  "author": "Brendan Asselstine <mail.asselstine@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "compile": "hardhat compile"
+  },
+  "dependencies": {
+    "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami",
+    "@pooltogether/yield-source-interface": "^1.1.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "ajv": "^6.12.2",
+    "ethers": "^5.4.6",
+    "hardhat": "^2.6.3",
+    "hardhat-dependency-compiler": "^1.1.1",
+    "hardhat-deploy": "^0.9.1",
+    "hardhat-deploy-ethers": "^0.3.0-beta.10",
+    "hardhat-ethers": "^1.0.1"
+  }
+}

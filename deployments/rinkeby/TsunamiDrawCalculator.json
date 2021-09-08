@@ -1,0 +1,644 @@
+{
+  "address": "0xEbF30c049645795805bb96F2176767ED889b8e97",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "contract ClaimableDraw",
+          "name": "_claimableDraw",
+          "type": "address"
+        }
+      ],
+      "name": "ClaimableDrawSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "drawId",
+          "type": "uint32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "bitRangeSize",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "matchCardinality",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint224",
+              "name": "pickCost",
+              "type": "uint224"
+            },
+            {
+              "internalType": "uint128[]",
+              "name": "distributions",
+              "type": "uint128[]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct DrawLib.DrawSettings",
+          "name": "_drawSettings",
+          "type": "tuple"
+        }
+      ],
+      "name": "DrawSettingsSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "contract TicketInterface",
+          "name": "_ticket",
+          "type": "address"
+        }
+      ],
+      "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousManager",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newManager",
+          "type": "address"
+        }
+      ],
+      "name": "ManagerTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw[]",
+          "name": "_draws",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_pickIndicesForDraws",
+          "type": "bytes"
+        }
+      ],
+      "name": "calculate",
+      "outputs": [
+        {
+          "internalType": "uint96[]",
+          "name": "",
+          "type": "uint96[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claimableDraw",
+      "outputs": [
+        {
+          "internalType": "contract ClaimableDraw",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract TicketInterface",
+          "name": "_ticket",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_drawSettingsManager",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ClaimableDraw",
+          "name": "_claimableDraw",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "manager",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ClaimableDraw",
+          "name": "_claimableDraw",
+          "type": "address"
+        }
+      ],
+      "name": "setClaimableDraw",
+      "outputs": [
+        {
+          "internalType": "contract ClaimableDraw",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_drawId",
+          "type": "uint32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "bitRangeSize",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "matchCardinality",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint224",
+              "name": "pickCost",
+              "type": "uint224"
+            },
+            {
+              "internalType": "uint128[]",
+              "name": "distributions",
+              "type": "uint128[]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct DrawLib.DrawSettings",
+          "name": "_drawSettings",
+          "type": "tuple"
+        }
+      ],
+      "name": "setDrawSettings",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newManager",
+          "type": "address"
+        }
+      ],
+      "name": "setManager",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xf3834d70a8c6797aee02eae4873d9ac85cd228087d5812ff8ff38992d64a74f6",
+  "receipt": {
+    "to": null,
+    "from": "0xE0F4217390221aF47855E094F6e112D43C8698fE",
+    "contractAddress": "0xEbF30c049645795805bb96F2176767ED889b8e97",
+    "transactionIndex": 34,
+    "gasUsed": "1988399",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xaaeeebaca498dc15e0bbeada45abe8dc857ab0017d4ebc63a3691d068d55669e",
+    "transactionHash": "0xf3834d70a8c6797aee02eae4873d9ac85cd228087d5812ff8ff38992d64a74f6",
+    "logs": [],
+    "blockNumber": 9253693,
+    "cumulativeGasUsed": "13379283",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "7cee12f50f3976705f4f64a58680c721",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.6+commit.11564f7e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract ClaimableDraw\",\"name\":\"_claimableDraw\",\"type\":\"address\"}],\"name\":\"ClaimableDrawSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"bitRangeSize\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"matchCardinality\",\"type\":\"uint16\"},{\"internalType\":\"uint224\",\"name\":\"pickCost\",\"type\":\"uint224\"},{\"internalType\":\"uint128[]\",\"name\":\"distributions\",\"type\":\"uint128[]\"},{\"internalType\":\"uint256\",\"name\":\"prize\",\"type\":\"uint256\"}],\"indexed\":false,\"internalType\":\"struct DrawLib.DrawSettings\",\"name\":\"_drawSettings\",\"type\":\"tuple\"}],\"name\":\"DrawSettingsSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract TicketInterface\",\"name\":\"_ticket\",\"type\":\"address\"}],\"name\":\"Initialized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousManager\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newManager\",\"type\":\"address\"}],\"name\":\"ManagerTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw[]\",\"name\":\"_draws\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"_pickIndicesForDraws\",\"type\":\"bytes\"}],\"name\":\"calculate\",\"outputs\":[{\"internalType\":\"uint96[]\",\"name\":\"\",\"type\":\"uint96[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"claimableDraw\",\"outputs\":[{\"internalType\":\"contract ClaimableDraw\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract TicketInterface\",\"name\":\"_ticket\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_drawSettingsManager\",\"type\":\"address\"},{\"internalType\":\"contract ClaimableDraw\",\"name\":\"_claimableDraw\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"manager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract ClaimableDraw\",\"name\":\"_claimableDraw\",\"type\":\"address\"}],\"name\":\"setClaimableDraw\",\"outputs\":[{\"internalType\":\"contract ClaimableDraw\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_drawId\",\"type\":\"uint32\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"bitRangeSize\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"matchCardinality\",\"type\":\"uint16\"},{\"internalType\":\"uint224\",\"name\":\"pickCost\",\"type\":\"uint224\"},{\"internalType\":\"uint128[]\",\"name\":\"distributions\",\"type\":\"uint128[]\"},{\"internalType\":\"uint256\",\"name\":\"prize\",\"type\":\"uint256\"}],\"internalType\":\"struct DrawLib.DrawSettings\",\"name\":\"_drawSettings\",\"type\":\"tuple\"}],\"name\":\"setDrawSettings\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newManager\",\"type\":\"address\"}],\"name\":\"setManager\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"calculate(address,(uint256,uint32,uint32)[],bytes)\":{\"params\":{\"_draws\":\"draw array for which to calculate prize amounts for\",\"_pickIndicesForDraws\":\"The encoded pick indices for all Draws. Expected to be just indices of winning claims. Populated values must be less than totalUserPicks.\",\"_user\":\"User for which to calcualte prize amount\"},\"returns\":{\"_0\":\"An array of amount of prizes awardable\"}},\"initialize(address,address,address)\":{\"params\":{\"_claimableDraw\":\"ClaimableDraw associated with this DrawCalculator\",\"_drawSettingsManager\":\"Address of the DrawSettingsManager. Can be different from the contract owner.\",\"_ticket\":\"Ticket associated with this DrawCalculator\"}},\"manager()\":{\"details\":\"Returns current _manager address.1\",\"returns\":{\"_0\":\"Current _manager address.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"setClaimableDraw(address)\":{\"params\":{\"_claimableDraw\":\"The address of the ClaimableDraw to update with the updated DrawSettings\"}},\"setDrawSettings(uint32,(uint8,uint16,uint224,uint128[],uint256))\":{\"params\":{\"_drawId\":\"The id of the Draw\",\"_drawSettings\":\"The DrawSettings to set\"}},\"setManager(address)\":{\"details\":\"Throws if called by any account other than the owner.\",\"params\":{\"_newManager\":\"New _manager address.\"},\"returns\":{\"_0\":\"Boolean to indicate if the operation was successful or not.\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"title\":\"TsunamiDrawCalculator is an implmentation of an IDrawCalculator\",\"version\":1},\"userdoc\":{\"events\":{\"ClaimableDrawSet(address)\":{\"notice\":\"Emitted when the claimableDraw is set/updated\"},\"DrawSettingsSet(uint32,(uint8,uint16,uint224,uint128[],uint256))\":{\"notice\":\"Emitted when the DrawParams are set/updated\"},\"Initialized(address)\":{\"notice\":\"Emitted when the contract is initialized\"}},\"kind\":\"user\",\"methods\":{\"calculate(address,(uint256,uint32,uint32)[],bytes)\":{\"notice\":\"Calulates the prize amount for a user for Multiple Draws. Typically called by a ClaimableDraw.\"},\"claimableDraw()\":{\"notice\":\"ClaimableDraw associated with DrawCalculator\"},\"initialize(address,address,address)\":{\"notice\":\"Initializer sets the initial parameters\"},\"manager()\":{\"notice\":\"Gets current _manager.\"},\"setClaimableDraw(address)\":{\"notice\":\"Sets DrawSettings for a draw id. only callable by the owner or manager\"},\"setDrawSettings(uint32,(uint8,uint16,uint224,uint128[],uint256))\":{\"notice\":\"Sets DrawSettings for a draw id. only callable by the owner or manager\"},\"setManager(address)\":{\"notice\":\"Set or change of manager.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@pooltogether/v4/contracts/TsunamiDrawCalculator.sol\":\"TsunamiDrawCalculator\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":2000},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/ContextUpgradeable.sol\\\";\\nimport \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    function __Ownable_init() internal initializer {\\n        __Context_init_unchained();\\n        __Ownable_init_unchained();\\n    }\\n\\n    function __Ownable_init_unchained() internal initializer {\\n        _setOwner(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions anymore. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby removing any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _setOwner(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _setOwner(newOwner);\\n    }\\n\\n    function _setOwner(address newOwner) private {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n    uint256[49] private __gap;\\n}\\n\",\"keccak256\":\"0x35b09b69aca3bc2633da8f47382a81ecf367efe57167a2114f60f9ec81988afa\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed\\n * behind a proxy. Since a proxied contract can't have a constructor, it's common to move constructor logic to an\\n * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer\\n * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.\\n *\\n * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as\\n * possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}.\\n *\\n * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure\\n * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.\\n */\\nabstract contract Initializable {\\n    /**\\n     * @dev Indicates that the contract has been initialized.\\n     */\\n    bool private _initialized;\\n\\n    /**\\n     * @dev Indicates that the contract is in the process of being initialized.\\n     */\\n    bool private _initializing;\\n\\n    /**\\n     * @dev Modifier to protect an initializer function from being invoked twice.\\n     */\\n    modifier initializer() {\\n        require(_initializing || !_initialized, \\\"Initializable: contract is already initialized\\\");\\n\\n        bool isTopLevelCall = !_initializing;\\n        if (isTopLevelCall) {\\n            _initializing = true;\\n            _initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            _initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x8b2abd85d0ece7e866e100e9d47ca9cbec93c87cf71a8d267b2b93eb81f7d5e9\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20Upgradeable {\\n    /**\\n     * @dev Returns the amount of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the amount of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves `amount` tokens from the caller's account to `recipient`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address recipient, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Moves `amount` tokens from `sender` to `recipient` using the\\n     * allowance mechanism. `amount` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(\\n        address sender,\\n        address recipient,\\n        uint256 amount\\n    ) external returns (bool);\\n\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n}\\n\",\"keccak256\":\"0xf449ca0a763d4b1b4462cf8706857074492f324020a2b9d099181b5383055ad3\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../IERC20Upgradeable.sol\\\";\\nimport \\\"../../../utils/AddressUpgradeable.sol\\\";\\n\\n/**\\n * @title SafeERC20\\n * @dev Wrappers around ERC20 operations that throw on failure (when the token\\n * contract returns false). Tokens that return no value (and instead revert or\\n * throw on failure) are also supported, non-reverting calls are assumed to be\\n * successful.\\n * To use this library you can add a `using SafeERC20 for IERC20;` statement to your contract,\\n * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.\\n */\\nlibrary SafeERC20Upgradeable {\\n    using AddressUpgradeable for address;\\n\\n    function safeTransfer(\\n        IERC20Upgradeable token,\\n        address to,\\n        uint256 value\\n    ) internal {\\n        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));\\n    }\\n\\n    function safeTransferFrom(\\n        IERC20Upgradeable token,\\n        address from,\\n        address to,\\n        uint256 value\\n    ) internal {\\n        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));\\n    }\\n\\n    /**\\n     * @dev Deprecated. This function has issues similar to the ones found in\\n     * {IERC20-approve}, and its usage is discouraged.\\n     *\\n     * Whenever possible, use {safeIncreaseAllowance} and\\n     * {safeDecreaseAllowance} instead.\\n     */\\n    function safeApprove(\\n        IERC20Upgradeable token,\\n        address spender,\\n        uint256 value\\n    ) internal {\\n        // safeApprove should only be called when setting an initial allowance,\\n        // or when resetting it to zero. To increase and decrease it, use\\n        // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'\\n        require(\\n            (value == 0) || (token.allowance(address(this), spender) == 0),\\n            \\\"SafeERC20: approve from non-zero to non-zero allowance\\\"\\n        );\\n        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));\\n    }\\n\\n    function safeIncreaseAllowance(\\n        IERC20Upgradeable token,\\n        address spender,\\n        uint256 value\\n    ) internal {\\n        uint256 newAllowance = token.allowance(address(this), spender) + value;\\n        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));\\n    }\\n\\n    function safeDecreaseAllowance(\\n        IERC20Upgradeable token,\\n        address spender,\\n        uint256 value\\n    ) internal {\\n        unchecked {\\n            uint256 oldAllowance = token.allowance(address(this), spender);\\n            require(oldAllowance >= value, \\\"SafeERC20: decreased allowance below zero\\\");\\n            uint256 newAllowance = oldAllowance - value;\\n            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));\\n        }\\n    }\\n\\n    /**\\n     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement\\n     * on the return value: the return value is optional (but if data is returned, it must not be false).\\n     * @param token The token targeted by the call.\\n     * @param data The call data (encoded using abi.encode or one of its variants).\\n     */\\n    function _callOptionalReturn(IERC20Upgradeable token, bytes memory data) private {\\n        // We need to perform a low level call here, to bypass Solidity's return data size checking mechanism, since\\n        // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that\\n        // the target address contains contract code and also asserts for success in the low-level call.\\n\\n        bytes memory returndata = address(token).functionCall(data, \\\"SafeERC20: low-level call failed\\\");\\n        if (returndata.length > 0) {\\n            // Return data is optional\\n            require(abi.decode(returndata, (bool)), \\\"SafeERC20: ERC20 operation did not succeed\\\");\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc7d7fe7d5ed5068742927e37b400591153dbe8526cd942cfcf5dbb971ba5e8e2\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Collection of functions related to the address type\\n */\\nlibrary AddressUpgradeable {\\n    /**\\n     * @dev Returns true if `account` is a contract.\\n     *\\n     * [IMPORTANT]\\n     * ====\\n     * It is unsafe to assume that an address for which this function returns\\n     * false is an externally-owned account (EOA) and not a contract.\\n     *\\n     * Among others, `isContract` will return false for the following\\n     * types of addresses:\\n     *\\n     *  - an externally-owned account\\n     *  - a contract in construction\\n     *  - an address where a contract will be created\\n     *  - an address where a contract lived, but was destroyed\\n     * ====\\n     */\\n    function isContract(address account) internal view returns (bool) {\\n        // This method relies on extcodesize, which returns 0 for contracts in\\n        // construction, since the code is only stored at the end of the\\n        // constructor execution.\\n\\n        uint256 size;\\n        assembly {\\n            size := extcodesize(account)\\n        }\\n        return size > 0;\\n    }\\n\\n    /**\\n     * @dev Replacement for Solidity's `transfer`: sends `amount` wei to\\n     * `recipient`, forwarding all available gas and reverting on errors.\\n     *\\n     * https://eips.ethereum.org/EIPS/eip-1884[EIP1884] increases the gas cost\\n     * of certain opcodes, possibly making contracts go over the 2300 gas limit\\n     * imposed by `transfer`, making them unable to receive funds via\\n     * `transfer`. {sendValue} removes this limitation.\\n     *\\n     * https://diligence.consensys.net/posts/2019/09/stop-using-soliditys-transfer-now/[Learn more].\\n     *\\n     * IMPORTANT: because control is transferred to `recipient`, care must be\\n     * taken to not create reentrancy vulnerabilities. Consider using\\n     * {ReentrancyGuard} or the\\n     * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].\\n     */\\n    function sendValue(address payable recipient, uint256 amount) internal {\\n        require(address(this).balance >= amount, \\\"Address: insufficient balance\\\");\\n\\n        (bool success, ) = recipient.call{value: amount}(\\\"\\\");\\n        require(success, \\\"Address: unable to send value, recipient may have reverted\\\");\\n    }\\n\\n    /**\\n     * @dev Performs a Solidity function call using a low level `call`. A\\n     * plain `call` is an unsafe replacement for a function call: use this\\n     * function instead.\\n     *\\n     * If `target` reverts with a revert reason, it is bubbled up by this\\n     * function (like regular Solidity function calls).\\n     *\\n     * Returns the raw returned data. To convert to the expected return value,\\n     * use https://solidity.readthedocs.io/en/latest/units-and-global-variables.html?highlight=abi.decode#abi-encoding-and-decoding-functions[`abi.decode`].\\n     *\\n     * Requirements:\\n     *\\n     * - `target` must be a contract.\\n     * - calling `target` with `data` must not revert.\\n     *\\n     * _Available since v3.1._\\n     */\\n    function functionCall(address target, bytes memory data) internal returns (bytes memory) {\\n        return functionCall(target, data, \\\"Address: low-level call failed\\\");\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`], but with\\n     * `errorMessage` as a fallback revert reason when `target` reverts.\\n     *\\n     * _Available since v3.1._\\n     */\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        return functionCallWithValue(target, data, 0, errorMessage);\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],\\n     * but also transferring `value` wei to `target`.\\n     *\\n     * Requirements:\\n     *\\n     * - the calling contract must have an ETH balance of at least `value`.\\n     * - the called Solidity function must be `payable`.\\n     *\\n     * _Available since v3.1._\\n     */\\n    function functionCallWithValue(\\n        address target,\\n        bytes memory data,\\n        uint256 value\\n    ) internal returns (bytes memory) {\\n        return functionCallWithValue(target, data, value, \\\"Address: low-level call with value failed\\\");\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Address-functionCallWithValue-address-bytes-uint256-}[`functionCallWithValue`], but\\n     * with `errorMessage` as a fallback revert reason when `target` reverts.\\n     *\\n     * _Available since v3.1._\\n     */\\n    function functionCallWithValue(\\n        address target,\\n        bytes memory data,\\n        uint256 value,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        require(address(this).balance >= value, \\\"Address: insufficient balance for call\\\");\\n        require(isContract(target), \\\"Address: call to non-contract\\\");\\n\\n        (bool success, bytes memory returndata) = target.call{value: value}(data);\\n        return _verifyCallResult(success, returndata, errorMessage);\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],\\n     * but performing a static call.\\n     *\\n     * _Available since v3.3._\\n     */\\n    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {\\n        return functionStaticCall(target, data, \\\"Address: low-level static call failed\\\");\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Address-functionCall-address-bytes-string-}[`functionCall`],\\n     * but performing a static call.\\n     *\\n     * _Available since v3.3._\\n     */\\n    function functionStaticCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal view returns (bytes memory) {\\n        require(isContract(target), \\\"Address: static call to non-contract\\\");\\n\\n        (bool success, bytes memory returndata) = target.staticcall(data);\\n        return _verifyCallResult(success, returndata, errorMessage);\\n    }\\n\\n    function _verifyCallResult(\\n        bool success,\\n        bytes memory returndata,\\n        string memory errorMessage\\n    ) private pure returns (bytes memory) {\\n        if (success) {\\n            return returndata;\\n        } else {\\n            // Look for revert reason and bubble it up if present\\n            if (returndata.length > 0) {\\n                // The easiest way to bubble the revert reason is using memory via assembly\\n\\n                assembly {\\n                    let returndata_size := mload(returndata)\\n                    revert(add(32, returndata), returndata_size)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x37c56d5e4a1c4c65ad0dcc6af28442c5d35c6ca07d9ad6e966e07dceb97e6c8d\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\nimport \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/*\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract ContextUpgradeable is Initializable {\\n    function __Context_init() internal initializer {\\n        __Context_init_unchained();\\n    }\\n\\n    function __Context_init_unchained() internal initializer {\\n    }\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n    uint256[50] private __gap;\\n}\\n\",\"keccak256\":\"0x828a6fb02c79a63dc5867427f355c0a9c65b4359fecadae73883154da550f6f8\",\"license\":\"MIT\"},\"@pooltogether/owner-manager-contracts/contracts/OwnerOrManager.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity >= 0.6.0 <= 0.8.6;\\n\\nimport \\\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\\\";\\nimport \\\"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol\\\";\\n\\n/**\\n*  @title Abstract ownable contract with additional manager role\\n * @notice Contract module based on Ownable which provides a basic access control mechanism, where\\n * there is an account (a draw manager for example) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The manager account needs to be set using {setManager}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyManager`, which can be applied to your functions to restrict their use to\\n * the manager.\\n */\\nabstract contract OwnerOrManager is ContextUpgradeable, OwnableUpgradeable {\\n\\n    address private _manager;\\n\\n    /**\\n     * @dev Emitted when _manager has been changed.\\n     * @param previousManager former _manager address.\\n     * @param newManager new _manager address.\\n     */\\n    event ManagerTransferred(address indexed previousManager, address indexed newManager);\\n\\n    /**\\n     * @notice Gets current _manager.\\n     * @dev Returns current _manager address.1\\n     * @return Current _manager address.\\n     */\\n    function manager() public view virtual returns (address) {\\n        return _manager;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the manager.\\n     */\\n    modifier onlyManagerOrOwner() {\\n        require(manager() == _msgSender() || owner() == _msgSender(), \\\"Manager/caller-not-manager-or-owner\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @notice Set or change of manager.\\n     * @dev Throws if called by any account other than the owner.\\n     * @param _newManager New _manager address.\\n     * @return Boolean to indicate if the operation was successful or not.\\n     */\\n    function setManager(address _newManager) public onlyOwner returns (bool) {\\n        _setManager(_newManager);\\n    }\\n\\n    /**\\n     * @notice Set or change of manager.\\n     * @dev Throws if called by any account other than the owner.\\n     * @param _newManager New _manager address.\\n     * @return Boolean to indicate if the operation was successful or not.\\n     */\\n    function _setManager(address _newManager) internal returns (bool) {\\n        address _previousManager = _manager;\\n        require(_newManager != address(0), \\\"Manager/manager-not-zero-address\\\");\\n        require(_newManager != _previousManager, \\\"Manager/existing-manager-address\\\");\\n\\n        _manager = _newManager;\\n\\n        emit ManagerTransferred(_previousManager, _newManager);\\n        return true;\\n    }\\n}\",\"keccak256\":\"0xb54d87428274d38be9f15e29b51b4923601950da3c8c9492fe7d4751efcc2239\",\"license\":\"GPL-3.0\"},\"@pooltogether/v4/contracts/ClaimableDraw.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.6;\\n\\nimport \\\"@pooltogether/owner-manager-contracts/contracts/OwnerOrManager.sol\\\";\\nimport \\\"@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol\\\";\\nimport \\\"@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol\\\";\\nimport \\\"./interfaces/IDrawCalculator.sol\\\";\\nimport \\\"./interfaces/IDrawHistory.sol\\\";\\n\\nimport \\\"./libraries/DrawLib.sol\\\";\\n\\ncontract ClaimableDraw is OwnerOrManager {\\n  using SafeERC20Upgradeable for IERC20Upgradeable;\\n\\n  ///@notice The cardinality of the users payout/claim history\\n  uint16 public constant PAYOUT_CARDINALITY = 8;\\n\\n  ///@notice Mapping of drawId to the drawCalculator\\n  mapping(uint32 => IDrawCalculator) public drawCalculatorAddresses;\\n\\n  // Mapping of user draw payout history\\n  // +---------+-------------------+\\n  // | Address | uint96[]          |\\n  // +---------+-------------------+\\n  // | user    | userPayoutHistory |\\n  // | user    | userPayoutHistory |\\n  // +---------+-------------------+\\n  mapping(address => uint96[PAYOUT_CARDINALITY]) internal userPayoutHistory;\\n\\n  ///@notice DrawHistory address\\n  IDrawHistory public drawHistory;\\n\\n    /* ============ Events ============ */\\n\\n  /**\\n    * @notice Emitted when a user has claimed N of draw prizes.\\n    * @param user             Address of user receiving draw(s) total award payout\\n    * @param totalPayout      Total award payout calculated using total draw ids and pick indices\\n  */\\n  event ClaimedDraw (\\n    address indexed user,\\n    uint256 totalPayout\\n  );\\n\\n  /**\\n    * @notice Emitted when a new draw calculator is set.\\n    * @param calculator Address of the new calculator used to calculate award payout\\n  */\\n  event DrawCalculatorSet (\\n    uint256 drawId,\\n    IDrawCalculator indexed calculator\\n  );\\n\\n  /**\\n    * @notice Emitted when a new draw history address is set.\\n    * @param drawHistory Address of the new draw drawHistory contract\\n  */\\n  event DrawHistorySet (\\n    IDrawHistory indexed drawHistory\\n  );\\n\\n  /**\\n    * @notice Emitted when ERC20 tokens are withdrawn from the claimable draw.\\n    * @param token ERC20 token transferred.\\n    * @param to Address that received funds.\\n    * @param amount Amount of tokens transferred.\\n  */\\n  event ERC20Withdrawn(\\n    IERC20Upgradeable indexed token,\\n    address indexed to,\\n    uint256 amount\\n  );\\n\\n\\n  /* ============ Initialize ============ */\\n\\n  /**\\n    * @notice Initialize claimable draw smart contract.\\n    * @param _drawCalculatorManager  Address of the draw calculator manager\\n    * @param _drawHistory            Address of the draw history contract\\n  */\\n  function initialize (\\n    address _drawCalculatorManager,\\n    IDrawHistory _drawHistory\\n  ) external initializer {\\n    __Ownable_init(); \\n\\n    _setDrawHistory(_drawHistory);\\n    _setManager(_drawCalculatorManager);\\n  }\\n\\n  /* ============ External Functions ============ */\\n\\n  /**\\n    * @notice Allows users to check the claimable status for a target draw. \\n    * @dev    Checks a claimable status for target draw by reading from a user's claim history in claimedDraws.\\n    *\\n    * @param user   Address of user\\n    * @param drawId Draw id\\n  */\\n  function userDrawPayout(address user, uint32 drawId) external view returns (uint96) {\\n    uint96[PAYOUT_CARDINALITY] memory _userPayoutHistory = userPayoutHistory[user];// sload\\n    return _userPayoutHistory[_drawIdToClaimIndex(drawId)];\\n  }\\n\\n  /**\\n    * @notice Reads a user draw claim history.\\n    * @dev    Reads a user draw claim history, which is stored in a packed bytes32 \\\"word\\\"\\n    * @param user Address of user\\n  */\\n  function userDrawPayouts(address user) external view returns(uint96[PAYOUT_CARDINALITY] memory) {\\n    return userPayoutHistory[user];\\n  }\\n\\n  /**\\n    * @notice External function to set a new draw calculator.\\n    * @dev    External function to sets a new draw calculator, which is then sequentially stored in new draw structs. Enabling unique prize calculators for individual draws.\\n    * @param _drawId    Draw id\\n    * @param _newCalculator  New draw calculator address\\n    * @return New calculator address\\n  */\\n  function setDrawCalculator(uint32 _drawId, IDrawCalculator _newCalculator) external onlyManagerOrOwner returns(IDrawCalculator) {\\n    return _setDrawCalculator(_drawId, _newCalculator);\\n  }\\n  \\n  /**\\n    @notice External function to set a new draw calculator. Only callable by manager or owner.\\n    @param _drawHistory Address of the draw history contract\\n  */\\n  function setDrawHistory(IDrawHistory _drawHistory) external onlyManagerOrOwner returns (IDrawHistory) {\\n    return _setDrawHistory(_drawHistory);\\n  }\\n\\n  /**\\n    * @notice External function to claim a user's award by passing in the calculated drawIds, drawCalculators and pickIndices. \\n    *\\n    * @param _user             Address of user to claim awards for. Does NOT need to be msg.sender\\n    * @param _drawIds          Index of the draw in the draws array\\n    * @param _drawCalculators  Address of the draw calculator for a set of draw ids\\n    * @param _data             The draw pick indices (uint256[][]) passed as a formatted bytes correlating to the draw ids\\n    * @return Total claim payout\\n  */\\n  function claim(address _user, uint32[][] calldata _drawIds, IDrawCalculator[] calldata _drawCalculators, bytes[] calldata _data) external returns (uint256) {\\n    return _claim(_user, _drawIds, _drawCalculators, _data);\\n  }\\n\\n  /**\\n    * @notice Transfer ERC20 tokens out of this contract.\\n    * @dev This function is only callable by the owner asset manager.\\n    * @param _erc20Token ERC20 token to transfer.\\n    * @param _to Recipient of the tokens.\\n    * @param _amount Amount of tokens to transfer.\\n    * @return true if operation is successful.\\n  */\\n  function withdrawERC20(IERC20Upgradeable _erc20Token, address _to, uint256 _amount) external onlyManagerOrOwner returns (bool) {\\n    require(address(_to) != address(0), \\\"ClaimableDraw/ERC20-not-zero-address\\\");\\n    require(address(_erc20Token) != address(0), \\\"ClaimableDraw/ERC20-not-zero-address\\\");\\n    _erc20Token.safeTransfer(_to, _amount);\\n    emit ERC20Withdrawn(_erc20Token, _to, _amount);\\n    return true;\\n  }\\n\\n  /* ============ Internal Functions ============ */\\n\\n  /**\\n    * @notice Calculates the claim index using the draw id.\\n    * @dev Calculates the claim index, while accounting for a draws expiration status. \\n    * @param _drawId         Draw id used for calculation\\n    * @return Absolute draw index in draws ring buffer\\n  */\\n  function _drawIdToClaimIndex(uint32 _drawId) internal pure returns (uint8) { \\n    // require(_drawId + PAYOUT_CARDINALITY > _currentDrawId, \\\"ClaimableDraw/claim-expired\\\");\\n    // require(_drawId <= _currentDrawId, \\\"ClaimableDraw/drawid-out-of-bounds\\\");\\n\\n    return uint8(_drawId % PAYOUT_CARDINALITY);\\n  }\\n\\n\\n  /**\\n    * @notice Internal function to set a new draw calculator.\\n    * @dev    Internal function to sets a new draw calculator, which is then sequentially stored in new draw structs. Enabling unique prize calculators for individual draws.\\n    * @param _newCalculator  New draw calculator address\\n    * @return New calculator address\\n   */\\n  function _setDrawCalculator(uint32 _drawId, IDrawCalculator _newCalculator) internal returns(IDrawCalculator) {\\n    require(address(_newCalculator) != address(0), \\\"ClaimableDraw/calculator-not-zero-address\\\");\\n    // do we need a check for not overwriting an existing calculator?\\n\\n    drawCalculatorAddresses[_drawId] = _newCalculator; \\n    emit DrawCalculatorSet(_drawId, _newCalculator);\\n    return _newCalculator;\\n  }\\n\\n  /**\\n    @notice Internal function to set a new draw calculator.\\n    @param _drawHistory Address of the draw history contract\\n  */\\n  function _setDrawHistory(IDrawHistory _drawHistory) internal returns (IDrawHistory) \\n  {\\n    require(address(_drawHistory) != address(0), \\\"ClaimableDraw/draw-history-not-zero-address\\\");\\n    drawHistory = _drawHistory;\\n    emit DrawHistorySet(_drawHistory);\\n    return _drawHistory;\\n  }\\n\\n  /**\\n    * @notice Claim a user's award by passing in the calculated drawIds, drawCalculators and pickIndices. \\n    * @dev Calculates a user's total award by calling an external drawCalculator with winning drawIds and pickIndices. \\n    *\\n    * @param _user             Address of user to claim awards for. Does NOT need to be msg.sender\\n    * @param _drawIds          Index of the draw in the draws array\\n    * @param _drawCalculators  Address of the draw calculator for a set of draw ids\\n    * @param _data             The draw pick indices (uint256[][]) passed as a formatted bytes correlating to the draw ids\\n    * @return Total claim payout\\n  */\\n  function _claim(\\n    address _user, \\n    uint32[][] calldata _drawIds, \\n    IDrawCalculator[] calldata _drawCalculators, \\n    bytes[] calldata _data\\n  ) internal returns (uint256) {\\n    \\n    uint256 drawCalculatorsLength = _drawCalculators.length;\\n    require(drawCalculatorsLength == _drawIds.length, \\\"ClaimableDraw/invalid-calculator-array\\\");\\n    uint256 totalPayout;\\n    uint256 drawCollectionPayout;\\n\\n    for (uint8 calcIndex = 0; calcIndex < drawCalculatorsLength; calcIndex++) {\\n      IDrawCalculator _drawCalculator = _drawCalculators[calcIndex];\\n      drawCollectionPayout = _calculate(_user, _drawIds[calcIndex], _drawCalculator, _data[calcIndex]);\\n      totalPayout += drawCollectionPayout;\\n    }\\n\\n    emit ClaimedDraw(_user, totalPayout);\\n\\n    return totalPayout;\\n  }\\n\\n  /**\\n    * @dev Calculates user payout for a list of draws linked to single draw calculator.\\n    * @param _user            Address of user\\n    * @param _drawIds         Array of draws for target draw calculator\\n    * @param _drawCalculator  Address of draw calculator to determine award payout\\n    * @param _data            Pick indices for target draw\\n    * @return Total draw collection payout\\n  */\\n  function _calculate(\\n    address _user, \\n    uint32[] calldata _drawIds, \\n    IDrawCalculator _drawCalculator, \\n    bytes calldata _data\\n  ) internal returns (uint256) {\\n    \\n    uint256 drawCollectionPayout;\\n    uint96[PAYOUT_CARDINALITY] memory _userPayoutHistory = userPayoutHistory[_user];\\n\\n    (drawCollectionPayout, _userPayoutHistory) = _calculateDrawCollectionPayout(_user, _userPayoutHistory, _drawIds, _drawCalculator, _data);\\n    userPayoutHistory[_user] = _userPayoutHistory;\\n\\n    return drawCollectionPayout;\\n  }\\n\\n  /**\\n    * @dev Calculates user payout for a list of draws linked to single draw calculator.\\n    * @param _user              Address of user\\n    * @param _userPayoutHistory  User draw claim payout history\\n    * @param _drawIds           Array of draws for target draw calculator\\n    * @param _drawCalculator    Address of draw calculator to determine award payout\\n    * @param _data              Pick indices for target draw\\n    * @return totalPayout Total claim payout\\n  */\\n  function _calculateDrawCollectionPayout(\\n    address _user,\\n    uint96[PAYOUT_CARDINALITY] memory _userPayoutHistory, \\n    uint32[] calldata _drawIds, \\n    IDrawCalculator _drawCalculator, \\n    bytes calldata _data\\n  ) internal returns (uint256 totalPayout, uint96[PAYOUT_CARDINALITY] memory userPayoutHistory) {\\n    \\n    uint96[] memory prizesAwardable;\\n    userPayoutHistory = _userPayoutHistory;\\n\\n    DrawLib.Draw[] memory _draws = drawHistory.getDraws(_drawIds); // CALL\\n\\n    prizesAwardable = _drawCalculator.calculate(_user, _draws, _data);  // CALL\\n    \\n    require(_drawIds.length == prizesAwardable.length, \\\"ClaimableDraw/invalid-prizes-awardable\\\");\\n\\n    uint96 prize;\\n    for (uint256 prizeIndex = 0; prizeIndex < prizesAwardable.length; prizeIndex++) {\\n      prize = prizesAwardable[prizeIndex];\\n      (prize, userPayoutHistory) = _validateDrawPayout(userPayoutHistory, (_drawIds[prizeIndex] % PAYOUT_CARDINALITY), prize);\\n      totalPayout += prize;\\n    }\\n  }\\n\\n  /**\\n    * @notice Calculates payout for individual draw.\\n    * @param _userPayoutHistory User draw claim payout history\\n    * @param _drawIndex         Draw index in user claimed draw payout history\\n    * @param _payout            Draw payout amount\\n    * @return Difference between previous draw payout and the current draw payout \\n    * @return Updated user draw claim payout history\\n  */\\n  function _validateDrawPayout(\\n    uint96[PAYOUT_CARDINALITY] memory _userPayoutHistory, \\n    uint256 _drawIndex, \\n    uint96 _payout\\n  ) internal pure returns (uint96, uint96[PAYOUT_CARDINALITY] memory) {\\n    uint96 pastPayout = _userPayoutHistory[_drawIndex];\\n    require(_payout > pastPayout, \\\"ClaimableDraw/payout-below-threshold\\\");\\n    uint96 payoutDiff = _payout - pastPayout;\\n    _userPayoutHistory[_drawIndex] = payoutDiff;\\n    return (payoutDiff, _userPayoutHistory);\\n  }\\n\\n}\",\"keccak256\":\"0x5fadb30ec1c1e66a870ee30872e93dc2d7aba6b96f718adb10b138e69c67ef6c\",\"license\":\"MIT\"},\"@pooltogether/v4/contracts/TsunamiDrawCalculator.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.6;\\n\\nimport \\\"./interfaces/IDrawCalculator.sol\\\";\\nimport \\\"./interfaces/TicketInterface.sol\\\";\\nimport \\\"./libraries/DrawLib.sol\\\";\\nimport \\\"./ClaimableDraw.sol\\\";\\n\\nimport \\\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\\\";\\nimport \\\"@pooltogether/owner-manager-contracts/contracts/OwnerOrManager.sol\\\";\\n\\n///@title TsunamiDrawCalculator is an implmentation of an IDrawCalculator\\ncontract TsunamiDrawCalculator is IDrawCalculator, OwnerOrManager {\\n  \\n  ///@notice Ticket associated with DrawCalculator\\n  TicketInterface ticket;\\n\\n  ///@notice ClaimableDraw associated with DrawCalculator\\n  ClaimableDraw public claimableDraw;\\n\\n  ///@notice storage of the DrawSettings associated with a drawId\\n  mapping(uint32 => DrawLib.DrawSettings) drawSettings;\\n\\n  /* ============ Events ============ */\\n\\n  ///@notice Emitted when the DrawParams are set/updated\\n  event DrawSettingsSet(uint32 indexed drawId, DrawLib.DrawSettings _drawSettings);\\n\\n  ///@notice Emitted when the contract is initialized\\n  event Initialized(TicketInterface indexed _ticket);\\n\\n  ///@notice Emitted when the claimableDraw is set/updated\\n  event ClaimableDrawSet(ClaimableDraw indexed _claimableDraw);\\n\\n  /* ============ External Functions ============ */\\n\\n  ///@notice Initializer sets the initial parameters\\n  ///@param _ticket Ticket associated with this DrawCalculator\\n  ///@param _drawSettingsManager Address of the DrawSettingsManager. Can be different from the contract owner.\\n  ///@param _claimableDraw ClaimableDraw associated with this DrawCalculator\\n  function initialize(TicketInterface _ticket, address _drawSettingsManager, ClaimableDraw _claimableDraw)\\n    public initializer\\n  {\\n    require(address(_ticket) != address(0), \\\"DrawCalc/ticket-not-zero\\\");\\n    __Ownable_init();\\n    setManager(_drawSettingsManager);\\n    _setClaimableDraw(_claimableDraw);\\n    ticket = _ticket;\\n    emit Initialized(_ticket);\\n  }\\n\\n  ///@notice Calulates the prize amount for a user for Multiple Draws. Typically called by a ClaimableDraw.\\n  ///@param _user User for which to calcualte prize amount\\n  ///@param _draws draw array for which to calculate prize amounts for\\n  ///@param _pickIndicesForDraws The encoded pick indices for all Draws. Expected to be just indices of winning claims. Populated values must be less than totalUserPicks.\\n  ///@return An array of amount of prizes awardable\\n  function calculate(address _user, DrawLib.Draw[] calldata _draws, bytes calldata _pickIndicesForDraws)\\n    external override view returns (uint96[] memory)\\n  {\\n\\n    uint256[][] memory pickIndices = abi.decode(_pickIndicesForDraws, (uint256 [][]));\\n    require(pickIndices.length == _draws.length, \\\"DrawCalc/invalid-pick-indices-length\\\");\\n\\n    //now unpack Draw struct\\n    uint32[] memory _timestamps = new uint32[](_draws.length);\\n    uint256[] memory _winningRandomNumbers = new uint256[](_draws.length);\\n    \\n    for(uint256 i = 0; i < _draws.length; i++){\\n      _timestamps[i] = _draws[i].timestamp;\\n      _winningRandomNumbers[i] = _draws[i].winningRandomNumber;\\n    }\\n    require(_timestamps.length == _winningRandomNumbers.length, \\\"DrawCalc/invalid-draw-length\\\");\\n\\n\\n    uint256[] memory userBalances = ticket.getBalancesAt(_user, _timestamps); // CALL\\n    bytes32 _userRandomNumber = keccak256(abi.encodePacked(_user)); // hash the users address\\n\\n    return _calculatePrizesAwardable(userBalances, _userRandomNumber, _winningRandomNumbers, pickIndices);\\n  }\\n\\n  ///@notice Sets DrawSettings for a draw id. only callable by the owner or manager\\n  ///@param _drawId The id of the Draw\\n  ///@param _drawSettings The DrawSettings to set\\n  function setDrawSettings(uint32 _drawId, DrawLib.DrawSettings calldata _drawSettings) external onlyManagerOrOwner \\n  {\\n    _setDrawSettings(_drawId, _drawSettings);\\n  }\\n\\n  ///@notice Sets DrawSettings for a draw id. only callable by the owner or manager\\n  ///@param _claimableDraw The address of the ClaimableDraw to update with the updated DrawSettings\\n  function setClaimableDraw(ClaimableDraw _claimableDraw) external onlyManagerOrOwner returns(ClaimableDraw)\\n  {\\n    return _setClaimableDraw(_claimableDraw);\\n  }\\n\\n  /* ============ Internal Functions ============ */\\n\\n  ///@notice Calculates the prizes awardable foe each Draw passed. Called by calculate()\\n  ///@param _userBalances Balances of the user at each Draw\\n  ///@param _userRandomNumber Random number of the user to consider over draws\\n  ///@param _winningRandomNumbers Winning random numbers for each Draw\\n  ///@param _pickIndicesForDraws Pick indices for each Draw\\n  function _calculatePrizesAwardable(uint256[] memory _userBalances, bytes32 _userRandomNumber, uint256[] memory _winningRandomNumbers, uint256[][] memory _pickIndicesForDraws)\\n   internal view returns (uint96[] memory)\\n   {\\n\\n    uint96[] memory prizesAwardable = new uint96[](_userBalances.length);\\n    \\n    // calculate for each Draw passed\\n    for (uint32 drawIndex = 0; drawIndex < _winningRandomNumbers.length; drawIndex++) {\\n      DrawLib.DrawSettings memory _drawSettings = drawSettings[drawIndex]; // sload\\n      prizesAwardable[drawIndex] = _calculate(_winningRandomNumbers[drawIndex], _userBalances[drawIndex], _userRandomNumber, _pickIndicesForDraws[drawIndex], _drawSettings);\\n    }\\n    return prizesAwardable;\\n  }\\n\\n  ///@notice calculates the prize amount per Draw per users pick\\n  ///@param _winningRandomNumber The Draw's winningRandomNumber\\n  ///@param _balance The users's balance for that Draw\\n  ///@param _userRandomNumber the users randomNumber for that draw\\n  ///@param _picks The users picks for that draw\\n  ///@param _drawSettings Params with the associated draw\\n  ///@return prize (if any) per Draw claim\\n  function _calculate(uint256 _winningRandomNumber, uint256 _balance, bytes32 _userRandomNumber, uint256[] memory _picks, DrawLib.DrawSettings memory _drawSettings)\\n    internal view returns (uint96)\\n  {\\n    \\n    uint256 totalUserPicks = _balance / _drawSettings.pickCost;\\n    uint256[] memory prizeCounts =  new uint256[](_drawSettings.distributions.length);\\n    uint256[] memory masks =  _createBitMasks(_drawSettings);\\n\\n    // for each pick find number of matching numbers and calculate prioze distribution index\\n    for(uint256 index  = 0; index < _picks.length; index++){\\n      \\n      uint256 randomNumberThisPick = uint256(keccak256(abi.encode(_userRandomNumber, _picks[index])));\\n      require(_picks[index] < totalUserPicks, \\\"DrawCalc/insufficient-user-picks\\\");\\n      \\n      uint256 distributionIndex =  _calculateDistributionIndex(randomNumberThisPick, _winningRandomNumber, masks);\\n      \\n      if(distributionIndex < _drawSettings.distributions.length) { // there is prize for this distributionIndex\\n        prizeCounts[distributionIndex]++;\\n      } \\n    }\\n\\n    // now calculate prizeFraction given prize counts\\n    uint256 prizeFraction = 0;\\n    for(uint256 prizeCountIndex = 0; prizeCountIndex < _drawSettings.distributions.length; prizeCountIndex++) { \\n      if(prizeCounts[prizeCountIndex] > 0) {\\n        prizeFraction += _calculatePrizeDistributionFraction(_drawSettings, prizeCountIndex) * prizeCounts[prizeCountIndex];\\n      }\\n    }\\n    // return the absolute amount of prize awardable\\n    return uint96((prizeFraction * _drawSettings.prize) / 1e18); // div by 1 ether as prize distributions are base 1e18\\n  }\\n\\n  ///@notice Calculates the distribution index given the random numbers and masks\\n  ///@param _randomNumberThisPick users random number for this Pick\\n  ///@param _winningRandomNumber The winning number for this draw\\n  ///@param _masks The pre-calculate bitmasks for the drawSettings\\n  ///@return The position within the prize distribution array (0 = top prize, 1 = runner-up prize, etc)\\n  function _calculateDistributionIndex(uint256 _randomNumberThisPick, uint256 _winningRandomNumber, uint256[] memory _masks)\\n    internal pure returns (uint256) \\n  {\\n\\n    uint256 numberOfMatches = 0;\\n    for(uint256 matchIndex = 0; matchIndex < _masks.length; matchIndex++) {\\n      uint256 mask = _masks[matchIndex];\\n      assembly{\\n        if eq(and(_winningRandomNumber, mask), and(_randomNumberThisPick, mask)) {\\n          numberOfMatches := add(numberOfMatches, 1)\\n        }\\n      }\\n    }\\n\\n    return _masks.length - numberOfMatches;\\n  }\\n\\n\\n  ///@notice helper function to create bitmasks equal to the matchCardinality\\n  ///@param _drawSettings The DrawSettings to use to calculate the masks\\n  ///@return An array of bitmasks\\n  function _createBitMasks(DrawLib.DrawSettings memory _drawSettings) \\n    internal pure returns (uint256[] memory)\\n  {\\n    uint256[] memory masks = new uint256[](_drawSettings.matchCardinality);\\n    \\n    uint256 _bitRangeMaskValue = (2 ** _drawSettings.bitRangeSize) - 1; // get a decimal representation of bitRangeSize\\n    \\n    for(uint256 maskIndex = 0; maskIndex < _drawSettings.matchCardinality; maskIndex++){\\n      uint16 _matchIndexOffset = uint16(maskIndex * _drawSettings.bitRangeSize);\\n      masks[maskIndex] = _bitRangeMaskValue << _matchIndexOffset;\\n    }\\n    \\n    return masks;\\n  }\\n\\n  ///@notice Calculates the expected prize fraction per DrawSettings and prizeDistributionIndex\\n  ///@param _drawSettings DrawSettings struct for Draw\\n  ///@param _prizeDistributionIndex Index of the prize distribution array to calculate\\n  ///@return returns the fraction of the total prize (base 1e18)\\n  function _calculatePrizeDistributionFraction(DrawLib.DrawSettings memory _drawSettings, uint256 _prizeDistributionIndex) internal view returns (uint256) \\n  {\\n    uint256 numberOfPrizesForIndex = (2 ** uint256(_drawSettings.bitRangeSize)) ** _prizeDistributionIndex;\\n    uint256 prizePercentageAtIndex = _drawSettings.distributions[_prizeDistributionIndex];\\n    return prizePercentageAtIndex / numberOfPrizesForIndex;\\n  } \\n\\n  ///@notice Set the DrawCalculators DrawSettings\\n  ///@dev Distributions must be expressed with Ether decimals (1e18)\\n  ///@param drawId The id of the Draw\\n  ///@param _drawSettings DrawSettings struct to set\\n  function _setDrawSettings(uint32 drawId, DrawLib.DrawSettings calldata _drawSettings) internal\\n  {\\n    uint256 sumTotalDistributions = 0;\\n    uint256 distributionsLength = _drawSettings.distributions.length;\\n\\n    require(_drawSettings.matchCardinality >= distributionsLength, \\\"DrawCalc/matchCardinality-gt-distributions\\\");\\n    require(_drawSettings.bitRangeSize <= 256 / _drawSettings.matchCardinality, \\\"DrawCalc/bitRangeSize-too-large\\\");\\n    require(_drawSettings.pickCost > 0, \\\"DrawCalc/pick-cost-gt-0\\\");\\n\\n    // ensure that the distributions are not gt 100%\\n    for(uint256 index = 0; index < distributionsLength; index++){\\n      sumTotalDistributions += _drawSettings.distributions[index];\\n    }\\n\\n    require(sumTotalDistributions <= 1 ether, \\\"DrawCalc/distributions-gt-100%\\\");\\n\\n    claimableDraw.setDrawCalculator(drawId, IDrawCalculator(address(this)));\\n\\n    drawSettings[drawId] = _drawSettings; //sstore\\n    emit DrawSettingsSet(drawId, _drawSettings);\\n  }\\n\\n  ///@notice Internal function to set the Claimable Draw address\\n  ///@param _claimableDraw The address of the Claimable Draw contract to set\\n  function _setClaimableDraw(ClaimableDraw _claimableDraw) internal returns(ClaimableDraw)\\n  {\\n    require(address(_claimableDraw) != address(0), \\\"DrawCalc/claimable-draw-not-zero-address\\\");\\n    claimableDraw = _claimableDraw;\\n    emit ClaimableDrawSet(_claimableDraw);\\n    return _claimableDraw; \\n  }\\n\\n}\\n\",\"keccak256\":\"0x1a1f3392b695350f99a4b46273ba737774a765271b97e17c9d2a0e91a78798e3\",\"license\":\"MIT\"},\"@pooltogether/v4/contracts/interfaces/IDrawCalculator.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.6;\\n\\nimport \\\"../libraries/DrawLib.sol\\\";\\n\\ninterface IDrawCalculator {\\n    \\n  function calculate(address _user, DrawLib.Draw[] calldata _draws, bytes calldata _pickIndicesForDraws)\\n    external view returns (uint96[] memory);\\n}\",\"keccak256\":\"0xa9413571b497d47a49298444e70021b26de09fbc3fb86225ef454f3a7367c6c5\",\"license\":\"MIT\"},\"@pooltogether/v4/contracts/interfaces/IDrawHistory.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.6;\\n\\nimport \\\"../libraries/DrawLib.sol\\\";\\n\\ninterface IDrawHistory {\\n  function drawIdToDrawIndex(uint32 drawId) external view returns(uint32);\\n  function getDraws(uint32[] calldata drawIds) external view returns (DrawLib.Draw[] memory);\\n  function getDraw(uint32 drawId) external view returns (DrawLib.Draw memory);\\n  function pushDraw(DrawLib.Draw calldata draw) external returns(uint32);\\n  function setDraw(uint256 drawIndex, DrawLib.Draw calldata draw) external returns(uint32); // maybe return drawIndex\\n}\",\"keccak256\":\"0x531946292bc874072907f606446f07f3b5e056a57947952783e652e0966bd772\",\"license\":\"MIT\"},\"@pooltogether/v4/contracts/interfaces/TicketInterface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.6;\\n\\ninterface TicketInterface {\\n  function getBalanceAt(address user, uint256 timestamp) external view returns(uint256);\\n  function getBalancesAt(address user, uint32[] calldata timestamp) external view returns(uint256[] memory);\\n  function getAverageBalanceBetween(address _user, uint256 _startTime, uint256 _endTime) external view returns (uint256);\\n  function getTotalSupply(uint32 timestamp) external view returns(uint256);\\n  function getTotalSupplies(uint32[] calldata timestamp) external view returns(uint256[] memory);\\n}\\n\",\"keccak256\":\"0x09c770ac1e12f370a695db74e594709e2b83da6793141d3a61d4a95a0e8ed8b3\",\"license\":\"MIT\"},\"@pooltogether/v4/contracts/libraries/DrawLib.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\n\\npragma solidity 0.8.6;\\n\\nlibrary DrawLib{\\n\\n    struct Draw {\\n        uint256 winningRandomNumber;\\n        uint32 timestamp;\\n        uint32 drawId;\\n    }\\n\\n    ///@notice Draw settings struct\\n    ///@param bitRangeSize Decimal representation of bitRangeSize\\n    ///@param matchCardinality The bitRangeSize's to consider in the 256 random numbers. Must be > 1 and < 256/bitRangeSize\\n    ///@param pickCost Amount of ticket balance required per pick\\n    ///@param distributions Array of prize distribution percentages, expressed in fraction form with base 1e18. Max sum of these <= 1 Ether. ordering: index0: grandPrize, index1: runnerUp, etc.\\n    struct DrawSettings {\\n        uint8 bitRangeSize;\\n        uint16 matchCardinality;\\n        uint224 pickCost;\\n        uint128[] distributions;\\n        uint256 prize;\\n    }\\n\\n}\",\"keccak256\":\"0xdc82c80fb4eb667dd54f37d90754ab598d90713cb2c6c56e5e4548266d6045e6\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50612317806100206000396000f3fe608060405234801561001057600080fd5b50600436106100be5760003560e01c8063aba964c811610076578063c25425e81161005b578063c25425e814610161578063d0ebdbe714610174578063f2fde38b1461019757600080fd5b8063aba964c81461013b578063c0c53b8b1461014e57600080fd5b8063715018a6116100a7578063715018a6146101005780638da5cb5b1461010a5780639367baa71461011b57600080fd5b8063481c6a75146100c35780634940805f146100ed575b600080fd5b6065546001600160a01b03165b6040516001600160a01b0390911681526020015b60405180910390f35b6067546100d0906001600160a01b031681565b6101086101aa565b005b6033546001600160a01b03166100d0565b61012e610129366004611816565b610215565b6040516100e49190611c74565b6100d06101493660046117f2565b610534565b61010861015c366004611a96565b6105dd565b61010861016f366004611b53565b610768565b6101876101823660046117f2565b61080b565b60405190151581526020016100e4565b6101086101a53660046117f2565b610877565b6033546001600160a01b031633146102095760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064015b60405180910390fd5b6102136000610959565b565b60606000610225838501856118ca565b8051909150851461029d5760405162461bcd60e51b8152602060048201526024808201527f4472617743616c632f696e76616c69642d7069636b2d696e64696365732d6c6560448201527f6e677468000000000000000000000000000000000000000000000000000000006064820152608401610200565b60008567ffffffffffffffff8111156102b8576102b861213a565b6040519080825280602002602001820160405280156102e1578160200160208202803683370190505b50905060008667ffffffffffffffff8111156102ff576102ff61213a565b604051908082528060200260200182016040528015610328578160200160208202803683370190505b50905060005b878110156103d75788888281811061034857610348612124565b90506060020160200160208101906103609190611b38565b83828151811061037257610372612124565b602002602001019063ffffffff16908163ffffffff168152505088888281811061039e5761039e612124565b905060600201600001358282815181106103ba576103ba612124565b6020908102919091010152806103cf816120b9565b91505061032e565b5080518251146104295760405162461bcd60e51b815260206004820152601c60248201527f4472617743616c632f696e76616c69642d647261772d6c656e677468000000006044820152606401610200565b6066546040517f405e22ad0000000000000000000000000000000000000000000000000000000081526000916001600160a01b03169063405e22ad90610475908d908790600401611c17565b60006040518083038186803b15801561048d57600080fd5b505afa1580156104a1573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526104c991908101906119e1565b6040517fffffffffffffffffffffffffffffffffffffffff00000000000000000000000060608d901b166020820152909150600090603401604051602081830303815290604052805190602001209050610525828285886109b8565b9b9a5050505050505050505050565b6065546000906001600160a01b031633148061055a57506033546001600160a01b031633145b6105cc5760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e657200000000000000000000000000000000000000000000000000000000006064820152608401610200565b6105d582610bd7565b90505b919050565b600054610100900460ff16806105f6575060005460ff16155b6106685760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff1615801561068a576000805461ffff19166101011790555b6001600160a01b0384166106e05760405162461bcd60e51b815260206004820152601860248201527f4472617743616c632f7469636b65742d6e6f742d7a65726f00000000000000006044820152606401610200565b6106e8610cad565b6106f18361080b565b506106fb82610bd7565b506066805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0386169081179091556040517f908408e307fc569b417f6cbec5d5a06f44a0a505ac0479b47d421a4b2fd6a1e690600090a28015610762576000805461ff00191690555b50505050565b6065546001600160a01b031633148061078b57506033546001600160a01b031633145b6107fd5760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e657200000000000000000000000000000000000000000000000000000000006064820152608401610200565b6108078282610d7e565b5050565b6033546000906001600160a01b031633146108685760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610200565b610871826110e7565b50919050565b6033546001600160a01b031633146108d15760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610200565b6001600160a01b03811661094d5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201527f64647265737300000000000000000000000000000000000000000000000000006064820152608401610200565b61095681610959565b50565b603380546001600160a01b0383811673ffffffffffffffffffffffffffffffffffffffff19831681179093556040519116919082907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e090600090a35050565b60606000855167ffffffffffffffff8111156109d6576109d661213a565b6040519080825280602002602001820160405280156109ff578160200160208202803683370190505b50905060005b84518163ffffffff161015610bcd5763ffffffff81166000908152606860209081526040808320815160a081018352815460ff81168252610100810461ffff1682860152630100000090047bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1681840152600182018054845181870281018701909552808552919492936060860193909290830182828015610b0657602002820191906000526020600020906000905b82829054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff1681526020019060100190602082600f01049283019260010382029150808411610ab15790505b505050505081526020016002820154815250509050610b85868363ffffffff1681518110610b3657610b36612124565b6020026020010151898463ffffffff1681518110610b5657610b56612124565b602002602001015189888663ffffffff1681518110610b7757610b77612124565b60200260200101518561120c565b838363ffffffff1681518110610b9d57610b9d612124565b6bffffffffffffffffffffffff909216602092830291909101909101525080610bc5816120d4565b915050610a05565b5095945050505050565b60006001600160a01b038216610c555760405162461bcd60e51b815260206004820152602860248201527f4472617743616c632f636c61696d61626c652d647261772d6e6f742d7a65726f60448201527f2d616464726573730000000000000000000000000000000000000000000000006064820152608401610200565b6067805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0384169081179091556040517fa96795123a84d88293d426abc7fd21bd6f9daa3e25869355bb65226ecb81c42a90600090a25090565b600054610100900460ff1680610cc6575060005460ff16155b610d385760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff16158015610d5a576000805461ffff19166101011790555b610d6261146d565b610d6a61152d565b8015610956576000805461ff001916905550565b600080610d8e6060840184611d9e565b9150819050610da36040850160208601611afe565b61ffff161015610e1b5760405162461bcd60e51b815260206004820152602a60248201527f4472617743616c632f6d6174636843617264696e616c6974792d67742d64697360448201527f747269627574696f6e73000000000000000000000000000000000000000000006064820152608401610200565b610e2b6040840160208501611afe565b610e3790610100611e55565b61ffff16610e486020850185611ba8565b60ff161115610e995760405162461bcd60e51b815260206004820152601f60248201527f4472617743616c632f62697452616e676553697a652d746f6f2d6c61726765006044820152606401610200565b6000610eab6060850160408601611b1b565b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1611610f165760405162461bcd60e51b815260206004820152601760248201527f4472617743616c632f7069636b2d636f73742d67742d300000000000000000006044820152606401610200565b60005b81811015610f8357610f2e6060850185611d9e565b82818110610f3e57610f3e612124565b9050602002016020810190610f539190611ae1565b610f6f906fffffffffffffffffffffffffffffffff1684611e3d565b925080610f7b816120b9565b915050610f19565b50670de0b6b3a7640000821115610fdc5760405162461bcd60e51b815260206004820152601e60248201527f4472617743616c632f646973747269627574696f6e732d67742d3130302500006044820152606401610200565b6067546040517fcd74b99a00000000000000000000000000000000000000000000000000000000815263ffffffff861660048201523060248201526001600160a01b039091169063cd74b99a90604401602060405180830381600087803b15801561104657600080fd5b505af115801561105a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061107e9190611a79565b5063ffffffff8416600090815260686020526040902083906110a0828261215d565b9050508363ffffffff167ff8e43f9a4a1d56ea5163b78ffeeb91f20d70f5fbe25439b7184ad5180f126acc846040516110d99190611cc6565b60405180910390a250505050565b6065546000906001600160a01b039081169083166111475760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6d616e616765722d6e6f742d7a65726f2d616464726573736044820152606401610200565b806001600160a01b0316836001600160a01b031614156111a95760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6578697374696e672d6d616e616765722d616464726573736044820152606401610200565b6065805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0385811691821790925560405190918316907f9cb45c728de594dab506a1f1a8554e24c8eeaf983618d5ec5dd7bc6f3c49feee90600090a350600192915050565b60008082604001517bffffffffffffffffffffffffffffffffffffffffffffffffffffffff168661123d9190611e76565b9050600083606001515167ffffffffffffffff81111561125f5761125f61213a565b604051908082528060200260200182016040528015611288578160200160208202803683370190505b5090506000611296856115e3565b905060005b86518110156113ba576000888883815181106112b9576112b9612124565b60200260200101516040516020016112db929190918252602082015260400190565b6040516020818303038152906040528051906020012060001c90508488838151811061130957611309612124565b60200260200101511061135e5760405162461bcd60e51b815260206004820181905260248201527f4472617743616c632f696e73756666696369656e742d757365722d7069636b736044820152606401610200565b600061136b828d866116bd565b90508760600151518110156113a55784818151811061138c5761138c612124565b6020026020010180518091906113a1906120b9565b9052505b505080806113b2906120b9565b91505061129b565b506000805b86606001515181101561143b5760008482815181106113e0576113e0612124565b602002602001015111156114295783818151811061140057611400612124565b60200260200101516114128883611726565b61141c9190611f85565b6114269083611e3d565b91505b80611433816120b9565b9150506113bf565b50670de0b6b3a76400008660800151826114559190611f85565b61145f9190611e76565b9a9950505050505050505050565b600054610100900460ff1680611486575060005460ff16155b6114f85760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff16158015610d6a576000805461ffff19166101011790558015610956576000805461ff001916905550565b600054610100900460ff1680611546575060005460ff16155b6115b85760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff161580156115da576000805461ffff19166101011790555b610d6a33610959565b60606000826020015161ffff1667ffffffffffffffff8111156116085761160861213a565b604051908082528060200260200182016040528015611631578160200160208202803683370190505b50905060006001846000015160026116499190611ed9565b6116539190611fa4565b905060005b846020015161ffff168110156116b457845160009061167a9060ff1683611f85565b90508061ffff1683901b84838151811061169657611696612124565b602090810291909101015250806116ac816120b9565b915050611658565b50909392505050565b600080805b835181101561170f5760008482815181106116df576116df612124565b6020026020010151905080871681871614156116fc576001830192505b5080611707816120b9565b9150506116c2565b5080835161171d9190611fa4565b95945050505050565b60008082846000015160ff16600261173e9190611ecd565b6117489190611ecd565b905060008460600151848151811061176257611762612124565b60200260200101516fffffffffffffffffffffffffffffffff169050818161178a9190611e76565b925050505b92915050565b60008083601f8401126117a757600080fd5b50813567ffffffffffffffff8111156117bf57600080fd5b6020830191508360208285010111156117d757600080fd5b9250929050565b803563ffffffff811681146105d857600080fd5b60006020828403121561180457600080fd5b813561180f81612265565b9392505050565b60008060008060006060868803121561182e57600080fd5b853561183981612265565b9450602086013567ffffffffffffffff8082111561185657600080fd5b818801915088601f83011261186a57600080fd5b81358181111561187957600080fd5b89602060608302850101111561188e57600080fd5b6020830196508095505060408801359150808211156118ac57600080fd5b506118b988828901611795565b969995985093965092949392505050565b600060208083850312156118dd57600080fd5b823567ffffffffffffffff808211156118f557600080fd5b818501915085601f83011261190957600080fd5b813561191c61191782611e19565b611de8565b80828252858201915085850189878560051b880101111561193c57600080fd5b60005b848110156119d25781358681111561195657600080fd5b8701603f81018c1361196757600080fd5b8881013561197761191782611e19565b808282528b82019150604084018f60408560051b870101111561199957600080fd5b600094505b838510156119bc578035835260019490940193918c01918c0161199e565b508752505050928701929087019060010161193f565b50909998505050505050505050565b600060208083850312156119f457600080fd5b825167ffffffffffffffff811115611a0b57600080fd5b8301601f81018513611a1c57600080fd5b8051611a2a61191782611e19565b80828252848201915084840188868560051b8701011115611a4a57600080fd5b600094505b83851015611a6d578051835260019490940193918501918501611a4f565b50979650505050505050565b600060208284031215611a8b57600080fd5b815161180f81612265565b600080600060608486031215611aab57600080fd5b8335611ab681612265565b92506020840135611ac681612265565b91506040840135611ad681612265565b809150509250925092565b600060208284031215611af357600080fd5b813561180f8161227a565b600060208284031215611b1057600080fd5b813561180f81612298565b600060208284031215611b2d57600080fd5b813561180f816122a8565b600060208284031215611b4a57600080fd5b61180f826117de565b60008060408385031215611b6657600080fd5b611b6f836117de565b9150602083013567ffffffffffffffff811115611b8b57600080fd5b830160a08186031215611b9d57600080fd5b809150509250929050565b600060208284031215611bba57600080fd5b813561180f816122d2565b8183526000602080850194508260005b85811015611c0c578135611be88161227a565b6fffffffffffffffffffffffffffffffff1687529582019590820190600101611bd5565b509495945050505050565b6000604082016001600160a01b03851683526020604081850152818551808452606086019150828701935060005b81811015611c6757845163ffffffff1683529383019391830191600101611c45565b5090979650505050505050565b6020808252825182820181905260009190848201906040850190845b81811015611cba5783516bffffffffffffffffffffffff1683529284019291840191600101611c90565b50909695505050505050565b6020815260008235611cd7816122d2565b60ff81166020840152506020830135611cef81612298565b61ffff81166040840152506040830135611d08816122a8565b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff81166060840152506060830135601e19843603018112611d4457600080fd5b8301803567ffffffffffffffff811115611d5d57600080fd5b8060051b3603851315611d6f57600080fd5b60a06080850152611d8760c085018260208501611bc5565b915050608084013560a08401528091505092915050565b6000808335601e19843603018112611db557600080fd5b83018035915067ffffffffffffffff821115611dd057600080fd5b6020019150600581901b36038213156117d757600080fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715611e1157611e1161213a565b604052919050565b600067ffffffffffffffff821115611e3357611e3361213a565b5060051b60200190565b60008219821115611e5057611e506120f8565b500190565b600061ffff80841680611e6a57611e6a61210e565b92169190910492915050565b600082611e8557611e8561210e565b500490565b600181815b80851115611ec5578160001904821115611eab57611eab6120f8565b80851615611eb857918102915b93841c9390800290611e8f565b509250929050565b600061180f8383611ee4565b600061180f60ff8416835b600082611ef35750600161178f565b81611f005750600061178f565b8160018114611f165760028114611f2057611f3c565b600191505061178f565b60ff841115611f3157611f316120f8565b50506001821b61178f565b5060208310610133831016604e8410600b8410161715611f5f575081810a61178f565b611f698383611e8a565b8060001904821115611f7d57611f7d6120f8565b029392505050565b6000816000190483118215151615611f9f57611f9f6120f8565b500290565b600082821015611fb657611fb66120f8565b500390565b68010000000000000000831115611fd457611fd461213a565b805483825580841015612039576001600083815260208120828701831c8101838501841c8201915060108860041b168015612020576000198083018054828460200360031b1c16815550505b505b81811015612034578281558301612022565b505050505b506000818152602081208391805b868110156120b05761208761205b85612150565b84546fffffffffffffffffffffffffffffffff600386901b81811b801990931693909116901b16178455565b60208401935060108083019250808311156120a757600092506001840193505b50600101612047565b50505050505050565b60006000198214156120cd576120cd6120f8565b5060010190565b600063ffffffff808316818114156120ee576120ee6120f8565b6001019392505050565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b6000813561178f8161227a565b8135612168816122d2565b60ff811690508154817fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00821617835560208401356121a581612298565b62ffff008160081b16905080837fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000084161717845560408501356121e7816122a8565b7effffffffffffffffffffffffffffffffffffffffffffffffffffffff0000008160181b16847fff000000000000000000000000000000000000000000000000000000000000008516178317178555505050506122476060830183611d9e565b612255818360018601611fbb565b5050608082013560028201555050565b6001600160a01b038116811461095657600080fd5b6fffffffffffffffffffffffffffffffff8116811461095657600080fd5b61ffff8116811461095657600080fd5b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff8116811461095657600080fd5b60ff8116811461095657600080fdfea26469706673582212200f1af6cc0b7751dbd045687f31b7bf31cfb06ed910cc5be4fdaac07790b185c764736f6c63430008060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100be5760003560e01c8063aba964c811610076578063c25425e81161005b578063c25425e814610161578063d0ebdbe714610174578063f2fde38b1461019757600080fd5b8063aba964c81461013b578063c0c53b8b1461014e57600080fd5b8063715018a6116100a7578063715018a6146101005780638da5cb5b1461010a5780639367baa71461011b57600080fd5b8063481c6a75146100c35780634940805f146100ed575b600080fd5b6065546001600160a01b03165b6040516001600160a01b0390911681526020015b60405180910390f35b6067546100d0906001600160a01b031681565b6101086101aa565b005b6033546001600160a01b03166100d0565b61012e610129366004611816565b610215565b6040516100e49190611c74565b6100d06101493660046117f2565b610534565b61010861015c366004611a96565b6105dd565b61010861016f366004611b53565b610768565b6101876101823660046117f2565b61080b565b60405190151581526020016100e4565b6101086101a53660046117f2565b610877565b6033546001600160a01b031633146102095760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064015b60405180910390fd5b6102136000610959565b565b60606000610225838501856118ca565b8051909150851461029d5760405162461bcd60e51b8152602060048201526024808201527f4472617743616c632f696e76616c69642d7069636b2d696e64696365732d6c6560448201527f6e677468000000000000000000000000000000000000000000000000000000006064820152608401610200565b60008567ffffffffffffffff8111156102b8576102b861213a565b6040519080825280602002602001820160405280156102e1578160200160208202803683370190505b50905060008667ffffffffffffffff8111156102ff576102ff61213a565b604051908082528060200260200182016040528015610328578160200160208202803683370190505b50905060005b878110156103d75788888281811061034857610348612124565b90506060020160200160208101906103609190611b38565b83828151811061037257610372612124565b602002602001019063ffffffff16908163ffffffff168152505088888281811061039e5761039e612124565b905060600201600001358282815181106103ba576103ba612124565b6020908102919091010152806103cf816120b9565b91505061032e565b5080518251146104295760405162461bcd60e51b815260206004820152601c60248201527f4472617743616c632f696e76616c69642d647261772d6c656e677468000000006044820152606401610200565b6066546040517f405e22ad0000000000000000000000000000000000000000000000000000000081526000916001600160a01b03169063405e22ad90610475908d908790600401611c17565b60006040518083038186803b15801561048d57600080fd5b505afa1580156104a1573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526104c991908101906119e1565b6040517fffffffffffffffffffffffffffffffffffffffff00000000000000000000000060608d901b166020820152909150600090603401604051602081830303815290604052805190602001209050610525828285886109b8565b9b9a5050505050505050505050565b6065546000906001600160a01b031633148061055a57506033546001600160a01b031633145b6105cc5760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e657200000000000000000000000000000000000000000000000000000000006064820152608401610200565b6105d582610bd7565b90505b919050565b600054610100900460ff16806105f6575060005460ff16155b6106685760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff1615801561068a576000805461ffff19166101011790555b6001600160a01b0384166106e05760405162461bcd60e51b815260206004820152601860248201527f4472617743616c632f7469636b65742d6e6f742d7a65726f00000000000000006044820152606401610200565b6106e8610cad565b6106f18361080b565b506106fb82610bd7565b506066805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0386169081179091556040517f908408e307fc569b417f6cbec5d5a06f44a0a505ac0479b47d421a4b2fd6a1e690600090a28015610762576000805461ff00191690555b50505050565b6065546001600160a01b031633148061078b57506033546001600160a01b031633145b6107fd5760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e657200000000000000000000000000000000000000000000000000000000006064820152608401610200565b6108078282610d7e565b5050565b6033546000906001600160a01b031633146108685760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610200565b610871826110e7565b50919050565b6033546001600160a01b031633146108d15760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610200565b6001600160a01b03811661094d5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201527f64647265737300000000000000000000000000000000000000000000000000006064820152608401610200565b61095681610959565b50565b603380546001600160a01b0383811673ffffffffffffffffffffffffffffffffffffffff19831681179093556040519116919082907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e090600090a35050565b60606000855167ffffffffffffffff8111156109d6576109d661213a565b6040519080825280602002602001820160405280156109ff578160200160208202803683370190505b50905060005b84518163ffffffff161015610bcd5763ffffffff81166000908152606860209081526040808320815160a081018352815460ff81168252610100810461ffff1682860152630100000090047bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1681840152600182018054845181870281018701909552808552919492936060860193909290830182828015610b0657602002820191906000526020600020906000905b82829054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff1681526020019060100190602082600f01049283019260010382029150808411610ab15790505b505050505081526020016002820154815250509050610b85868363ffffffff1681518110610b3657610b36612124565b6020026020010151898463ffffffff1681518110610b5657610b56612124565b602002602001015189888663ffffffff1681518110610b7757610b77612124565b60200260200101518561120c565b838363ffffffff1681518110610b9d57610b9d612124565b6bffffffffffffffffffffffff909216602092830291909101909101525080610bc5816120d4565b915050610a05565b5095945050505050565b60006001600160a01b038216610c555760405162461bcd60e51b815260206004820152602860248201527f4472617743616c632f636c61696d61626c652d647261772d6e6f742d7a65726f60448201527f2d616464726573730000000000000000000000000000000000000000000000006064820152608401610200565b6067805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0384169081179091556040517fa96795123a84d88293d426abc7fd21bd6f9daa3e25869355bb65226ecb81c42a90600090a25090565b600054610100900460ff1680610cc6575060005460ff16155b610d385760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff16158015610d5a576000805461ffff19166101011790555b610d6261146d565b610d6a61152d565b8015610956576000805461ff001916905550565b600080610d8e6060840184611d9e565b9150819050610da36040850160208601611afe565b61ffff161015610e1b5760405162461bcd60e51b815260206004820152602a60248201527f4472617743616c632f6d6174636843617264696e616c6974792d67742d64697360448201527f747269627574696f6e73000000000000000000000000000000000000000000006064820152608401610200565b610e2b6040840160208501611afe565b610e3790610100611e55565b61ffff16610e486020850185611ba8565b60ff161115610e995760405162461bcd60e51b815260206004820152601f60248201527f4472617743616c632f62697452616e676553697a652d746f6f2d6c61726765006044820152606401610200565b6000610eab6060850160408601611b1b565b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1611610f165760405162461bcd60e51b815260206004820152601760248201527f4472617743616c632f7069636b2d636f73742d67742d300000000000000000006044820152606401610200565b60005b81811015610f8357610f2e6060850185611d9e565b82818110610f3e57610f3e612124565b9050602002016020810190610f539190611ae1565b610f6f906fffffffffffffffffffffffffffffffff1684611e3d565b925080610f7b816120b9565b915050610f19565b50670de0b6b3a7640000821115610fdc5760405162461bcd60e51b815260206004820152601e60248201527f4472617743616c632f646973747269627574696f6e732d67742d3130302500006044820152606401610200565b6067546040517fcd74b99a00000000000000000000000000000000000000000000000000000000815263ffffffff861660048201523060248201526001600160a01b039091169063cd74b99a90604401602060405180830381600087803b15801561104657600080fd5b505af115801561105a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061107e9190611a79565b5063ffffffff8416600090815260686020526040902083906110a0828261215d565b9050508363ffffffff167ff8e43f9a4a1d56ea5163b78ffeeb91f20d70f5fbe25439b7184ad5180f126acc846040516110d99190611cc6565b60405180910390a250505050565b6065546000906001600160a01b039081169083166111475760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6d616e616765722d6e6f742d7a65726f2d616464726573736044820152606401610200565b806001600160a01b0316836001600160a01b031614156111a95760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6578697374696e672d6d616e616765722d616464726573736044820152606401610200565b6065805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0385811691821790925560405190918316907f9cb45c728de594dab506a1f1a8554e24c8eeaf983618d5ec5dd7bc6f3c49feee90600090a350600192915050565b60008082604001517bffffffffffffffffffffffffffffffffffffffffffffffffffffffff168661123d9190611e76565b9050600083606001515167ffffffffffffffff81111561125f5761125f61213a565b604051908082528060200260200182016040528015611288578160200160208202803683370190505b5090506000611296856115e3565b905060005b86518110156113ba576000888883815181106112b9576112b9612124565b60200260200101516040516020016112db929190918252602082015260400190565b6040516020818303038152906040528051906020012060001c90508488838151811061130957611309612124565b60200260200101511061135e5760405162461bcd60e51b815260206004820181905260248201527f4472617743616c632f696e73756666696369656e742d757365722d7069636b736044820152606401610200565b600061136b828d866116bd565b90508760600151518110156113a55784818151811061138c5761138c612124565b6020026020010180518091906113a1906120b9565b9052505b505080806113b2906120b9565b91505061129b565b506000805b86606001515181101561143b5760008482815181106113e0576113e0612124565b602002602001015111156114295783818151811061140057611400612124565b60200260200101516114128883611726565b61141c9190611f85565b6114269083611e3d565b91505b80611433816120b9565b9150506113bf565b50670de0b6b3a76400008660800151826114559190611f85565b61145f9190611e76565b9a9950505050505050505050565b600054610100900460ff1680611486575060005460ff16155b6114f85760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff16158015610d6a576000805461ffff19166101011790558015610956576000805461ff001916905550565b600054610100900460ff1680611546575060005460ff16155b6115b85760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a65640000000000000000000000000000000000006064820152608401610200565b600054610100900460ff161580156115da576000805461ffff19166101011790555b610d6a33610959565b60606000826020015161ffff1667ffffffffffffffff8111156116085761160861213a565b604051908082528060200260200182016040528015611631578160200160208202803683370190505b50905060006001846000015160026116499190611ed9565b6116539190611fa4565b905060005b846020015161ffff168110156116b457845160009061167a9060ff1683611f85565b90508061ffff1683901b84838151811061169657611696612124565b602090810291909101015250806116ac816120b9565b915050611658565b50909392505050565b600080805b835181101561170f5760008482815181106116df576116df612124565b6020026020010151905080871681871614156116fc576001830192505b5080611707816120b9565b9150506116c2565b5080835161171d9190611fa4565b95945050505050565b60008082846000015160ff16600261173e9190611ecd565b6117489190611ecd565b905060008460600151848151811061176257611762612124565b60200260200101516fffffffffffffffffffffffffffffffff169050818161178a9190611e76565b925050505b92915050565b60008083601f8401126117a757600080fd5b50813567ffffffffffffffff8111156117bf57600080fd5b6020830191508360208285010111156117d757600080fd5b9250929050565b803563ffffffff811681146105d857600080fd5b60006020828403121561180457600080fd5b813561180f81612265565b9392505050565b60008060008060006060868803121561182e57600080fd5b853561183981612265565b9450602086013567ffffffffffffffff8082111561185657600080fd5b818801915088601f83011261186a57600080fd5b81358181111561187957600080fd5b89602060608302850101111561188e57600080fd5b6020830196508095505060408801359150808211156118ac57600080fd5b506118b988828901611795565b969995985093965092949392505050565b600060208083850312156118dd57600080fd5b823567ffffffffffffffff808211156118f557600080fd5b818501915085601f83011261190957600080fd5b813561191c61191782611e19565b611de8565b80828252858201915085850189878560051b880101111561193c57600080fd5b60005b848110156119d25781358681111561195657600080fd5b8701603f81018c1361196757600080fd5b8881013561197761191782611e19565b808282528b82019150604084018f60408560051b870101111561199957600080fd5b600094505b838510156119bc578035835260019490940193918c01918c0161199e565b508752505050928701929087019060010161193f565b50909998505050505050505050565b600060208083850312156119f457600080fd5b825167ffffffffffffffff811115611a0b57600080fd5b8301601f81018513611a1c57600080fd5b8051611a2a61191782611e19565b80828252848201915084840188868560051b8701011115611a4a57600080fd5b600094505b83851015611a6d578051835260019490940193918501918501611a4f565b50979650505050505050565b600060208284031215611a8b57600080fd5b815161180f81612265565b600080600060608486031215611aab57600080fd5b8335611ab681612265565b92506020840135611ac681612265565b91506040840135611ad681612265565b809150509250925092565b600060208284031215611af357600080fd5b813561180f8161227a565b600060208284031215611b1057600080fd5b813561180f81612298565b600060208284031215611b2d57600080fd5b813561180f816122a8565b600060208284031215611b4a57600080fd5b61180f826117de565b60008060408385031215611b6657600080fd5b611b6f836117de565b9150602083013567ffffffffffffffff811115611b8b57600080fd5b830160a08186031215611b9d57600080fd5b809150509250929050565b600060208284031215611bba57600080fd5b813561180f816122d2565b8183526000602080850194508260005b85811015611c0c578135611be88161227a565b6fffffffffffffffffffffffffffffffff1687529582019590820190600101611bd5565b509495945050505050565b6000604082016001600160a01b03851683526020604081850152818551808452606086019150828701935060005b81811015611c6757845163ffffffff1683529383019391830191600101611c45565b5090979650505050505050565b6020808252825182820181905260009190848201906040850190845b81811015611cba5783516bffffffffffffffffffffffff1683529284019291840191600101611c90565b50909695505050505050565b6020815260008235611cd7816122d2565b60ff81166020840152506020830135611cef81612298565b61ffff81166040840152506040830135611d08816122a8565b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff81166060840152506060830135601e19843603018112611d4457600080fd5b8301803567ffffffffffffffff811115611d5d57600080fd5b8060051b3603851315611d6f57600080fd5b60a06080850152611d8760c085018260208501611bc5565b915050608084013560a08401528091505092915050565b6000808335601e19843603018112611db557600080fd5b83018035915067ffffffffffffffff821115611dd057600080fd5b6020019150600581901b36038213156117d757600080fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715611e1157611e1161213a565b604052919050565b600067ffffffffffffffff821115611e3357611e3361213a565b5060051b60200190565b60008219821115611e5057611e506120f8565b500190565b600061ffff80841680611e6a57611e6a61210e565b92169190910492915050565b600082611e8557611e8561210e565b500490565b600181815b80851115611ec5578160001904821115611eab57611eab6120f8565b80851615611eb857918102915b93841c9390800290611e8f565b509250929050565b600061180f8383611ee4565b600061180f60ff8416835b600082611ef35750600161178f565b81611f005750600061178f565b8160018114611f165760028114611f2057611f3c565b600191505061178f565b60ff841115611f3157611f316120f8565b50506001821b61178f565b5060208310610133831016604e8410600b8410161715611f5f575081810a61178f565b611f698383611e8a565b8060001904821115611f7d57611f7d6120f8565b029392505050565b6000816000190483118215151615611f9f57611f9f6120f8565b500290565b600082821015611fb657611fb66120f8565b500390565b68010000000000000000831115611fd457611fd461213a565b805483825580841015612039576001600083815260208120828701831c8101838501841c8201915060108860041b168015612020576000198083018054828460200360031b1c16815550505b505b81811015612034578281558301612022565b505050505b506000818152602081208391805b868110156120b05761208761205b85612150565b84546fffffffffffffffffffffffffffffffff600386901b81811b801990931693909116901b16178455565b60208401935060108083019250808311156120a757600092506001840193505b50600101612047565b50505050505050565b60006000198214156120cd576120cd6120f8565b5060010190565b600063ffffffff808316818114156120ee576120ee6120f8565b6001019392505050565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b6000813561178f8161227a565b8135612168816122d2565b60ff811690508154817fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00821617835560208401356121a581612298565b62ffff008160081b16905080837fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000084161717845560408501356121e7816122a8565b7effffffffffffffffffffffffffffffffffffffffffffffffffffffff0000008160181b16847fff000000000000000000000000000000000000000000000000000000000000008516178317178555505050506122476060830183611d9e565b612255818360018601611fbb565b5050608082013560028201555050565b6001600160a01b038116811461095657600080fd5b6fffffffffffffffffffffffffffffffff8116811461095657600080fd5b61ffff8116811461095657600080fd5b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff8116811461095657600080fd5b60ff8116811461095657600080fdfea26469706673582212200f1af6cc0b7751dbd045687f31b7bf31cfb06ed910cc5be4fdaac07790b185c764736f6c63430008060033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "calculate(address,(uint256,uint32,uint32)[],bytes)": {
+        "params": {
+          "_draws": "draw array for which to calculate prize amounts for",
+          "_pickIndicesForDraws": "The encoded pick indices for all Draws. Expected to be just indices of winning claims. Populated values must be less than totalUserPicks.",
+          "_user": "User for which to calcualte prize amount"
+        },
+        "returns": {
+          "_0": "An array of amount of prizes awardable"
+        }
+      },
+      "initialize(address,address,address)": {
+        "params": {
+          "_claimableDraw": "ClaimableDraw associated with this DrawCalculator",
+          "_drawSettingsManager": "Address of the DrawSettingsManager. Can be different from the contract owner.",
+          "_ticket": "Ticket associated with this DrawCalculator"
+        }
+      },
+      "manager()": {
+        "details": "Returns current _manager address.1",
+        "returns": {
+          "_0": "Current _manager address."
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "setClaimableDraw(address)": {
+        "params": {
+          "_claimableDraw": "The address of the ClaimableDraw to update with the updated DrawSettings"
+        }
+      },
+      "setDrawSettings(uint32,(uint8,uint16,uint224,uint128[],uint256))": {
+        "params": {
+          "_drawId": "The id of the Draw",
+          "_drawSettings": "The DrawSettings to set"
+        }
+      },
+      "setManager(address)": {
+        "details": "Throws if called by any account other than the owner.",
+        "params": {
+          "_newManager": "New _manager address."
+        },
+        "returns": {
+          "_0": "Boolean to indicate if the operation was successful or not."
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "title": "TsunamiDrawCalculator is an implmentation of an IDrawCalculator",
+    "version": 1
+  },
+  "userdoc": {
+    "events": {
+      "ClaimableDrawSet(address)": {
+        "notice": "Emitted when the claimableDraw is set/updated"
+      },
+      "DrawSettingsSet(uint32,(uint8,uint16,uint224,uint128[],uint256))": {
+        "notice": "Emitted when the DrawParams are set/updated"
+      },
+      "Initialized(address)": {
+        "notice": "Emitted when the contract is initialized"
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "calculate(address,(uint256,uint32,uint32)[],bytes)": {
+        "notice": "Calulates the prize amount for a user for Multiple Draws. Typically called by a ClaimableDraw."
+      },
+      "claimableDraw()": {
+        "notice": "ClaimableDraw associated with DrawCalculator"
+      },
+      "initialize(address,address,address)": {
+        "notice": "Initializer sets the initial parameters"
+      },
+      "manager()": {
+        "notice": "Gets current _manager."
+      },
+      "setClaimableDraw(address)": {
+        "notice": "Sets DrawSettings for a draw id. only callable by the owner or manager"
+      },
+      "setDrawSettings(uint32,(uint8,uint16,uint224,uint128[],uint256))": {
+        "notice": "Sets DrawSettings for a draw id. only callable by the owner or manager"
+      },
+      "setManager(address)": {
+        "notice": "Set or change of manager."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 130,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "_initialized",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 133,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "_initializing",
+        "offset": 1,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 1781,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "__gap",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_uint256)50_storage"
+      },
+      {
+        "astId": 10,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "51",
+        "type": "t_address"
+      },
+      {
+        "astId": 123,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "__gap",
+        "offset": 0,
+        "slot": "52",
+        "type": "t_array(t_uint256)49_storage"
+      },
+      {
+        "astId": 3498,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "_manager",
+        "offset": 0,
+        "slot": "101",
+        "type": "t_address"
+      },
+      {
+        "astId": 6836,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "ticket",
+        "offset": 0,
+        "slot": "102",
+        "type": "t_contract(TicketInterface)8007"
+      },
+      {
+        "astId": 6840,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "claimableDraw",
+        "offset": 0,
+        "slot": "103",
+        "type": "t_contract(ClaimableDraw)4273"
+      },
+      {
+        "astId": 6846,
+        "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+        "label": "drawSettings",
+        "offset": 0,
+        "slot": "104",
+        "type": "t_mapping(t_uint32,t_struct(DrawSettings)8028_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_uint128)dyn_storage": {
+        "base": "t_uint128",
+        "encoding": "dynamic_array",
+        "label": "uint128[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_uint256)49_storage": {
+        "base": "t_uint256",
+        "encoding": "inplace",
+        "label": "uint256[49]",
+        "numberOfBytes": "1568"
+      },
+      "t_array(t_uint256)50_storage": {
+        "base": "t_uint256",
+        "encoding": "inplace",
+        "label": "uint256[50]",
+        "numberOfBytes": "1600"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(ClaimableDraw)4273": {
+        "encoding": "inplace",
+        "label": "contract ClaimableDraw",
+        "numberOfBytes": "20"
+      },
+      "t_contract(TicketInterface)8007": {
+        "encoding": "inplace",
+        "label": "contract TicketInterface",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_uint32,t_struct(DrawSettings)8028_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint32",
+        "label": "mapping(uint32 => struct DrawLib.DrawSettings)",
+        "numberOfBytes": "32",
+        "value": "t_struct(DrawSettings)8028_storage"
+      },
+      "t_struct(DrawSettings)8028_storage": {
+        "encoding": "inplace",
+        "label": "struct DrawLib.DrawSettings",
+        "members": [
+          {
+            "astId": 8018,
+            "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+            "label": "bitRangeSize",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8"
+          },
+          {
+            "astId": 8020,
+            "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+            "label": "matchCardinality",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_uint16"
+          },
+          {
+            "astId": 8022,
+            "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+            "label": "pickCost",
+            "offset": 3,
+            "slot": "0",
+            "type": "t_uint224"
+          },
+          {
+            "astId": 8025,
+            "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+            "label": "distributions",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint128)dyn_storage"
+          },
+          {
+            "astId": 8027,
+            "contract": "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol:TsunamiDrawCalculator",
+            "label": "prize",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint128": {
+        "encoding": "inplace",
+        "label": "uint128",
+        "numberOfBytes": "16"
+      },
+      "t_uint16": {
+        "encoding": "inplace",
+        "label": "uint16",
+        "numberOfBytes": "2"
+      },
+      "t_uint224": {
+        "encoding": "inplace",
+        "label": "uint224",
+        "numberOfBytes": "28"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint32": {
+        "encoding": "inplace",
+        "label": "uint32",
+        "numberOfBytes": "4"
+      },
+      "t_uint8": {
+        "encoding": "inplace",
+        "label": "uint8",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}
