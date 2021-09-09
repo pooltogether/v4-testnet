@@ -95,7 +95,7 @@ module.exports = async (hardhat) => {
     )
     green(`Initialized!`)
   }
-
+  console.log("owner:",await yieldSourcePrizePool.owner() )
   if (await yieldSourcePrizePool.owner() != owner) {
     cyan(`\nSetting YieldSourcePrizePoolOwner to ${owner}...`)
     await yieldSourcePrizePool.transferOwnership(owner)
@@ -157,6 +157,8 @@ module.exports = async (hardhat) => {
     await drawHistory.initialize(manager)
     green(`Done!`)
   }
+
+  console.log("drawHistory.manager() ",await drawHistory.manager())
 
   if (isEthereum &&
     await drawHistory.manager() != drawBeaconResult.address) {
