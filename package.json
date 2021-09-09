@@ -7,15 +7,16 @@
   "license": "MIT",
   "scripts": {
     "compile": "hardhat compile",
-    "deploy": "hardhat deploy --network "
+    "deploy": "hardhat deploy --network ",
+    "disburse": "hardhat run ./scripts/disburse.js --network "
   },
   "dependencies": {
     "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami",
     "@pooltogether/yield-source-interface": "^1.1.0"
   },
   "devDependencies": {
-    "chalk": "^4.1.2",
     "ajv": "^6.12.2",
+    "chalk": "^4.1.2",
     "ethers": "^5.4.6",
     "hardhat": "^2.6.3",
     "hardhat-dependency-compiler": "^1.1.1",
