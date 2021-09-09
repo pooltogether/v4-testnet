@@ -14,16 +14,17 @@ async function run() {
 
   const signers = await ethers.getSigners()
 
-  const mintTokenTo = [
-    signers[0].address,
-    '0x3A791e828fDd420fbE16416efDF509E4b9088Dd4',
-    '0xA57D294c3a11fB542D524062aE4C5100E0E373Ec'
-  ]
+  const amount = toWei('10000000')
 
-  for (let index = 0; index < mintTokenTo.length; index++) {
-    console.log(chalk.dim(`Minting to ${mintTokenTo[index]}...`))
-    await token.mint(mintTokenTo[index], toWei('100000000'))
-  }
+  console.log(chalk.dim(`Minting to ${signers[0].address}...`))
+  await token.mint(signers[0].address, amount)
+
+  console.log(chalk.dim(`Approving prize spend...`))
+  await token.approve(prizePool.address, amount)
+
+  console.log(chalk.dim(`Depositing prizes...`))
+  await prizePool.depositTo(claimableDraw.address, amount, ticket.address, ethers.constants.AddressZero)
+
 }
 
 run()

@@ -561,6 +561,14 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.3.1.tgz#d2fdbacd010f9bc2228d58f9d3d3db4e49818ea6"
   integrity sha512-vqS3gb1J5xlKc+7a931a5Qmg3HDR168E6aCfPY6lPrdFZV4TymN2+HVJNCqCo+KP2UMYDtqRsXu+KB/0L0E34g==
 
+"@pooltogether/draw-calculator-js-sdk@^1.0.0-beta.7":
+  version "1.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@pooltogether/draw-calculator-js-sdk/-/draw-calculator-js-sdk-1.0.0-beta.7.tgz#1c31d9dab60f2cba81b0e7ea3ba54b48d3a602ae"
+  integrity sha512-Ibf1jK8TmGzXEnPc9GpXkRe0pEuGzRQyPbf9lh9vpXNDD7xe0xfNbkI+pgVO1L2gsGoGvu2yzevFpZQjExTX4w==
+  dependencies:
+    chalk "^4.1.2"
+    debug "^4.3.2"
+
 "@pooltogether/fixed-point@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0.tgz#2c9fb9fe1cca557ca2be7b9ed7414d5edd5a816f"
