@@ -17,3 +17,6 @@ export HIDE_DEPLOY_LOG=''
 # Used to generate a gas usage report
 export REPORT_GAS=''
 export COINMARKETCAP_API_KEY=''
+
+# addresses to disburse tokens to
+export DISBURSE_ADDRESSES="0x1234,0xabcd"

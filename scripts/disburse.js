@@ -14,11 +14,14 @@ async function run() {
 
   const signers = await ethers.getSigners()
 
+  const addresses = process.env.DISBURSE_ADDRESSES.split(',')
+
   const mintTokenTo = [
     signers[0].address,
-    '0x3A791e828fDd420fbE16416efDF509E4b9088Dd4',
-    '0xA57D294c3a11fB542D524062aE4C5100E0E373Ec'
+    ...addresses
   ]
+
+  console.log(chalk.yellow(`Disbursing token ${token.address}...`))
 
   for (let index = 0; index < mintTokenTo.length; index++) {
     console.log(chalk.dim(`Minting to ${mintTokenTo[index]}...`))

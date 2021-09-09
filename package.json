@@ -16,7 +16,7 @@
     "@pooltogether/yield-source-interface": "^1.1.0"
   },
   "devDependencies": {
-    "@pooltogether/draw-calculator-js-sdk": "^1.0.0-beta.7",
+    "@pooltogether/draw-calculator-js-sdk": "^1.0.0-beta.8",
     "ajv": "^6.12.2",
     "chalk": "^4.1.2",
     "ethers": "^5.4.6",
