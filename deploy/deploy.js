@@ -209,6 +209,13 @@ module.exports = async (hardhat) => {
     )
     green(`Initialized!`)
   }
+  
+  if (await drawCalculator.manager() != manager) {
+    cyan(`\nSetting drawCalculator manager to ${manager}...`)
+    await drawCalculator.setManager(manager)
+    green('Done!')
+  }
+
 
   if (await drawCalculator.owner() != owner) {
     cyan(`\nTransferring drawCalculator ownership to ${owner}...`)
@@ -216,10 +223,6 @@ module.exports = async (hardhat) => {
     green(`Done!`)
   }
 
-  if (await drawCalculator.manager() != manager) {
-    cyan(`\nSetting drawCalculator manager to ${manager}...`)
-    await drawCalculator.setManager(manager)
-    green('Done!')
-  }
+
 
 }
