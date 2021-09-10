@@ -23,7 +23,7 @@ async function run() {
   await token.approve(prizePool.address, amount)
 
   console.log(chalk.dim(`Depositing prizes...`))
-  await prizePool.depositTo(claimableDraw.address, amount, ticket.address, ethers.constants.AddressZero)
+  await prizePool.depositTo(claimableDraw.address, amount, ticket.address)
 
 }
 
