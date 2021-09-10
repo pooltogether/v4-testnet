@@ -1,0 +1,716 @@
+{
+  "address": "0x5F53D7396a39Dc0B68948a5b5DB5Aa83e6d2C113",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "drawIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "drawId",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "timestamp",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "winningRandomNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "DrawSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newManager",
+          "type": "address"
+        }
+      ],
+      "name": "ManagerTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "CARDINALITY",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "drawId",
+          "type": "uint32"
+        }
+      ],
+      "name": "drawIdToDrawIndex",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "draws",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw[256]",
+          "name": "",
+          "type": "tuple[256]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "drawId",
+          "type": "uint32"
+        }
+      ],
+      "name": "getDraw",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32[]",
+          "name": "drawIds",
+          "type": "uint32[]"
+        }
+      ],
+      "name": "getDraws",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLastDraw",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "manager",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextDrawIndex",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw",
+          "name": "draw",
+          "type": "tuple"
+        }
+      ],
+      "name": "pushDraw",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "drawIndex",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "winningRandomNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "uint32",
+              "name": "drawId",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct DrawLib.Draw",
+          "name": "newDraw",
+          "type": "tuple"
+        }
+      ],
+      "name": "setDraw",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newManager",
+          "type": "address"
+        }
+      ],
+      "name": "setManager",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x6cf6880041b2dc102a3054764aae48a7c31e4a833383262c18ac9477bddeabe1",
+  "receipt": {
+    "to": null,
+    "from": "0x3F0556bCA55Bdbb78A9316936067a47fd4C4C4f4",
+    "contractAddress": "0x5F53D7396a39Dc0B68948a5b5DB5Aa83e6d2C113",
+    "transactionIndex": 1,
+    "gasUsed": "1283295",
+    "logsBloom": "0x00002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018020000000000000000000000000000000000000000000000000000000800000000000000000000100000000000000000000000000000000000000000000000000000000000080000000000000000000000000000004000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000024000000000000000000001000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000100000",
+    "blockHash": "0x41f7f402649db65f3532bef8e3e13fdde5b01e28fe2b471beffd65290f66fc35",
+    "transactionHash": "0x6cf6880041b2dc102a3054764aae48a7c31e4a833383262c18ac9477bddeabe1",
+    "logs": [
+      {
+        "transactionIndex": 1,
+        "blockNumber": 18767424,
+        "transactionHash": "0x6cf6880041b2dc102a3054764aae48a7c31e4a833383262c18ac9477bddeabe1",
+        "address": "0x0000000000000000000000000000000000001010",
+        "topics": [
+          "0x4dfe1bbbcf077ddc3e01291eea2d5c70c2b422b415d95645b9adcfd678cb1d63",
+          "0x0000000000000000000000000000000000000000000000000000000000001010",
+          "0x0000000000000000000000003f0556bca55bdbb78a9316936067a47fd4c4c4f4",
+          "0x000000000000000000000000e4b8e9222704401ad16d4d826732953daf07c7e2"
+        ],
+        "data": "0x000000000000000000000000000000000000000000000000000dad7333d9e2000000000000000000000000000000000000000000000000000012899d782ede00000000000000000000000000000000000000000000000000034789c4503d66c80000000000000000000000000000000000000000000000000004dc2a4454fc0000000000000000000000000000000000000000000000000003553737841748c8",
+        "logIndex": 2,
+        "blockHash": "0x41f7f402649db65f3532bef8e3e13fdde5b01e28fe2b471beffd65290f66fc35"
+      }
+    ],
+    "blockNumber": 18767424,
+    "cumulativeGasUsed": "1391909",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "5bd4dfff3996e6e250da2bdbd3154bc0",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.6+commit.11564f7e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"drawIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"}],\"name\":\"DrawSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newManager\",\"type\":\"address\"}],\"name\":\"ManagerTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"CARDINALITY\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"name\":\"drawIdToDrawIndex\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"draws\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw[256]\",\"name\":\"\",\"type\":\"tuple[256]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"name\":\"getDraw\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32[]\",\"name\":\"drawIds\",\"type\":\"uint32[]\"}],\"name\":\"getDraws\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getLastDraw\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"manager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextDrawIndex\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw\",\"name\":\"draw\",\"type\":\"tuple\"}],\"name\":\"pushDraw\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"drawIndex\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"winningRandomNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"drawId\",\"type\":\"uint32\"}],\"internalType\":\"struct DrawLib.Draw\",\"name\":\"newDraw\",\"type\":\"tuple\"}],\"name\":\"setDraw\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newManager\",\"type\":\"address\"}],\"name\":\"setManager\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"drawIdToDrawIndex(uint32)\":{\"details\":\"Use the draw id to calculate the draw index position in the draws ring buffer.\",\"params\":{\"drawId\":\"Draw id\"},\"returns\":{\"_0\":\"Draw index\"}},\"draws()\":{\"details\":\"Return all draws from the draws ring buffer.\",\"returns\":{\"_0\":\"Draws array\"}},\"getDraw(uint32)\":{\"details\":\"Read draw from the draws ring buffer using the draw id.\",\"params\":{\"drawId\":\"Draw id\"},\"returns\":{\"_0\":\"Draw struct\"}},\"getDraws(uint32[])\":{\"details\":\"Read multiple draws from the draws ring buffer from an array of draw ids.\",\"params\":{\"drawIds\":\"DrawID\"},\"returns\":{\"_0\":\"draws Draw structs\"}},\"getLastDraw()\":{\"details\":\"External function to get the last draw using the nextDrawIndex.\",\"returns\":{\"_0\":\"Last draw\"}},\"initialize(address)\":{\"params\":{\"_manager\":\"Draw manager address\"}},\"manager()\":{\"details\":\"Returns current _manager address.1\",\"returns\":{\"_0\":\"Current _manager address.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"pushDraw((uint256,uint32,uint32))\":{\"details\":\"External function to create a new draw from an authorized manager or owner.\",\"params\":{\"draw\":\"Draw struct\"},\"returns\":{\"_0\":\"New draw id\"}},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"setDraw(uint256,(uint256,uint32,uint32))\":{\"details\":\"External function to set an existing draw from an authorized manager or owner.\",\"params\":{\"drawIndex\":\"Draw index to set\",\"newDraw\":\"Draw struct\"},\"returns\":{\"_0\":\"Draw id\"}},\"setManager(address)\":{\"details\":\"Throws if called by any account other than the owner.\",\"params\":{\"_newManager\":\"New _manager address.\"},\"returns\":{\"_0\":\"Boolean to indicate if the operation was successful or not.\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"events\":{\"DrawSet(uint256,uint32,uint32,uint256)\":{\"notice\":\"Emit when a new draw has been created.\"}},\"kind\":\"user\",\"methods\":{\"CARDINALITY()\":{\"notice\":\"Ring buffer array size.\"},\"drawIdToDrawIndex(uint32)\":{\"notice\":\"External function to calculate draw index using the draw id.\"},\"draws()\":{\"notice\":\"Read all draws.\"},\"getDraw(uint32)\":{\"notice\":\"Read draw from the draws ring buffer.\"},\"getDraws(uint32[])\":{\"notice\":\"Read multiple draws from the draws ring buffer.\"},\"getLastDraw()\":{\"notice\":\"External function to get the last draw.\"},\"initialize(address)\":{\"notice\":\"Initialize DrawHistory smart contract.\"},\"manager()\":{\"notice\":\"Gets current _manager.\"},\"nextDrawIndex()\":{\"notice\":\"Next ring buffer index position when pushing a new draw. \"},\"pushDraw((uint256,uint32,uint32))\":{\"notice\":\"External function to create a new draw.\"},\"setDraw(uint256,(uint256,uint32,uint32))\":{\"notice\":\"External function to set an existing draw.\"},\"setManager(address)\":{\"notice\":\"Set or change of manager.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@pooltogether/v4/contracts/DrawHistory.sol\":\"DrawHistory\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":2000},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/ContextUpgradeable.sol\\\";\\nimport \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    function __Ownable_init() internal initializer {\\n        __Context_init_unchained();\\n        __Ownable_init_unchained();\\n    }\\n\\n    function __Ownable_init_unchained() internal initializer {\\n        _setOwner(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions anymore. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby removing any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _setOwner(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _setOwner(newOwner);\\n    }\\n\\n    function _setOwner(address newOwner) private {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n    uint256[49] private __gap;\\n}\\n\",\"keccak256\":\"0x35b09b69aca3bc2633da8f47382a81ecf367efe57167a2114f60f9ec81988afa\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed\\n * behind a proxy. Since a proxied contract can't have a constructor, it's common to move constructor logic to an\\n * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer\\n * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.\\n *\\n * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as\\n * possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}.\\n *\\n * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure\\n * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.\\n */\\nabstract contract Initializable {\\n    /**\\n     * @dev Indicates that the contract has been initialized.\\n     */\\n    bool private _initialized;\\n\\n    /**\\n     * @dev Indicates that the contract is in the process of being initialized.\\n     */\\n    bool private _initializing;\\n\\n    /**\\n     * @dev Modifier to protect an initializer function from being invoked twice.\\n     */\\n    modifier initializer() {\\n        require(_initializing || !_initialized, \\\"Initializable: contract is already initialized\\\");\\n\\n        bool isTopLevelCall = !_initializing;\\n        if (isTopLevelCall) {\\n            _initializing = true;\\n            _initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            _initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x8b2abd85d0ece7e866e100e9d47ca9cbec93c87cf71a8d267b2b93eb81f7d5e9\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\nimport \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/*\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract ContextUpgradeable is Initializable {\\n    function __Context_init() internal initializer {\\n        __Context_init_unchained();\\n    }\\n\\n    function __Context_init_unchained() internal initializer {\\n    }\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n    uint256[50] private __gap;\\n}\\n\",\"keccak256\":\"0x828a6fb02c79a63dc5867427f355c0a9c65b4359fecadae73883154da550f6f8\",\"license\":\"MIT\"},\"@pooltogether/owner-manager-contracts/contracts/OwnerOrManager.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity >= 0.6.0 <= 0.8.6;\\n\\nimport \\\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\\\";\\nimport \\\"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol\\\";\\n\\n/**\\n*  @title Abstract ownable contract with additional manager role\\n * @notice Contract module based on Ownable which provides a basic access control mechanism, where\\n * there is an account (a draw manager for example) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The manager account needs to be set using {setManager}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyManager`, which can be applied to your functions to restrict their use to\\n * the manager.\\n */\\nabstract contract OwnerOrManager is ContextUpgradeable, OwnableUpgradeable {\\n\\n    address private _manager;\\n\\n    /**\\n     * @dev Emitted when _manager has been changed.\\n     * @param newManager new _manager address.\\n     */\\n    event ManagerTransferred(address indexed newManager);\\n\\n    /**\\n     * @notice Gets current _manager.\\n     * @dev Returns current _manager address.1\\n     * @return Current _manager address.\\n     */\\n    function manager() public view virtual returns (address) {\\n        return _manager;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the manager.\\n     */\\n    modifier onlyManagerOrOwner() {\\n        require(manager() == _msgSender() || owner() == _msgSender(), \\\"Manager/caller-not-manager-or-owner\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @notice Set or change of manager.\\n     * @dev Throws if called by any account other than the owner.\\n     * @param _newManager New _manager address.\\n     * @return Boolean to indicate if the operation was successful or not.\\n     */\\n    function setManager(address _newManager) public onlyOwner returns (bool) {\\n        _setManager(_newManager);\\n    }\\n\\n    /**\\n     * @notice Set or change of manager.\\n     * @dev Throws if called by any account other than the owner.\\n     * @param _newManager New _manager address.\\n     * @return Boolean to indicate if the operation was successful or not.\\n     */\\n    function _setManager(address _newManager) internal returns (bool) {\\n        address _previousManager = _manager;\\n        require(_newManager != address(0), \\\"Manager/manager-not-zero-address\\\");\\n        require(_newManager != _previousManager, \\\"Manager/existing-manager-address\\\");\\n\\n        _manager = _newManager;\\n\\n        emit ManagerTransferred(_newManager);\\n        return true;\\n    }\\n}\",\"keccak256\":\"0x7a45f2397b3dafa19ae7ab4dd65e65aaadfc10c48e36438ba217b5cf47ed92c7\",\"license\":\"GPL-3.0\"},\"@pooltogether/v4/contracts/DrawHistory.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\n\\npragma solidity 0.8.6;\\n\\nimport \\\"@pooltogether/owner-manager-contracts/contracts/OwnerOrManager.sol\\\";\\nimport \\\"./interfaces/IDrawHistory.sol\\\";\\nimport \\\"./libraries/DrawLib.sol\\\";\\n\\ncontract DrawHistory is IDrawHistory, OwnerOrManager {\\n  \\n  /**\\n    * @notice Next ring buffer index position when pushing a new draw. \\n  */\\n  uint32 public nextDrawIndex;\\n\\n  /**\\n    * @notice Ring buffer array size.\\n  */\\n  uint16 public constant CARDINALITY = 256;\\n\\n  /**\\n    * @notice Draws ring buffer array.\\n  */\\n  DrawLib.Draw[CARDINALITY] private _draws;\\n\\n  /* ============ Initialize ============ */\\n\\n  /**\\n    * @notice Initialize DrawHistory smart contract.\\n    *\\n    * @param _manager Draw manager address\\n  */\\n  function initialize (\\n    address _manager\\n  ) public initializer {\\n    __Ownable_init();\\n    _setManager(_manager);\\n  }\\n\\n  /* ============ External Functions ============ */\\n  \\n  /**\\n    * @notice Read all draws.\\n    * @dev    Return all draws from the draws ring buffer.\\n    * @return Draws array\\n  */\\n  function draws() external view returns(DrawLib.Draw[CARDINALITY] memory) {\\n    return _draws;\\n  }\\n\\n  /**\\n    * @notice External function to calculate draw index using the draw id.\\n    * @dev    Use the draw id to calculate the draw index position in the draws ring buffer.\\n    * @param drawId Draw id\\n    * @return Draw index\\n  */\\n  function drawIdToDrawIndex(uint32 drawId) external view override returns(uint32) {\\n    return _drawIdToDrawIndex(drawId);\\n  }\\n\\n  /**\\n    * @notice Read draw from the draws ring buffer.\\n    * @dev    Read draw from the draws ring buffer using the draw id.\\n    * @param drawId Draw id\\n    * @return Draw struct\\n  */\\n  function getDraw(uint32 drawId) external view override returns(DrawLib.Draw memory) {\\n    uint32 drawIndex = _drawIdToDrawIndex(drawId);\\n    return _draws[drawIndex];\\n  }\\n\\n  /**\\n    * @notice Read multiple draws from the draws ring buffer.\\n    * @dev    Read multiple draws from the draws ring buffer from an array of draw ids.\\n    * @param drawIds DrawID\\n    * @return draws Draw structs\\n  */\\n  function getDraws(uint32[] calldata drawIds) external view override returns(DrawLib.Draw[] memory) {\\n    uint32 drawIndex;\\n    DrawLib.Draw[] memory draws = new DrawLib.Draw[](drawIds.length);\\n    for (uint256 index = 0; index < drawIds.length; index++) {\\n      drawIndex = _drawIdToDrawIndex(drawIds[index]);\\n      draws[index] = _draws[drawIndex];\\n    }\\n    return draws;\\n  }\\n\\n  /**\\n    * @notice External function to get the last draw.\\n    * @dev    External function to get the last draw using the nextDrawIndex.\\n    * @return Last draw\\n  */\\n  function getLastDraw() external view returns (DrawLib.Draw memory) {\\n    return _getLastDraw(nextDrawIndex);\\n  }\\n\\n  /**\\n    * @notice External function to create a new draw.\\n    * @dev    External function to create a new draw from an authorized manager or owner.\\n    * @param draw Draw struct\\n    * @return New draw id\\n  */\\n  function pushDraw(DrawLib.Draw memory draw) external override onlyManagerOrOwner returns (uint32) {\\n    return _pushDraw(draw);\\n  } \\n\\n  /**\\n    * @notice External function to set an existing draw.\\n    * @dev    External function to set an existing draw from an authorized manager or owner.\\n    * @param drawIndex Draw index to set\\n    * @param newDraw   Draw struct\\n    * @return Draw id\\n  */\\n  function setDraw(uint256 drawIndex, DrawLib.Draw memory newDraw) external override onlyManagerOrOwner returns (uint32) {\\n    return _setDraw(drawIndex, newDraw);\\n  }\\n\\n  /* ============ Internal Functions ============ */\\n\\n  /**\\n    * @notice Internal function to calculate draw index using the draw id.\\n    * @dev    Use the draw id to calculate the draw index position in the draws ring buffer.\\n    * @param _drawId Draw id\\n    * @return Draw index\\n  */\\n  function _drawIdToDrawIndex(uint32 _drawId) internal view returns (uint32) {\\n    uint32 _nextDrawIndex = nextDrawIndex;\\n    DrawLib.Draw memory _lastDraw;\\n    // Read the most recently pushed draw in the ring buffer.\\n    if(_nextDrawIndex == 0) {\\n      // If nextDrawIndex is 0 the DrawHistory either has NO draws or the ring buffer has looped. Read from the end of the ring buffer if current position is 0.\\n      _lastDraw = _draws[CARDINALITY - 1];\\n      // If the draw at the end draws array has no timestamp we can assume no draws have been created.\\n      require(_lastDraw.timestamp > 0, \\\"DrawHistory/no-draw-history\\\");\\n    } else {\\n      _lastDraw = _draws[_nextDrawIndex - 1];\\n    }\\n    require(_drawId + CARDINALITY > _lastDraw.drawId, \\\"DrawHistory/draw-expired\\\");\\n    require(_drawId <= _lastDraw.drawId, \\\"DrawHistory/drawid-out-of-bounds\\\");\\n    uint256 deltaIndex = _lastDraw.drawId - _drawId;\\n    return uint32(((_nextDrawIndex - 1) - deltaIndex) % CARDINALITY);\\n  }\\n\\n  /**\\n    * @notice Internal function to get the last draw.\\n    * @dev    Internal function to get the last draw using the nextDrawIndex.\\n    * @return Last draw\\n  */\\n  function _getLastDraw(uint256 _nextDrawIndex) internal view returns (DrawLib.Draw memory) {\\n    if(_nextDrawIndex == 0) {\\n      return _draws[CARDINALITY - 1];\\n    } else {\\n      return _draws[_nextDrawIndex - 1];\\n    }\\n  }\\n\\n  /**\\n    * @notice Internal function to create a new draw.\\n    * @dev    Internal function to create a new draw from an authorized manager or owner.\\n    * @param _newDraw Draw struct\\n    * @return New draw id\\n  */\\n  function _pushDraw(DrawLib.Draw memory _newDraw) internal returns (uint32) {\\n    uint32 _nextDrawIndex = nextDrawIndex;\\n    DrawLib.Draw memory _lastDraw = _getLastDraw(_nextDrawIndex);\\n    if (_lastDraw.timestamp != 0) {\\n      require(_newDraw.drawId == _lastDraw.drawId + 1, \\\"DrawHistory/nonsequential-draw\\\");\\n    }\\n    _draws[_nextDrawIndex] = _newDraw;\\n    emit DrawSet(_nextDrawIndex, _newDraw.drawId, _newDraw.timestamp, _newDraw.winningRandomNumber);\\n    nextDrawIndex = (_nextDrawIndex + 1) % CARDINALITY;\\n    return _newDraw.drawId;\\n  } \\n\\n  /**\\n    * @notice Internal function to set an existing draw.\\n    * @dev    Internal function to set an existing draw from an authorized manager or owner.\\n    * @param _drawIndex Draw index\\n    * @param _newDraw   Draw struct\\n    * @return Draw index\\n  */\\n  function _setDraw(uint256 _drawIndex, DrawLib.Draw memory _newDraw) internal returns (uint32) {\\n    _draws[_drawIndex] = _newDraw;\\n    emit DrawSet(_drawIndex, _newDraw.drawId, _newDraw.timestamp, _newDraw.winningRandomNumber);\\n    return _newDraw.drawId;\\n  } \\n\\n}\",\"keccak256\":\"0x75de511ac13a9aa90f76f73adf90a50ffce374fb6af717821c2f9155ddb1f3e4\",\"license\":\"GPL-3.0\"},\"@pooltogether/v4/contracts/interfaces/IDrawHistory.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity 0.8.6;\\n\\nimport \\\"../libraries/DrawLib.sol\\\";\\n\\ninterface IDrawHistory {\\n  \\n  /**\\n    * @notice Emit when a new draw has been created.\\n    * @param drawIndex    Draw index in the draws array\\n    * @param drawId       Draw id\\n    * @param timestamp    Epoch timestamp when the draw is created.\\n    * @param winningRandomNumber Randomly generated number used to calculate draw winning numbers\\n  */\\n  event DrawSet (\\n    uint256 drawIndex,\\n    uint32 drawId,\\n    uint32 timestamp,\\n    uint256 winningRandomNumber\\n  );\\n\\n  function drawIdToDrawIndex(uint32 drawId) external view returns(uint32);\\n  function getDraws(uint32[] calldata drawIds) external view returns (DrawLib.Draw[] memory);\\n  function getDraw(uint32 drawId) external view returns (DrawLib.Draw memory);\\n  function pushDraw(DrawLib.Draw calldata draw) external returns(uint32);\\n  function setDraw(uint256 drawIndex, DrawLib.Draw calldata draw) external returns(uint32); // maybe return drawIndex\\n}\",\"keccak256\":\"0xf281531b8db566aca3047d8df2c9d8b75e104a2d970faa569acb49b36a38a79e\",\"license\":\"GPL-3.0\"},\"@pooltogether/v4/contracts/libraries/DrawLib.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\n\\npragma solidity 0.8.6;\\n\\nlibrary DrawLib{\\n\\n    struct Draw {\\n        uint256 winningRandomNumber;\\n        uint32 timestamp;\\n        uint32 drawId;\\n    }\\n\\n    ///@notice Draw settings struct\\n    ///@param bitRangeSize Decimal representation of bitRangeSize\\n    ///@param matchCardinality The bitRangeSize's to consider in the 256 random numbers. Must be > 1 and < 256/bitRangeSize\\n    ///@param pickCost Amount of ticket balance required per pick\\n    ///@param distributions Array of prize distribution percentages, expressed in fraction form with base 1e18. Max sum of these <= 1 Ether. ordering: index0: grandPrize, index1: runnerUp, etc.\\n    struct DrawSettings {\\n        uint8 bitRangeSize;\\n        uint16 matchCardinality;\\n        uint224 pickCost;\\n        uint128[] distributions;\\n        uint256 prize;\\n    }\\n\\n}\",\"keccak256\":\"0xdc82c80fb4eb667dd54f37d90754ab598d90713cb2c6c56e5e4548266d6045e6\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061164d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100f55760003560e01c80638da5cb5b11610097578063c991b36f11610066578063c991b36f146101fd578063d0bb78f314610210578063d0ebdbe714610230578063f2fde38b1461025357600080fd5b80638da5cb5b146101bc5780638ddc1680146101cd578063c4d66de8146101e2578063c7f698f9146101f557600080fd5b806352fe3087116100d357806352fe308714610163578063715018a61461017f57806383c34aaf146101895780638b9ced40146101a957600080fd5b80630ea5187f146100fa5780631f1dee361461012b578063481c6a751461013e575b600080fd5b60655461011190600160a01b900463ffffffff1681565b60405163ffffffff90911681526020015b60405180910390f35b610111610139366004611390565b610266565b6065546001600160a01b03165b6040516001600160a01b039091168152602001610122565b61016c61010081565b60405161ffff9091168152602001610122565b610187610314565b005b61019c6101973660046113d9565b61037a565b60405161012291906114c0565b6101116101b73660046113ac565b6103fd565b6033546001600160a01b031661014b565b6101d56104a8565b60405161012291906113f4565b6101876101f03660046112eb565b61051f565b61019c6105f4565b61011161020b3660046113d9565b61062f565b61022361021e36600461131b565b61063a565b6040516101229190611452565b61024361023e3660046112eb565b610771565b6040519015158152602001610122565b6101876102613660046112eb565b6107dd565b6065546000906001600160a01b031633148061028c57506033546001600160a01b031633145b6103035760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e6572000000000000000000000000000000000000000000000000000000000060648201526084015b60405180910390fd5b61030c826108bf565b90505b919050565b6033546001600160a01b0316331461036e5760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6103786000610a74565b565b60408051606081018252600080825260208201819052918101829052906103a083610ade565b905060668163ffffffff1661010081106103bc576103bc6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff808216602084015264010000000090910416918101919091529392505050565b6065546000906001600160a01b031633148061042357506033546001600160a01b031633145b6104955760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e6572000000000000000000000000000000000000000000000000000000000060648201526084016102fa565b61049f8383610d3c565b90505b92915050565b6104b0611220565b60408051612000810190915260666101006000835b8282101561051657604080516060810182526002840286018054825260019081015463ffffffff808216602080860191909152640100000000909204169383019390935290835290920191016104c5565b50505050905090565b600054610100900460ff1680610538575060005460ff16155b6105aa5760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff161580156105cc576000805461ffff19166101011790555b6105d4610e0b565b6105dd82610edc565b5080156105f0576000805461ff00191690555b5050565b604080516060810182526000808252602082018190529181019190915260655461062a90600160a01b900463ffffffff16611006565b905090565b600061030c82610ade565b60606000808367ffffffffffffffff81111561065857610658611601565b6040519080825280602002602001820160405280156106a357816020015b60408051606081018252600080825260208083018290529282015282526000199092019101816106765790505b50905060005b84811015610768576106e08686838181106106c6576106c66115eb565b90506020020160208101906106db91906113d9565b610ade565b925060668363ffffffff1661010081106106fc576106fc6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff80821660208401526401000000009091041691810191909152825183908390811061074a5761074a6115eb565b602002602001018190525080806107609061156d565b9150506106a9565b50949350505050565b6033546000906001600160a01b031633146107ce5760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6107d782610edc565b50919050565b6033546001600160a01b031633146108375760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6001600160a01b0381166108b35760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201527f646472657373000000000000000000000000000000000000000000000000000060648201526084016102fa565b6108bc81610a74565b50565b606554600090600160a01b900463ffffffff16816108dc82611006565b9050806020015163ffffffff1660001461095e5760408101516109009060016114ee565b63ffffffff16846040015163ffffffff161461095e5760405162461bcd60e51b815260206004820152601e60248201527f44726177486973746f72792f6e6f6e73657175656e7469616c2d64726177000060448201526064016102fa565b8360668363ffffffff166101008110610979576109796115eb565b8251600291909102919091019081556020808301516001909201805460409485015163ffffffff9081166401000000000267ffffffffffffffff199092169481169490941717905586830151878201518851855188861681529285169383019390935290921682840152606082015290517fa7b573b2c47a4426bb8b792f3029ee11ee4ce1e72907e1ba58db2dcdf1fcf50e916080908290030190a1610100610a238360016114ee565b610a2d919061159c565b6065805463ffffffff92909216600160a01b027fffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffff9092169190911790555050506040015190565b603380546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681179093556040519116919082907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e090600090a35050565b606554604080516060810182526000808252602082018190529181018290529091600160a01b900463ffffffff169081610bc5576066610b216001610100611516565b61ffff166101008110610b3657610b366115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840181905264010000000090920416928201929092529150610bc05760405162461bcd60e51b815260206004820152601b60248201527f44726177486973746f72792f6e6f2d647261772d686973746f7279000000000060448201526064016102fa565b610c26565b6066610bd2600184611550565b63ffffffff166101008110610be957610be96115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840152640100000000909104169181019190915290505b604081015163ffffffff16610c3d610100866114ee565b63ffffffff1611610c905760405162461bcd60e51b815260206004820152601860248201527f44726177486973746f72792f647261772d65787069726564000000000000000060448201526064016102fa565b806040015163ffffffff168463ffffffff161115610cf05760405162461bcd60e51b815260206004820181905260248201527f44726177486973746f72792f6472617769642d6f75742d6f662d626f756e647360448201526064016102fa565b6000848260400151610d029190611550565b63ffffffff16905061010081610d19600186611550565b63ffffffff16610d299190611539565b610d339190611588565b95945050505050565b6000816066846101008110610d5357610d536115eb565b8251600291909102919091019081556020808301516001909201805460409485015163ffffffff9081166401000000000267ffffffffffffffff19909216941693909317929092179091558382015190840151845192517fa7b573b2c47a4426bb8b792f3029ee11ee4ce1e72907e1ba58db2dcdf1fcf50e93610df9938893909290919093845263ffffffff928316602085015291166040830152606082015260800190565b60405180910390a15060400151919050565b600054610100900460ff1680610e24575060005460ff16155b610e965760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015610eb8576000805461ffff19166101011790555b610ec06110aa565b610ec861116a565b80156108bc576000805461ff001916905550565b6065546000906001600160a01b03908116908316610f3c5760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6d616e616765722d6e6f742d7a65726f2d6164647265737360448201526064016102fa565b806001600160a01b0316836001600160a01b03161415610f9e5760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6578697374696e672d6d616e616765722d6164647265737360448201526064016102fa565b606580547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b0385169081179091556040517fcec439ab23c9526560087cb80f125a4b035e1da85484bcd969ac3affcf99463590600090a250600192915050565b60408051606081018252600080825260208201819052918101919091528161108c5760666110376001610100611516565b61ffff16610100811061104c5761104c6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840152640100000000909104169181019190915292915050565b6066611099600184611539565b610100811061104c5761104c6115eb565b600054610100900460ff16806110c3575060005460ff16155b6111355760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015610ec8576000805461ffff191661010117905580156108bc576000805461ff001916905550565b600054610100900460ff1680611183575060005460ff16155b6111f55760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015611217576000805461ffff19166101011790555b610ec833610a74565b604051806120000160405280610100905b60408051606081018252600080825260208083018290529282015282526000199092019101816112315790505090565b60006060828403121561127357600080fd5b6040516060810181811067ffffffffffffffff821117156112a457634e487b7160e01b600052604160045260246000fd5b604052823581529050806112ba602084016112d7565b60208201526112cb604084016112d7565b60408201525092915050565b803563ffffffff8116811461030f57600080fd5b6000602082840312156112fd57600080fd5b81356001600160a01b038116811461131457600080fd5b9392505050565b6000806020838503121561132e57600080fd5b823567ffffffffffffffff8082111561134657600080fd5b818501915085601f83011261135a57600080fd5b81358181111561136957600080fd5b8660208260051b850101111561137e57600080fd5b60209290920196919550909350505050565b6000606082840312156113a257600080fd5b61049f8383611261565b600080608083850312156113bf57600080fd5b823591506113d08460208501611261565b90509250929050565b6000602082840312156113eb57600080fd5b61049f826112d7565b6160008101818360005b610100811015611449576114338383518051825260208082015163ffffffff9081169184019190915260409182015116910152565b60609290920191602091909101906001016113fe565b50505092915050565b6020808252825182820181905260009190848201906040850190845b818110156114b4576114a18385518051825260208082015163ffffffff9081169184019190915260409182015116910152565b928401926060929092019160010161146e565b50909695505050505050565b606081016104a282848051825260208082015163ffffffff9081169184019190915260409182015116910152565b600063ffffffff80831681851680830382111561150d5761150d6115bf565b01949350505050565b600061ffff83811690831681811015611531576115316115bf565b039392505050565b60008282101561154b5761154b6115bf565b500390565b600063ffffffff83811690831681811015611531576115316115bf565b6000600019821415611581576115816115bf565b5060010190565b600082611597576115976115d5565b500690565b600063ffffffff808416806115b3576115b36115d5565b92169190910692915050565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fdfea26469706673582212207727f635717f21eaaf439c4a7b53ca2b7990aa755fcaafe0de66eb111609e07764736f6c63430008060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100f55760003560e01c80638da5cb5b11610097578063c991b36f11610066578063c991b36f146101fd578063d0bb78f314610210578063d0ebdbe714610230578063f2fde38b1461025357600080fd5b80638da5cb5b146101bc5780638ddc1680146101cd578063c4d66de8146101e2578063c7f698f9146101f557600080fd5b806352fe3087116100d357806352fe308714610163578063715018a61461017f57806383c34aaf146101895780638b9ced40146101a957600080fd5b80630ea5187f146100fa5780631f1dee361461012b578063481c6a751461013e575b600080fd5b60655461011190600160a01b900463ffffffff1681565b60405163ffffffff90911681526020015b60405180910390f35b610111610139366004611390565b610266565b6065546001600160a01b03165b6040516001600160a01b039091168152602001610122565b61016c61010081565b60405161ffff9091168152602001610122565b610187610314565b005b61019c6101973660046113d9565b61037a565b60405161012291906114c0565b6101116101b73660046113ac565b6103fd565b6033546001600160a01b031661014b565b6101d56104a8565b60405161012291906113f4565b6101876101f03660046112eb565b61051f565b61019c6105f4565b61011161020b3660046113d9565b61062f565b61022361021e36600461131b565b61063a565b6040516101229190611452565b61024361023e3660046112eb565b610771565b6040519015158152602001610122565b6101876102613660046112eb565b6107dd565b6065546000906001600160a01b031633148061028c57506033546001600160a01b031633145b6103035760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e6572000000000000000000000000000000000000000000000000000000000060648201526084015b60405180910390fd5b61030c826108bf565b90505b919050565b6033546001600160a01b0316331461036e5760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6103786000610a74565b565b60408051606081018252600080825260208201819052918101829052906103a083610ade565b905060668163ffffffff1661010081106103bc576103bc6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff808216602084015264010000000090910416918101919091529392505050565b6065546000906001600160a01b031633148061042357506033546001600160a01b031633145b6104955760405162461bcd60e51b815260206004820152602360248201527f4d616e616765722f63616c6c65722d6e6f742d6d616e616765722d6f722d6f7760448201527f6e6572000000000000000000000000000000000000000000000000000000000060648201526084016102fa565b61049f8383610d3c565b90505b92915050565b6104b0611220565b60408051612000810190915260666101006000835b8282101561051657604080516060810182526002840286018054825260019081015463ffffffff808216602080860191909152640100000000909204169383019390935290835290920191016104c5565b50505050905090565b600054610100900460ff1680610538575060005460ff16155b6105aa5760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff161580156105cc576000805461ffff19166101011790555b6105d4610e0b565b6105dd82610edc565b5080156105f0576000805461ff00191690555b5050565b604080516060810182526000808252602082018190529181019190915260655461062a90600160a01b900463ffffffff16611006565b905090565b600061030c82610ade565b60606000808367ffffffffffffffff81111561065857610658611601565b6040519080825280602002602001820160405280156106a357816020015b60408051606081018252600080825260208083018290529282015282526000199092019101816106765790505b50905060005b84811015610768576106e08686838181106106c6576106c66115eb565b90506020020160208101906106db91906113d9565b610ade565b925060668363ffffffff1661010081106106fc576106fc6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff80821660208401526401000000009091041691810191909152825183908390811061074a5761074a6115eb565b602002602001018190525080806107609061156d565b9150506106a9565b50949350505050565b6033546000906001600160a01b031633146107ce5760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6107d782610edc565b50919050565b6033546001600160a01b031633146108375760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e657260448201526064016102fa565b6001600160a01b0381166108b35760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201527f646472657373000000000000000000000000000000000000000000000000000060648201526084016102fa565b6108bc81610a74565b50565b606554600090600160a01b900463ffffffff16816108dc82611006565b9050806020015163ffffffff1660001461095e5760408101516109009060016114ee565b63ffffffff16846040015163ffffffff161461095e5760405162461bcd60e51b815260206004820152601e60248201527f44726177486973746f72792f6e6f6e73657175656e7469616c2d64726177000060448201526064016102fa565b8360668363ffffffff166101008110610979576109796115eb565b8251600291909102919091019081556020808301516001909201805460409485015163ffffffff9081166401000000000267ffffffffffffffff199092169481169490941717905586830151878201518851855188861681529285169383019390935290921682840152606082015290517fa7b573b2c47a4426bb8b792f3029ee11ee4ce1e72907e1ba58db2dcdf1fcf50e916080908290030190a1610100610a238360016114ee565b610a2d919061159c565b6065805463ffffffff92909216600160a01b027fffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffff9092169190911790555050506040015190565b603380546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681179093556040519116919082907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e090600090a35050565b606554604080516060810182526000808252602082018190529181018290529091600160a01b900463ffffffff169081610bc5576066610b216001610100611516565b61ffff166101008110610b3657610b366115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840181905264010000000090920416928201929092529150610bc05760405162461bcd60e51b815260206004820152601b60248201527f44726177486973746f72792f6e6f2d647261772d686973746f7279000000000060448201526064016102fa565b610c26565b6066610bd2600184611550565b63ffffffff166101008110610be957610be96115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840152640100000000909104169181019190915290505b604081015163ffffffff16610c3d610100866114ee565b63ffffffff1611610c905760405162461bcd60e51b815260206004820152601860248201527f44726177486973746f72792f647261772d65787069726564000000000000000060448201526064016102fa565b806040015163ffffffff168463ffffffff161115610cf05760405162461bcd60e51b815260206004820181905260248201527f44726177486973746f72792f6472617769642d6f75742d6f662d626f756e647360448201526064016102fa565b6000848260400151610d029190611550565b63ffffffff16905061010081610d19600186611550565b63ffffffff16610d299190611539565b610d339190611588565b95945050505050565b6000816066846101008110610d5357610d536115eb565b8251600291909102919091019081556020808301516001909201805460409485015163ffffffff9081166401000000000267ffffffffffffffff19909216941693909317929092179091558382015190840151845192517fa7b573b2c47a4426bb8b792f3029ee11ee4ce1e72907e1ba58db2dcdf1fcf50e93610df9938893909290919093845263ffffffff928316602085015291166040830152606082015260800190565b60405180910390a15060400151919050565b600054610100900460ff1680610e24575060005460ff16155b610e965760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015610eb8576000805461ffff19166101011790555b610ec06110aa565b610ec861116a565b80156108bc576000805461ff001916905550565b6065546000906001600160a01b03908116908316610f3c5760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6d616e616765722d6e6f742d7a65726f2d6164647265737360448201526064016102fa565b806001600160a01b0316836001600160a01b03161415610f9e5760405162461bcd60e51b815260206004820181905260248201527f4d616e616765722f6578697374696e672d6d616e616765722d6164647265737360448201526064016102fa565b606580547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b0385169081179091556040517fcec439ab23c9526560087cb80f125a4b035e1da85484bcd969ac3affcf99463590600090a250600192915050565b60408051606081018252600080825260208201819052918101919091528161108c5760666110376001610100611516565b61ffff16610100811061104c5761104c6115eb565b6040805160608101825260029290920292909201805482526001015463ffffffff8082166020840152640100000000909104169181019190915292915050565b6066611099600184611539565b610100811061104c5761104c6115eb565b600054610100900460ff16806110c3575060005460ff16155b6111355760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015610ec8576000805461ffff191661010117905580156108bc576000805461ff001916905550565b600054610100900460ff1680611183575060005460ff16155b6111f55760405162461bcd60e51b815260206004820152602e60248201527f496e697469616c697a61626c653a20636f6e747261637420697320616c72656160448201527f647920696e697469616c697a656400000000000000000000000000000000000060648201526084016102fa565b600054610100900460ff16158015611217576000805461ffff19166101011790555b610ec833610a74565b604051806120000160405280610100905b60408051606081018252600080825260208083018290529282015282526000199092019101816112315790505090565b60006060828403121561127357600080fd5b6040516060810181811067ffffffffffffffff821117156112a457634e487b7160e01b600052604160045260246000fd5b604052823581529050806112ba602084016112d7565b60208201526112cb604084016112d7565b60408201525092915050565b803563ffffffff8116811461030f57600080fd5b6000602082840312156112fd57600080fd5b81356001600160a01b038116811461131457600080fd5b9392505050565b6000806020838503121561132e57600080fd5b823567ffffffffffffffff8082111561134657600080fd5b818501915085601f83011261135a57600080fd5b81358181111561136957600080fd5b8660208260051b850101111561137e57600080fd5b60209290920196919550909350505050565b6000606082840312156113a257600080fd5b61049f8383611261565b600080608083850312156113bf57600080fd5b823591506113d08460208501611261565b90509250929050565b6000602082840312156113eb57600080fd5b61049f826112d7565b6160008101818360005b610100811015611449576114338383518051825260208082015163ffffffff9081169184019190915260409182015116910152565b60609290920191602091909101906001016113fe565b50505092915050565b6020808252825182820181905260009190848201906040850190845b818110156114b4576114a18385518051825260208082015163ffffffff9081169184019190915260409182015116910152565b928401926060929092019160010161146e565b50909695505050505050565b606081016104a282848051825260208082015163ffffffff9081169184019190915260409182015116910152565b600063ffffffff80831681851680830382111561150d5761150d6115bf565b01949350505050565b600061ffff83811690831681811015611531576115316115bf565b039392505050565b60008282101561154b5761154b6115bf565b500390565b600063ffffffff83811690831681811015611531576115316115bf565b6000600019821415611581576115816115bf565b5060010190565b600082611597576115976115d5565b500690565b600063ffffffff808416806115b3576115b36115d5565b92169190910692915050565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fd5b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fdfea26469706673582212207727f635717f21eaaf439c4a7b53ca2b7990aa755fcaafe0de66eb111609e07764736f6c63430008060033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "drawIdToDrawIndex(uint32)": {
+        "details": "Use the draw id to calculate the draw index position in the draws ring buffer.",
+        "params": {
+          "drawId": "Draw id"
+        },
+        "returns": {
+          "_0": "Draw index"
+        }
+      },
+      "draws()": {
+        "details": "Return all draws from the draws ring buffer.",
+        "returns": {
+          "_0": "Draws array"
+        }
+      },
+      "getDraw(uint32)": {
+        "details": "Read draw from the draws ring buffer using the draw id.",
+        "params": {
+          "drawId": "Draw id"
+        },
+        "returns": {
+          "_0": "Draw struct"
+        }
+      },
+      "getDraws(uint32[])": {
+        "details": "Read multiple draws from the draws ring buffer from an array of draw ids.",
+        "params": {
+          "drawIds": "DrawID"
+        },
+        "returns": {
+          "_0": "draws Draw structs"
+        }
+      },
+      "getLastDraw()": {
+        "details": "External function to get the last draw using the nextDrawIndex.",
+        "returns": {
+          "_0": "Last draw"
+        }
+      },
+      "initialize(address)": {
+        "params": {
+          "_manager": "Draw manager address"
+        }
+      },
+      "manager()": {
+        "details": "Returns current _manager address.1",
+        "returns": {
+          "_0": "Current _manager address."
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "pushDraw((uint256,uint32,uint32))": {
+        "details": "External function to create a new draw from an authorized manager or owner.",
+        "params": {
+          "draw": "Draw struct"
+        },
+        "returns": {
+          "_0": "New draw id"
+        }
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "setDraw(uint256,(uint256,uint32,uint32))": {
+        "details": "External function to set an existing draw from an authorized manager or owner.",
+        "params": {
+          "drawIndex": "Draw index to set",
+          "newDraw": "Draw struct"
+        },
+        "returns": {
+          "_0": "Draw id"
+        }
+      },
+      "setManager(address)": {
+        "details": "Throws if called by any account other than the owner.",
+        "params": {
+          "_newManager": "New _manager address."
+        },
+        "returns": {
+          "_0": "Boolean to indicate if the operation was successful or not."
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "events": {
+      "DrawSet(uint256,uint32,uint32,uint256)": {
+        "notice": "Emit when a new draw has been created."
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "CARDINALITY()": {
+        "notice": "Ring buffer array size."
+      },
+      "drawIdToDrawIndex(uint32)": {
+        "notice": "External function to calculate draw index using the draw id."
+      },
+      "draws()": {
+        "notice": "Read all draws."
+      },
+      "getDraw(uint32)": {
+        "notice": "Read draw from the draws ring buffer."
+      },
+      "getDraws(uint32[])": {
+        "notice": "Read multiple draws from the draws ring buffer."
+      },
+      "getLastDraw()": {
+        "notice": "External function to get the last draw."
+      },
+      "initialize(address)": {
+        "notice": "Initialize DrawHistory smart contract."
+      },
+      "manager()": {
+        "notice": "Gets current _manager."
+      },
+      "nextDrawIndex()": {
+        "notice": "Next ring buffer index position when pushing a new draw. "
+      },
+      "pushDraw((uint256,uint32,uint32))": {
+        "notice": "External function to create a new draw."
+      },
+      "setDraw(uint256,(uint256,uint32,uint32))": {
+        "notice": "External function to set an existing draw."
+      },
+      "setManager(address)": {
+        "notice": "Set or change of manager."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 130,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "_initialized",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 133,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "_initializing",
+        "offset": 1,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 1781,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "__gap",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_uint256)50_storage"
+      },
+      {
+        "astId": 10,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "51",
+        "type": "t_address"
+      },
+      {
+        "astId": 123,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "__gap",
+        "offset": 0,
+        "slot": "52",
+        "type": "t_array(t_uint256)49_storage"
+      },
+      {
+        "astId": 3408,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "_manager",
+        "offset": 0,
+        "slot": "101",
+        "type": "t_address"
+      },
+      {
+        "astId": 5170,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "nextDrawIndex",
+        "offset": 20,
+        "slot": "101",
+        "type": "t_uint32"
+      },
+      {
+        "astId": 5180,
+        "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+        "label": "_draws",
+        "offset": 0,
+        "slot": "102",
+        "type": "t_array(t_struct(Draw)8180_storage)256_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(Draw)8180_storage)256_storage": {
+        "base": "t_struct(Draw)8180_storage",
+        "encoding": "inplace",
+        "label": "struct DrawLib.Draw[256]",
+        "numberOfBytes": "16384"
+      },
+      "t_array(t_uint256)49_storage": {
+        "base": "t_uint256",
+        "encoding": "inplace",
+        "label": "uint256[49]",
+        "numberOfBytes": "1568"
+      },
+      "t_array(t_uint256)50_storage": {
+        "base": "t_uint256",
+        "encoding": "inplace",
+        "label": "uint256[50]",
+        "numberOfBytes": "1600"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_struct(Draw)8180_storage": {
+        "encoding": "inplace",
+        "label": "struct DrawLib.Draw",
+        "members": [
+          {
+            "astId": 8175,
+            "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+            "label": "winningRandomNumber",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8177,
+            "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+            "label": "timestamp",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint32"
+          },
+          {
+            "astId": 8179,
+            "contract": "@pooltogether/v4/contracts/DrawHistory.sol:DrawHistory",
+            "label": "drawId",
+            "offset": 4,
+            "slot": "1",
+            "type": "t_uint32"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint32": {
+        "encoding": "inplace",
+        "label": "uint32",
+        "numberOfBytes": "4"
+      }
+    }
+  }
+}

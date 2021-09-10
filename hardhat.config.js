@@ -55,7 +55,7 @@ module.exports = {
     paths: [
       "@pooltogether/v4/contracts/DrawBeacon.sol",
       "@pooltogether/v4/contracts/DrawHistory.sol",
-      "@pooltogether/v4/contracts/registry/Registry.sol",
+      // "@pooltogether/v4/contracts/registry/Registry.sol",
       "@pooltogether/v4/contracts/Ticket.sol",
       "@pooltogether/v4/contracts/prize-pool/YieldSourcePrizePool.sol",
       "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol",

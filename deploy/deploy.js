@@ -66,12 +66,6 @@ module.exports = async (hardhat) => {
   })
   displayResult('MockYieldSource', mockYieldSourceResult)
   
-  cyan('\nDeploying Registry...')
-  const registryResult = await deploy('Registry', {
-    from: deployer
-  })
-  displayResult('Registry', registryResult)
-
   cyan('\nDeploying Ticket...')
   const ticketResult = await deploy('Ticket', {
     from: deployer
@@ -88,9 +82,7 @@ module.exports = async (hardhat) => {
   if (await yieldSourcePrizePool.owner() == ethers.constants.AddressZero) {
     cyan('\nInitializing YieldSourcePrizePool....')
     await yieldSourcePrizePool.initializeYieldSourcePrizePool(
-      registryResult.address,
       [ticketResult.address],
-      ethers.utils.parseEther("0.5"),
       mockYieldSourceResult.address
     )
     green(`Initialized!`)

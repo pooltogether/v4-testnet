@@ -7,13 +7,15 @@
   "license": "MIT",
   "scripts": {
     "clean" : "rm -rf cache/ artifacts/",
+    "reinstall": "rm -rf node_modules/ && yarn clean cache && yarn",
     "compile": "hardhat compile",
-    "deploy": "yarn clean && yarn compile && hardhat deploy --network ",
+    "prepare-deploy": "yarn clean && yarn compile",
+    "deploy": "hardhat deploy --network ",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "addPrizes": "hardhat run ./scripts/addPrizes.js --network "
   },
   "dependencies": {
-    "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami#ac2fd65fcd4a8cf30f40974cb4340327cacb430d",
+    "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami",
     "@pooltogether/yield-source-interface": "^1.1.0"
   },
   "devDependencies": {
