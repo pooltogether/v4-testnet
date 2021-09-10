@@ -6,7 +6,10 @@
   "author": "Brendan Asselstine <mail.asselstine@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean" : "rm -rf cache/ artifacts/",
+    "reinstall": "rm -rf node_modules/ && yarn clean cache && yarn",
     "compile": "hardhat compile",
+    "prepare-deploy": "yarn clean && yarn compile",
     "deploy": "hardhat deploy --network ",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "addPrizes": "hardhat run ./scripts/addPrizes.js --network "
