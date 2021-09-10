@@ -1,7 +1,10 @@
 const networks = require('./hardhat.network')
+require('./tasks/check')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
 require('hardhat-deploy-ethers')
+
+
 
 const optimizerEnabled = true
 
