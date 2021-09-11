@@ -12,22 +12,18 @@ task("check-draw", "Checks whether an address won a draw")
     const { address } = taskArgs
     const { ethers } = hre
   
-    console.log(chalk.dim(`checking if ${address} won...`))
+    console.log(chalk.dim(`Checking if ${address} won...`))
 
     const ticket = await ethers.getContract('Ticket')
     const drawHistory = await ethers.getContract('DrawHistory')
     const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
     
     const draw = await drawHistory.getDraw(taskArgs.draw)
-    console.log(chalk.dim(`Draw: `, draw))
-
     const drawSettings = await drawCalculator.getDrawSettings(taskArgs.draw)
-    console.log(chalk.dim(`Draw Settings: `, drawSettings))
 
-    console.log(chalk.dim(`Total number of prizes: ${(2**drawSettings.bitRangeSize)**drawSettings.matchCardinality}`))
-
-    const balance = await ticket.balanceOf(address)
+    const balance = await ticket.getBalanceAt(address, draw.timestamp)
     console.log(chalk.dim(`Ticket Balance was ${ethers.utils.formatEther(balance)}`))
+    console.log(chalk.dim(`Number of picks: `, balance.div(drawSettings.pickCost)))
 
     if (balance.gt(0)) {
       const picks = generatePicks(drawSettings.pickCost, address, balance)
