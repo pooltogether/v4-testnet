@@ -1,10 +1,10 @@
 const networks = require('./hardhat.network')
-require('./tasks/check')
+require('./tasks/check-draw')
+require('./tasks/deposit')
+require('./tasks/pool-stats')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
 require('hardhat-deploy-ethers')
-
-
 
 const optimizerEnabled = true
 
