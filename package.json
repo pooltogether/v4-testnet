@@ -27,7 +27,9 @@
     "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery#master",
     "@pooltogether/draw-calculator-js": "github://pooltogether/draw-calculators-js",
     "@pooltogether/yield-source-interface": "^1.1.0",
-    "@pooltogether/owner-manager-contracts": "1.1.0"
+    "@pooltogether/owner-manager-contracts": "1.1.0",
+    "find": "^0.3.0",
+    "glob": "^7.1.7"
   },
   "devDependencies": {
     "ajv": "^6.12.2",
