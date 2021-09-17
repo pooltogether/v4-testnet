@@ -12,7 +12,8 @@
     "prepare-deploy": "yarn clean && yarn compile",
     "deploy": "hardhat deploy --network ",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
-    "addPrizes": "hardhat run ./scripts/addPrizes.js --network "
+    "addPrizes": "hardhat run ./scripts/addPrizes.js --network ",
+    "generate": "node ./scripts/generateContractList.js"
   },
   "dependencies": {
     "@pooltogether/v4": "github://pooltogether/pooltogether-contract-tsunami",
