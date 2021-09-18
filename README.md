@@ -1,1 +1,1 @@
-# v4-rinkeby
+# v4-testnet
