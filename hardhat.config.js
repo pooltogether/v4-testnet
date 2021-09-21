@@ -29,11 +29,8 @@ module.exports = {
     deployer: {
       default: 0
     },
-    owner: {
-      default: 0,
-      rinkeby: '0x72c9aA4c753fc36cbF3d1fF6fEc0bC44ad41D7f2'
-    },
     manager: {
+      default: 0,
       rinkeby: '0xb889e88c6dc2f652ad319e1c0d9a30f5b08b9354',
       mumbai: '0xbce45a1c2c1eff18e77f217a62a44f885b26099f'
     }
@@ -54,14 +51,16 @@ module.exports = {
   },
   dependencyCompiler: {
     paths: [
-      "@pooltogether/v4/contracts/DrawBeacon.sol",
-      "@pooltogether/v4/contracts/DrawHistory.sol",
-      // "@pooltogether/v4/contracts/registry/Registry.sol",
-      "@pooltogether/v4/contracts/Ticket.sol",
-      "@pooltogether/v4/contracts/prize-pool/YieldSourcePrizePool.sol",
-      "@pooltogether/v4/contracts/TsunamiDrawCalculator.sol",
-      "@pooltogether/v4/contracts/ClaimableDraw.sol",
-      "@pooltogether/v4/contracts/test/ERC20Mintable.sol"
+      "@pooltogether/v4-oracle-timelocks/contracts/DrawSettingsTimelockTrigger.sol",
+      "@pooltogether/v4-oracle-timelocks/contracts/FullTimelockTrigger.sol",
+      "@pooltogether/v4-oracle-timelocks/contracts/DrawCalculatorTimelock.sol",
+      "@pooltogether/v4-core/contracts/DrawBeacon.sol",
+      "@pooltogether/v4-core/contracts/DrawHistory.sol",
+      "@pooltogether/v4-core/contracts/Ticket.sol",
+      "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
+      "@pooltogether/v4-core/contracts/TsunamiDrawCalculator.sol",
+      "@pooltogether/v4-core/contracts/ClaimableDraw.sol",
+      "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol"
     ]
   }
 };
