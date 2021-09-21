@@ -220,7 +220,6 @@ module.exports = async (hardhat) => {
   }
 
   const drawSettingsTimelockTrigger = await ethers.getContract('DrawSettingsTimelockTrigger')
-  console.log(`WTF MATE?: ${await drawSettingsTimelockTrigger.manager()}`)
   if (await drawSettingsTimelockTrigger.manager() != manager) {
     cyan(`\nSetting drawSettingsTimelockTrigger manager to ${manager}...`)
     const tx = await drawSettingsTimelockTrigger.setManager(manager)

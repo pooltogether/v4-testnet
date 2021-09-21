@@ -163,6 +163,14 @@ module.exports = async (hardhat) => {
   })
   displayResult('FullTimelockTrigger', fullTimelockTriggerResult)
 
+  // // const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
+  // if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTriggerResult.address) {
+  //   cyan('\nSetting tsunamiDrawSettingsHistory manager...')
+  //   const tx = await tsunamiDrawSettingsHistory.setManager(fullTimelockTriggerResult.address)
+  //   await tx.wait(1)
+  //   green('Done!')
+  // }
+
   const fullTimelockTrigger = await ethers.getContract('FullTimelockTrigger')
   if (await fullTimelockTrigger.manager() != manager) {
     cyan(`\nSetting FullTimelockTrigger manager to ${manager}...`)
@@ -179,10 +187,26 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
+  const drawHistory = await ethers.getContract('DrawHistory')
+  if (await drawHistory.manager() != fullTimelockTrigger.address) {
+    cyan(`\nSetting DrawHistory manager to ${fullTimelockTrigger.address}...`)
+    const tx = await drawHistory.setManager(fullTimelockTrigger.address)
+    await tx.wait(1)
+    green('Done!')
+  }
+  
+  const drawCalculatorTimelock = await getContract('DrawCalculatorTimelock')
+  if (await drawCalculatorTimelock.manager() != fullTimelockTrigger.address) {
+    cyan(`\nSetting DrawCalculatorTimelock manager to ${fullTimelockTrigger.address}...`)
+    const tx = await drawCalculatorTimelock.setManager(fullTimelockTrigger.address)
+    await tx.wait(1)
+    green('Done!')
+  }
+
   const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
   if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTrigger.address) {
     cyan(`\nSetting TsunamiDrawSettingsHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx =  await tsunamiDrawSettingsHistory.setManager(fullTimelockTrigger.address) // await tsunamiDrawSettingsHistory.transferOwnership(fullTimelockTrigger.address)
+    const tx =  await tsunamiDrawSettingsHistory.setManager(fullTimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }
