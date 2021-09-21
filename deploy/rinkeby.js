@@ -203,6 +203,14 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawSettingsTimelockTrigger', drawSettingsTimelockTriggerResult)
 
+  const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
+  if (await tsunamiDrawSettingsHistory.manager() != drawSettingsTimelockTriggerResult.address) {
+    cyan('\nSetting tsunamiDrawSetingsHistor manager...')
+    const tx = await tsunamiDrawSettingsHistory.setManager(drawSettingsTimelockTriggerResult.address)
+    await tx.wait(1)
+    green('don!')
+  }
+
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   if (await drawCalculatorTimelock.manager() != drawSettingsTimelockTriggerResult.address) {
     cyan('\nSetting timelock manager...')
