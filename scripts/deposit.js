@@ -20,10 +20,11 @@ async function run() {
   await token.mint(signers[0].address, amount)
 
   console.log(chalk.dim(`Approving prize spend...`))
-  await token.approve(prizePool.address, amount)
+  const tx = await token.approve(prizePool.address, amount)
+  await tx.wait(1)
 
-  console.log(chalk.dim(`Depositing prizes...`))
-  await prizePool.depositTo(claimableDraw.address, amount)
+  console.log(chalk.dim(`Depositing for myself...`))
+  await prizePool.depositTo(signers[0].address, amount)
 
 }
 

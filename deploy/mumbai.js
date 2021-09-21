@@ -85,6 +85,13 @@ module.exports = async (hardhat) => {
     green(`\nSet ticket!`)
   }
 
+  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
+    cyan('\nSetting balance cap...')
+    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
+    await tx.wait(1)
+    green('\nDone!')
+  }
+
   const cardinality = 8
 
   cyan('\nDeploying DrawHistory...')

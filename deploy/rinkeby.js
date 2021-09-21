@@ -95,6 +95,14 @@ module.exports = async (hardhat) => {
   displayResult('Ticket', ticketResult)
 
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
+
+  // if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
+  //   cyan('\nSetting balance cap...')
+  //   let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
+  //   await tx.wait(1)
+  //   green('\nDone!')
+  // }
+
   if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
@@ -125,7 +133,8 @@ module.exports = async (hardhat) => {
       rngServiceAddress,
       parseInt('' + new Date().getTime() / 1000),
       period // 2 minute intervals
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('DrawBeacon', drawBeaconResult)
 
@@ -203,6 +212,7 @@ module.exports = async (hardhat) => {
   }
 
   const drawSettingsTimelockTrigger = await ethers.getContract('DrawSettingsTimelockTrigger')
+  console.log(`WTF MATE?: ${await drawSettingsTimelockTrigger.manager()}`)
   if (await drawSettingsTimelockTrigger.manager() != manager) {
     cyan(`\nSetting drawSettingsTimelockTrigger manager to ${manager}...`)
     const tx = await drawSettingsTimelockTrigger.setManager(manager)
