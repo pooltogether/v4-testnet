@@ -182,7 +182,7 @@ module.exports = async (hardhat) => {
   const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
   if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTrigger.address) {
     cyan(`\nSetting TsunamiDrawSettingsHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx = await tsunamiDrawSettingsHistory.transferOwnership(fullTimelockTrigger.address)
+    const tx =  await tsunamiDrawSettingsHistory.setManager(fullTimelockTrigger.address) // await tsunamiDrawSettingsHistory.transferOwnership(fullTimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }
