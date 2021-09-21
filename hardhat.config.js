@@ -31,7 +31,7 @@ module.exports = {
     },
     manager: {
       default: 0,
-      rinkeby: '0xb889e88c6dc2f652ad319e1c0d9a30f5b08b9354',
+      rinkeby: '0x7025879c052bbac44fb24600087fe30a0f32edfe',
       mumbai: '0xbce45a1c2c1eff18e77f217a62a44f885b26099f'
     }
   },
