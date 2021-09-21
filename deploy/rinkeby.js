@@ -96,12 +96,12 @@ module.exports = async (hardhat) => {
 
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
-  // if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
-  //   cyan('\nSetting balance cap...')
-  //   let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
-  //   await tx.wait(1)
-  //   green('\nDone!')
-  // }
+  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
+    cyan('\nSetting balance cap...')
+    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
+    await tx.wait(1)
+    green('\nDone!')
+  }
 
   if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
