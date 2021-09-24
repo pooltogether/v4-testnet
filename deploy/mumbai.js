@@ -82,14 +82,7 @@ module.exports = async (hardhat) => {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
     await tx.wait(1)
-    green(`\nSet ticket!`)
-  }
-
-  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
-    cyan('\nSetting balance cap...')
-    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
-    await tx.wait(1)
-    green('\nDone!')
+    green(`Set ticket!`)
   }
 
   const cardinality = 8
@@ -137,6 +130,71 @@ module.exports = async (hardhat) => {
   })
   displayResult('ClaimableDraw', claimableDrawResult)
 
+  cyan('\nDeploying PrizeSplitStrategy...')
+  const prizeSplitStrategyResult = await deploy('PrizeSplitStrategy', {
+    from: deployer,
+    args: [
+      deployer,
+      yieldSourcePrizePoolResult.address
+    ]
+  })
+  displayResult('PrizeSplitStrategy', prizeSplitStrategyResult)
+
+  if (await yieldSourcePrizePool.prizeStrategy() != prizeSplitStrategyResult.address) {
+    cyan('\nSetting prize strategy on prize pool...')
+    const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
+    await tx.wait(1)
+    green(`Set prize strategy!`)
+  }
+
+  cyan('\nDeploying Reserve...')
+  const reserveResult = await deploy('Reserve', {
+    from: deployer,
+    args: [
+      deployer,
+      ticketResult.address
+    ]
+  })
+  displayResult('Reserve', reserveResult)
+
+  const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
+  if ((await prizeSplitStrategy.prizeSplits()).length == 0) {
+    cyan('\n adding split...')
+    const tx = await prizeSplitStrategy.setPrizeSplits([
+      { target: reserveResult.address, percentage: 1000 }
+    ])
+    await tx.wait(1)
+    green('Done!')
+  }
+
+  cyan('\nDeploying PrizeFlush...')
+  const prizeFlushResult = await deploy('PrizeFlush', {
+    from: deployer,
+    args: [
+      deployer,
+      claimableDrawResult.address,
+      prizeSplitStrategyResult.address,
+      reserveResult.address
+    ]
+  })
+  displayResult('PrizeFlush', prizeFlushResult)
+
+  const reserve = await ethers.getContract('Reserve')
+  if (await reserve.manager() != prizeFlushResult.address) {
+    cyan('\nSetting manager on reserve...')
+    const tx = await reserve.setManager(prizeFlushResult.address)
+    await tx.wait(1)
+    green(`Set reserve manager!`)
+  }
+
+  const prizeFlush = await ethers.getContract('PrizeFlush')
+  if (await prizeFlush.manager() != manager) {
+    cyan('\nSetting manager on prizeFlush...')
+    const tx = await prizeFlush.setManager(manager)
+    await tx.wait(1)
+    green(`Set prizeFlush manager!`)
+  }
+
   const period = 60 * 10 // 10 minutes
   const timelockDuration = period * 0.5 // five mins
 
@@ -163,26 +221,10 @@ module.exports = async (hardhat) => {
   })
   displayResult('FullTimelockTrigger', fullTimelockTriggerResult)
 
-  // // const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
-  // if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTriggerResult.address) {
-  //   cyan('\nSetting tsunamiDrawSettingsHistory manager...')
-  //   const tx = await tsunamiDrawSettingsHistory.setManager(fullTimelockTriggerResult.address)
-  //   await tx.wait(1)
-  //   green('Done!')
-  // }
-
   const fullTimelockTrigger = await ethers.getContract('FullTimelockTrigger')
   if (await fullTimelockTrigger.manager() != manager) {
     cyan(`\nSetting FullTimelockTrigger manager to ${manager}...`)
     const tx = await fullTimelockTrigger.setManager(manager)
-    await tx.wait(1)
-    green('\nDone!')
-  }
-
-  const drawHistory = await ethers.getContract('DrawHistory')
-  if (await drawHistory.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting DrawHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx = await drawHistory.setManager(fullTimelockTrigger.address)
     await tx.wait(1)
     green('Done!')
   }
@@ -195,7 +237,7 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
   
-  const drawCalculatorTimelock = await getContract('DrawCalculatorTimelock')
+  const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   if (await drawCalculatorTimelock.manager() != fullTimelockTrigger.address) {
     cyan(`\nSetting DrawCalculatorTimelock manager to ${fullTimelockTrigger.address}...`)
     const tx = await drawCalculatorTimelock.setManager(fullTimelockTrigger.address)

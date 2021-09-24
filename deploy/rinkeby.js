@@ -96,13 +96,6 @@ module.exports = async (hardhat) => {
 
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
-  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
-    cyan('\nSetting balance cap...')
-    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
-    await tx.wait(1)
-    green('\nDone!')
-  }
-
   if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
@@ -131,6 +124,7 @@ module.exports = async (hardhat) => {
       deployer,
       drawHistoryResult.address,
       rngServiceAddress,
+      1,
       parseInt('' + new Date().getTime() / 1000),
       period // 2 minute intervals
     ],
@@ -179,6 +173,71 @@ module.exports = async (hardhat) => {
   })
   displayResult('ClaimableDraw', claimableDrawResult)
 
+  cyan('\nDeploying PrizeSplitStrategy...')
+  const prizeSplitStrategyResult = await deploy('PrizeSplitStrategy', {
+    from: deployer,
+    args: [
+      deployer,
+      yieldSourcePrizePoolResult.address
+    ]
+  })
+  displayResult('PrizeSplitStrategy', prizeSplitStrategyResult)
+
+  if (await yieldSourcePrizePool.prizeStrategy() != prizeSplitStrategyResult.address) {
+    cyan('\nSetting prize strategy on prize pool...')
+    const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
+    await tx.wait(1)
+    green(`Set prize strategy!`)
+  }
+
+  cyan('\nDeploying Reserve...')
+  const reserveResult = await deploy('Reserve', {
+    from: deployer,
+    args: [
+      deployer,
+      ticketResult.address
+    ]
+  })
+  displayResult('Reserve', reserveResult)
+
+  const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
+  if ((await prizeSplitStrategy.prizeSplits()).length == 0) {
+    cyan('\n adding split...')
+    const tx = await prizeSplitStrategy.setPrizeSplits([
+      { target: reserveResult.address, percentage: 1000 }
+    ])
+    await tx.wait(1)
+    green('Done!')
+  }
+
+  cyan('\nDeploying PrizeFlush...')
+  const prizeFlushResult = await deploy('PrizeFlush', {
+    from: deployer,
+    args: [
+      deployer,
+      claimableDrawResult.address,
+      prizeSplitStrategyResult.address,
+      reserveResult.address
+    ]
+  })
+  displayResult('PrizeFlush', prizeFlushResult)
+
+  const reserve = await ethers.getContract('Reserve')
+  if (await reserve.manager() != prizeFlushResult.address) {
+    cyan('\nSetting manager on reserve...')
+    const tx = await reserve.setManager(prizeFlushResult.address)
+    await tx.wait(1)
+    green(`Set reserve manager!`)
+  }
+
+  const prizeFlush = await ethers.getContract('PrizeFlush')
+  if (await prizeFlush.manager() != manager) {
+    cyan('\nSetting manager on prizeFlush...')
+    const tx = await prizeFlush.setManager(manager)
+    await tx.wait(1)
+    green(`Set prizeFlush manager!`)
+  }
+
   const timelockDuration = period * 0.5 // five mins
 
   cyan('\nDeploying DrawCalculatorTimelock...')
@@ -208,7 +267,7 @@ module.exports = async (hardhat) => {
     cyan('\nSetting tsunamiDrawSetingsHistor manager...')
     const tx = await tsunamiDrawSettingsHistory.setManager(drawSettingsTimelockTriggerResult.address)
     await tx.wait(1)
-    green('don!')
+    green('Done!')
   }
 
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
@@ -216,7 +275,7 @@ module.exports = async (hardhat) => {
     cyan('\nSetting timelock manager...')
     const tx = await drawCalculatorTimelock.setManager(drawSettingsTimelockTriggerResult.address)
     await tx.wait(1)
-    green('don!')
+    green('Done!')
   }
 
   const drawSettingsTimelockTrigger = await ethers.getContract('DrawSettingsTimelockTrigger')
@@ -224,6 +283,6 @@ module.exports = async (hardhat) => {
     cyan(`\nSetting drawSettingsTimelockTrigger manager to ${manager}...`)
     const tx = await drawSettingsTimelockTrigger.setManager(manager)
     await tx.wait(1)
-    green('Done!')
+    green('Done Quixote!')
   }
 }

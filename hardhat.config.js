@@ -60,6 +60,9 @@ module.exports = {
       "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
       "@pooltogether/v4-core/contracts/TsunamiDrawCalculator.sol",
       "@pooltogether/v4-core/contracts/ClaimableDraw.sol",
+      "@pooltogether/v4-core/contracts/PrizeFlush.sol",
+      "@pooltogether/v4-core/contracts/Reserve.sol",
+      "@pooltogether/v4-core/contracts/PrizeSplitStrategy.sol",
       "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol"
     ]
   }
