@@ -1,7 +1,7 @@
 const {
   generatePicks,
   computeDrawResults
-} = require("@pooltogether/draw-calculator-js-sdk")
+} = require("@pooltogether/draw-calculator-js")
 const chalk = require('chalk')
 
 task("draw-stats", "Checks whether an address won a draw")
