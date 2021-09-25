@@ -1,5 +1,7 @@
 const chalk = require('chalk');
 
+const PERIOD_IN_SECONDS = 60 * 30 // 30 minutes
+
 function dim() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.dim.call(chalk, ...arguments));
@@ -195,8 +197,7 @@ module.exports = async (hardhat) => {
     green(`Set prizeFlush manager!`)
   }
 
-  const period = 60 * 10 // 10 minutes
-  const timelockDuration = period * 0.5 // five mins
+  const timelockDuration = PERIOD_IN_SECONDS * 0.5 // five mins
 
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {
