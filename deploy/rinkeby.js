@@ -1,5 +1,7 @@
 const chalk = require('chalk');
 
+const PERIOD_IN_SECONDS = 60 * 30 // 30 minutes
+
 function dim() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.dim.call(chalk, ...arguments));
@@ -131,8 +133,6 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawHistory', drawHistoryResult)
 
-  const period = 60 * 10 // 10 minutes
-
   cyan('\nDeploying DrawBeacon...')
   const drawBeaconResult = await deploy('DrawBeacon', {
     from: deployer,
@@ -142,7 +142,7 @@ module.exports = async (hardhat) => {
       rngServiceAddress,
       1, // Starting DrawID
       parseInt('' + new Date().getTime() / 1000),
-      period // 2 minute intervals
+      PERIOD_IN_SECONDS
     ],
     skipIfAlreadyDeployed: true
   })
@@ -194,6 +194,7 @@ module.exports = async (hardhat) => {
   // Setup the Timelock contracts
   /* ========================================= */
   
+  const period = 60 * 10 // five mins
   const timelockDuration = period * 0.5 // five mins
   
   cyan('\nDeploying DrawCalculatorTimelock...')
@@ -230,7 +231,7 @@ module.exports = async (hardhat) => {
     cyan('\nSetting PrizeDistributionHistory manager...')
     const tx = await prizeDistributionHistory.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
-    green('don!')
+    green('Done!')
   }
 
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
@@ -238,7 +239,7 @@ module.exports = async (hardhat) => {
     cyan('\nSetting DrawCalculatorTimelock manager...')
     const tx = await drawCalculatorTimelock.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
-    green('don!')
+    green('Done!')
   }
 
   const l1TimelockTrigger = await ethers.getContract('L1TimelockTrigger')

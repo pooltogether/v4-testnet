@@ -1,36 +1,65 @@
 const {
-  generatePicks,
-  computeDrawResults
-} = require("@pooltogether/draw-calculator-js-sdk")
+  runTsunamiDrawCalculatorForSingleDraw,
+  prepareClaimForUserFromDrawResult
+} = require("@pooltogether/draw-calculator-js")
 const debug = require('debug')('pt:check')
 const chalk = require('chalk')
 
+const {BigNumber, ethers} = require("ethers")
+const encoder = ethers.utils.defaultAbiCoder;
+
 task("check-draw", "Checks whether an address won a draw")
 .addParam("address", "The address to check", "0xE0F4217390221aF47855E094F6e112D43C8698fE")
-.addParam("draw", "The draw to check")
+.addParam("drawId", "The draw to check")
 .setAction(async (taskArgs, hre) => {
-    const { address } = taskArgs
+    const { address, drawId } = taskArgs
     const { ethers } = hre
   
     console.log(chalk.dim(`Checking if ${address} won...`))
-
-    const ticket = await ethers.getContract('Ticket')
-    const drawHistory = await ethers.getContract('DrawHistory')
-    const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
     
-    const draw = await drawHistory.getDraw(taskArgs.draw)
-    const drawSettings = await drawCalculator.getDrawSettings(taskArgs.draw)
+    const drawHistory = await ethers.getContract('DrawHistory')
+    console.log("getting draw info for drawId ",drawId, "from ", drawHistory.address)
 
-    const balance = await ticket.getBalanceAt(address, draw.timestamp)
-    console.log(chalk.dim(`Ticket Balance was ${ethers.utils.formatEther(balance)}`))
-    console.log(chalk.dim(`Number of picks: `, balance.div(drawSettings.pickCost)))
+    const draw = await drawHistory.getDraw(drawId)
+    console.log("got draw for drawId ", draw)
 
-    if (balance.gt(0)) {
-      const picks = generatePicks(drawSettings.pickCost, address, balance)
-      // finally call function
-      const results = computeDrawResults(drawSettings, draw, picks)
-      console.log(chalk.dim(`They won ${ethers.utils.formatEther(results.totalValue)} over ${results.prizes.length} prizes`))
-    } else {
-      console.log(chalk.dim(`no balance`))
+    const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
+    const drawSettings = await tsunamiDrawSettingsHistory.getDrawSetting(drawId)
+    console.log("drawSettings are: ", drawSettings)
+
+    const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
+    console.log("getting balances from ", drawCalculator.address, " for drawId ", drawId)
+    const balances = await drawCalculator.getNormalizedBalancesForDrawIds(address, [drawId])
+    console.log("user's balances are ", balances)
+
+    // format BigNUmbers correctly
+    let distributionBigNumbers = []
+    drawSettings.distributions.forEach(element => {
+      distributionBigNumbers.push(BigNumber.from(element))
+    })
+
+    tsunamiDrawSettings = {
+      ...drawSettings,
+      distributions: distributionBigNumbers,
+    };
+    
+    let user = {
+      address,
+      normalizedBalance: balances[0]
     }
-  });
+    console.log("running draw calculator...")
+
+    const result = runTsunamiDrawCalculatorForSingleDraw(tsunamiDrawSettings, draw, user)
+    console.log("got draw result ", result.prizes)
+
+    const claim = prepareClaimForUserFromDrawResult(user, result)
+    console.log("claim is ", claim)
+
+
+    const claimPickIndices = encoder.encode(['uint256[][]'], [claim.data]);
+
+    const claimableDraw = await ethers.getContract('ClaimableDraw')
+    const claimableDrawResult = await claimableDraw.claim(address, [drawId], claimPickIndices)
+
+    console.log("claimed!!")
+});

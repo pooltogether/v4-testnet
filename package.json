@@ -23,7 +23,7 @@
     "@pooltogether/v4-core": "github://pooltogether/v4-core",
     "@pooltogether/v4-timelocks": "github://pooltogether/v4-timelocks#master",
     "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery#master",
-    "@pooltogether/draw-calculator-js-sdk": "github://pooltogether/draw-calculators-js",
+    "@pooltogether/draw-calculator-js": "github://pooltogether/draw-calculators-js",
     "@pooltogether/yield-source-interface": "^1.1.0",
     "@pooltogether/owner-manager-contracts": "1.1.0"
   },

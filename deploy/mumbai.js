@@ -1,5 +1,7 @@
 const chalk = require('chalk');
 
+const PERIOD_IN_SECONDS = 60 * 30 // 30 minutes
+
 function dim() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.dim.call(chalk, ...arguments));
@@ -40,9 +42,10 @@ module.exports = async (hardhat) => {
     getNamedAccounts
   } = hardhat
   const { deploy } = deployments;
+  const chainId = parseInt(await getChainId(), 10)
   let { deployer, manager } = await getNamedAccounts();
   
-  if (process.env.DEPLOY != 'mumbai') {
+  if (chainId != 80001 && chainId != 31337) {
     dim(`Ignoring mumbai...`)
     return
   } else {
@@ -137,8 +140,72 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawPrizes', claimableDrawResult)
 
-  const period = 60 * 10 // 10 minutes
-  const timelockDuration = period * 0.5 // five mins
+  cyan('\nDeploying PrizeSplitStrategy...')
+  const prizeSplitStrategyResult = await deploy('PrizeSplitStrategy', {
+    from: deployer,
+    args: [
+      deployer,
+      yieldSourcePrizePoolResult.address
+    ]
+  })
+  displayResult('PrizeSplitStrategy', prizeSplitStrategyResult)
+
+  if (await yieldSourcePrizePool.prizeStrategy() != prizeSplitStrategyResult.address) {
+    cyan('\nSetting prize strategy on prize pool...')
+    const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
+    await tx.wait(1)
+    green(`Set prize strategy!`)
+  }
+
+  cyan('\nDeploying Reserve...')
+  const reserveResult = await deploy('Reserve', {
+    from: deployer,
+    args: [
+      deployer,
+      ticketResult.address
+    ]
+  })
+  displayResult('Reserve', reserveResult)
+
+  const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
+  if ((await prizeSplitStrategy.prizeSplits()).length == 0) {
+    cyan('\n adding split...')
+    const tx = await prizeSplitStrategy.setPrizeSplits([
+      { target: reserveResult.address, percentage: 1000 }
+    ])
+    await tx.wait(1)
+    green('Done!')
+  }
+
+  cyan('\nDeploying PrizeFlush...')
+  const prizeFlushResult = await deploy('PrizeFlush', {
+    from: deployer,
+    args: [
+      deployer,
+      claimableDrawResult.address,
+      prizeSplitStrategyResult.address,
+      reserveResult.address
+    ]
+  })
+  displayResult('PrizeFlush', prizeFlushResult)
+
+  const reserve = await ethers.getContract('Reserve')
+  if (await reserve.manager() != prizeFlushResult.address) {
+    cyan('\nSetting manager on reserve...')
+    const tx = await reserve.setManager(prizeFlushResult.address)
+    await tx.wait(1)
+    green(`Set reserve manager!`)
+  }
+
+  const prizeFlush = await ethers.getContract('PrizeFlush')
+  if (await prizeFlush.manager() != manager) {
+    cyan('\nSetting manager on prizeFlush...')
+    const tx = await prizeFlush.setManager(manager)
+    await tx.wait(1)
+    green(`Set prizeFlush manager!`)
+  }
+
+  const timelockDuration = PERIOD_IN_SECONDS * 0.5 // five mins
 
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {

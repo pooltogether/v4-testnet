@@ -417,7 +417,7 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
   integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
 
-"@pooltogether/draw-calculator-js-sdk@github://pooltogether/draw-calculators-js":
+"@pooltogether/draw-calculator-js@github://pooltogether/draw-calculators-js":
   version "1.0.0-beta.16"
   resolved "git+ssh://git@github.com/pooltogether/draw-calculators-js.git#5599b42f644f1f1d42f0f5feabae6f238e2b1b06"
   dependencies:

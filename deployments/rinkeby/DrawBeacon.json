@@ -817,7 +817,7 @@
       },
       "setBeaconPeriodSeconds(uint32)": {
         "params": {
-          "beaconPeriodSeconds": "The new beacon period in seconds.  Must be greater than zero."
+          "_beaconPeriodSeconds": "The new beacon period in seconds.  Must be greater than zero."
         }
       },
       "setDrawHistory(address)": {
