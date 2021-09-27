@@ -45,7 +45,7 @@ module.exports = async (hardhat) => {
   const chainId = parseInt(await getChainId(), 10)
   let { deployer, manager } = await getNamedAccounts();
   
-  if (chainId != 80001 && chainId != 31337) {
+  if (process.env.DEPLOY != 'mumbai') {
     dim(`Ignoring mumbai...`)
     return
   } else {
