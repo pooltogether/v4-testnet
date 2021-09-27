@@ -56,11 +56,12 @@ module.exports = {
       "@pooltogether/v4-core/contracts/DrawCalculator.sol",
       "@pooltogether/v4-core/contracts/DrawHistory.sol",
       "@pooltogether/v4-core/contracts/DrawPrizes.sol",
+      "@pooltogether/v4-core/contracts/PrizeDistributionHistory.sol",
       "@pooltogether/v4-core/contracts/Ticket.sol",
       "@pooltogether/v4-core/contracts/PrizeSplitStrategy.sol",
       "@pooltogether/v4-core/contracts/Reserve.sol",
       "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
-      "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol"
+      "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol",
       // Timlock
       "@pooltogether/v4-timelocks/contracts/L1TimelockTrigger.sol",
       "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",

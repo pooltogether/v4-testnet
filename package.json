@@ -21,14 +21,13 @@
   },
   "dependencies": {
     "@pooltogether/v4-core": "github://pooltogether/v4-core",
-    "@pooltogether/v4-oracle-timelocks": "github://pooltogether/v4-timelocks",
-    "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery",
+    "@pooltogether/v4-timelocks": "github://pooltogether/v4-timelocks#master",
+    "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery#master",
     "@pooltogether/draw-calculator-js-sdk": "github://pooltogether/draw-calculators-js",
     "@pooltogether/yield-source-interface": "^1.1.0",
     "@pooltogether/owner-manager-contracts": "1.1.0"
   },
   "devDependencies": {
-    "@pooltogether/draw-calculator-js-sdk": "^1.0.0-beta.12",
     "ajv": "^6.12.2",
     "chalk": "^4.1.2",
     "debug": "^4.3.2",

@@ -53,6 +53,10 @@ module.exports = async (hardhat) => {
     dim(`Deploying rinkeby...`)
   }
 
+  /* ========================================= */
+  // Phase 0 ---------------------------------
+  // Test Contracts to easily test full functionality.
+  /* ========================================= */
   let rngServiceAddress
   if (!isTestEnvironment) {
     const rngBlockhash = await ethers.getContract("RNGBlockhash")
@@ -82,6 +86,10 @@ module.exports = async (hardhat) => {
   })
   displayResult('YieldSourcePrizePool', yieldSourcePrizePoolResult)
 
+  /* ========================================= */
+  // Phase 1 ---------------------------------
+  // Setup Core Contracts
+  /* ========================================= */
   cyan('\nDeploying Ticket...')
   const ticketResult = await deploy('Ticket', {
     from: deployer,
@@ -96,9 +104,9 @@ module.exports = async (hardhat) => {
 
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
-  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
+  if (await yieldSourcePrizePool.balanceCap() != ethers.constants.MaxUint256) {
     cyan('\nSetting balance cap...')
-    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
+    let tx = await yieldSourcePrizePool.setBalanceCap(ethers.constants.MaxUint256)
     await tx.wait(1)
     green('\nDone!')
   }
@@ -109,6 +117,7 @@ module.exports = async (hardhat) => {
     await tx.wait(1)
     green(`\nSet ticket!`)
   }
+  
 
   const cardinality = 8
 
@@ -131,6 +140,7 @@ module.exports = async (hardhat) => {
       deployer,
       drawHistoryResult.address,
       rngServiceAddress,
+      1, // Starting DrawID
       parseInt('' + new Date().getTime() / 1000),
       period // 2 minute intervals
     ],
@@ -146,30 +156,30 @@ module.exports = async (hardhat) => {
     green('Set!')
   }
 
-  cyan('\nDeploying DrawSettingsHistory...')
-  const drawSettingsHistoryResult = await deploy('DrawSettingsHistory', {
+  cyan('\nDeploying PrizeDistributionHistory...')
+  const prizeDistributionHistoryResult = await deploy('PrizeDistributionHistory', {
     from: deployer,
     args: [
       deployer,
       cardinality
     ]
   })
-  displayResult('DrawSettingsHistory', drawSettingsHistoryResult)
+  displayResult('PrizeDistributionHistory', prizeDistributionHistoryResult)
   
-  cyan('\nDeploying TsunamiDrawCalculator...')
-  const drawCalculatorResult = await deploy('TsunamiDrawCalculator', {
+  cyan('\nDeploying DrawCalculator...')
+  const drawCalculatorResult = await deploy('DrawCalculator', {
     from: deployer,
     args: [
       deployer,
       ticketResult.address,
       drawHistoryResult.address,
-      drawSettingsHistoryResult.address
+      prizeDistributionHistoryResult.address
     ]
   })
-  displayResult('TsunamiDrawCalculator', drawCalculatorResult)
+  displayResult('DrawCalculator', drawCalculatorResult)
 
-  cyan('\nDeploying ClaimableDraw...')
-  const claimableDrawResult = await deploy('ClaimableDraw', {
+  cyan('\nDeploying DrawPrizes...')
+  const drawPrizesResult = await deploy('DrawPrizes', {
     from: deployer,
     args: [
       deployer,
@@ -177,10 +187,15 @@ module.exports = async (hardhat) => {
       drawCalculatorResult.address
     ]
   })
-  displayResult('ClaimableDraw', claimableDrawResult)
+  displayResult('DrawPrizes', drawPrizesResult)
 
+  /* ========================================= */
+  // Phase 2 ---------------------------------
+  // Setup the Timelock contracts
+  /* ========================================= */
+  
   const timelockDuration = period * 0.5 // five mins
-
+  
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {
     from: deployer,
@@ -190,39 +205,46 @@ module.exports = async (hardhat) => {
       timelockDuration
     ]
   })
-  displayResult('DrawCalculatorTimelock', drawCalculatorTimelockResult)
-  
-  cyan('\nDeploying DrawSettingsTimelockTrigger...')
-  const drawSettingsTimelockTriggerResult = await deploy('DrawSettingsTimelockTrigger', {
+  displayResult('DrawSettingsTimelockTrigger', drawCalculatorTimelockResult)
+
+  cyan('\nDeploying L1TimelockTrigger...')
+  const L1TimelockTriggerResult = await deploy('L1TimelockTrigger', {
     from: deployer,
     args: [
       deployer,
-      drawSettingsHistoryResult.address,
+      prizeDistributionHistoryResult.address,
+      drawHistoryResult.address,
       drawCalculatorTimelockResult.address
     ]
   })
-  displayResult('DrawSettingsTimelockTrigger', drawSettingsTimelockTriggerResult)
+  displayResult('L1TimelockTrigger', L1TimelockTriggerResult)
 
-  const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
-  if (await drawSettingsHistory.manager() != drawSettingsTimelockTriggerResult.address) {
-    cyan('\nSetting tsunamiDrawSetingsHistor manager...')
-    const tx = await drawSettingsHistory.setManager(drawSettingsTimelockTriggerResult.address)
+
+  /* ========================================= */
+  // Phase 3 ---------------------------------
+  // Set the manager(s) of the periphery smart contracts.
+  /* ========================================= */
+
+  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+  if (await prizeDistributionHistory.manager() != L1TimelockTriggerResult.address) {
+    cyan('\nSetting PrizeDistributionHistory manager...')
+    const tx = await prizeDistributionHistory.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
     green('don!')
   }
 
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
-  if (await drawCalculatorTimelock.manager() != drawSettingsTimelockTriggerResult.address) {
-    cyan('\nSetting timelock manager...')
-    const tx = await drawCalculatorTimelock.setManager(drawSettingsTimelockTriggerResult.address)
+  if (await drawCalculatorTimelock.manager() != L1TimelockTriggerResult.address) {
+    cyan('\nSetting DrawCalculatorTimelock manager...')
+    const tx = await drawCalculatorTimelock.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
     green('don!')
   }
 
-  const drawSettingsTimelockTrigger = await ethers.getContract('DrawSettingsTimelockTrigger')
-  if (await drawSettingsTimelockTrigger.manager() != manager) {
-    cyan(`\nSetting drawSettingsTimelockTrigger manager to ${manager}...`)
-    const tx = await drawSettingsTimelockTrigger.setManager(manager)
+  const l1TimelockTrigger = await ethers.getContract('L1TimelockTrigger')
+  if (await l1TimelockTrigger.manager() != manager) {
+    cyan(`\nSetting L1TimelockTrigger manager to ${manager}...`)
+    const tx = await l1TimelockTrigger.setManager(manager)
     await tx.wait(1)
     green('Done!')
   }

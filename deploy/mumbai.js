@@ -104,15 +104,15 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawHistory', drawHistoryResult)
 
-  cyan('\nDeploying TsunamiDrawSettingsHistory...')
-  const tsunamiDrawSettingsHistoryResult = await deploy('TsunamiDrawSettingsHistory', {
+  cyan('\nDeploying DrawSettingsHistory...')
+  const drawSettingsHistoryResult = await deploy('DrawSettingsHistory', {
     from: deployer,
     args: [
       deployer,
       cardinality
     ]
   })
-  displayResult('TsunamiDrawSettingsHistory', tsunamiDrawSettingsHistoryResult)
+  displayResult('DrawSettingsHistory', drawSettingsHistoryResult)
     
   cyan('\nDeploying TsunamiDrawCalculator...')
   const drawCalculatorResult = await deploy('TsunamiDrawCalculator', {
@@ -121,7 +121,7 @@ module.exports = async (hardhat) => {
       deployer,
       ticketResult.address,
       drawHistoryResult.address,
-      tsunamiDrawSettingsHistoryResult.address
+      drawSettingsHistoryResult.address
     ]
   })
   displayResult('TsunamiDrawCalculator', drawCalculatorResult)
@@ -157,21 +157,21 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       drawHistoryResult.address,
-      tsunamiDrawSettingsHistoryResult.address,
+      drawSettingsHistoryResult.address,
       drawCalculatorTimelockResult.address
     ]
   })
   displayResult('FullTimelockTrigger', fullTimelockTriggerResult)
 
-  // // const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
-  // if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTriggerResult.address) {
-  //   cyan('\nSetting tsunamiDrawSettingsHistory manager...')
-  //   const tx = await tsunamiDrawSettingsHistory.setManager(fullTimelockTriggerResult.address)
+  // // const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
+  // if (await drawSettingsHistory.manager() != fullTimelockTriggerResult.address) {
+  //   cyan('\nSetting drawSettingsHistory manager...')
+  //   const tx = await drawSettingsHistory.setManager(fullTimelockTriggerResult.address)
   //   await tx.wait(1)
   //   green('Done!')
   // }
 
-  const fullTimelockTrigger = await ethers.getContract('FullTimelockTrigger')
+  const fullTimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   if (await fullTimelockTrigger.manager() != manager) {
     cyan(`\nSetting FullTimelockTrigger manager to ${manager}...`)
     const tx = await fullTimelockTrigger.setManager(manager)
@@ -187,13 +187,6 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const drawHistory = await ethers.getContract('DrawHistory')
-  if (await drawHistory.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting DrawHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx = await drawHistory.setManager(fullTimelockTrigger.address)
-    await tx.wait(1)
-    green('Done!')
-  }
   
   const drawCalculatorTimelock = await getContract('DrawCalculatorTimelock')
   if (await drawCalculatorTimelock.manager() != fullTimelockTrigger.address) {
@@ -203,10 +196,10 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
-  if (await tsunamiDrawSettingsHistory.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting TsunamiDrawSettingsHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx =  await tsunamiDrawSettingsHistory.setManager(fullTimelockTrigger.address)
+  const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
+  if (await drawSettingsHistory.manager() != fullTimelockTrigger.address) {
+    cyan(`\nSetting DrawSettingsHistory manager to ${fullTimelockTrigger.address}...`)
+    const tx =  await drawSettingsHistory.setManager(fullTimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }

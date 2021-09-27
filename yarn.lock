@@ -412,7 +412,7 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@openzeppelin/contracts@^4.3.1":
+"@openzeppelin/contracts@^4.3.1", "@openzeppelin/contracts@^4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
   integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
@@ -450,9 +450,17 @@
     "@pooltogether/yield-source-interface" "1.0.2"
     deploy-eip-1820 "1.0.0"
 
-"@pooltogether/v4-oracle-timelocks@github://pooltogether/v4-timelocks":
+"@pooltogether/v4-oracle-timelocks@github://pooltogether/v4-timelocks", "@pooltogether/v4-timelocks@github://pooltogether/v4-timelocks#master":
   version "1.0.0-beta.1"
   resolved "git+ssh://git@github.com/pooltogether/v4-timelocks.git#0d13c70bebe1ae7d85316ce4a7934ab03a9350d1"
+
+"@pooltogether/v4-periphery@github://pooltogether/v4-periphery#master":
+  version "1.0.0-beta.1"
+  resolved "git+ssh://git@github.com/pooltogether/v4-periphery.git#aefec9e182b76ce5c09f5e64f8d67b392b581c63"
+  dependencies:
+    "@openzeppelin/contracts" "^4.3.2"
+    "@pooltogether/v4-core" "github://pooltogether/v4-core"
+    "@pooltogether/v4-oracle-timelocks" "github://pooltogether/v4-timelocks"
 
 "@pooltogether/yield-source-interface@1.0.2":
   version "1.0.2"
