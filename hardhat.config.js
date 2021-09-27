@@ -51,16 +51,22 @@ module.exports = {
   },
   dependencyCompiler: {
     paths: [
-      "@pooltogether/v4-oracle-timelocks/contracts/DrawSettingsTimelockTrigger.sol",
-      "@pooltogether/v4-oracle-timelocks/contracts/FullTimelockTrigger.sol",
-      "@pooltogether/v4-oracle-timelocks/contracts/DrawCalculatorTimelock.sol",
+      // Core
       "@pooltogether/v4-core/contracts/DrawBeacon.sol",
+      "@pooltogether/v4-core/contracts/DrawCalculator.sol",
       "@pooltogether/v4-core/contracts/DrawHistory.sol",
+      "@pooltogether/v4-core/contracts/DrawPrizes.sol",
       "@pooltogether/v4-core/contracts/Ticket.sol",
+      "@pooltogether/v4-core/contracts/PrizeSplitStrategy.sol",
+      "@pooltogether/v4-core/contracts/Reserve.sol",
       "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
-      "@pooltogether/v4-core/contracts/TsunamiDrawCalculator.sol",
-      "@pooltogether/v4-core/contracts/ClaimableDraw.sol",
       "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol"
+      // Timlock
+      "@pooltogether/v4-timelocks/contracts/L1TimelockTrigger.sol",
+      "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",
+      "@pooltogether/v4-timelocks/contracts/DrawCalculatorTimelock.sol",
+      // Periphery
+      "@pooltogether/v4-periphery/contracts/PrizeFlush.sol"
     ]
   }
 };

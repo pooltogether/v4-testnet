@@ -146,15 +146,15 @@ module.exports = async (hardhat) => {
     green('Set!')
   }
 
-  cyan('\nDeploying TsunamiDrawSettingsHistory...')
-  const tsunamiDrawSettingsHistoryResult = await deploy('TsunamiDrawSettingsHistory', {
+  cyan('\nDeploying DrawSettingsHistory...')
+  const drawSettingsHistoryResult = await deploy('DrawSettingsHistory', {
     from: deployer,
     args: [
       deployer,
       cardinality
     ]
   })
-  displayResult('TsunamiDrawSettingsHistory', tsunamiDrawSettingsHistoryResult)
+  displayResult('DrawSettingsHistory', drawSettingsHistoryResult)
   
   cyan('\nDeploying TsunamiDrawCalculator...')
   const drawCalculatorResult = await deploy('TsunamiDrawCalculator', {
@@ -163,7 +163,7 @@ module.exports = async (hardhat) => {
       deployer,
       ticketResult.address,
       drawHistoryResult.address,
-      tsunamiDrawSettingsHistoryResult.address
+      drawSettingsHistoryResult.address
     ]
   })
   displayResult('TsunamiDrawCalculator', drawCalculatorResult)
@@ -197,16 +197,16 @@ module.exports = async (hardhat) => {
     from: deployer,
     args: [
       deployer,
-      tsunamiDrawSettingsHistoryResult.address,
+      drawSettingsHistoryResult.address,
       drawCalculatorTimelockResult.address
     ]
   })
   displayResult('DrawSettingsTimelockTrigger', drawSettingsTimelockTriggerResult)
 
-  const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')
-  if (await tsunamiDrawSettingsHistory.manager() != drawSettingsTimelockTriggerResult.address) {
+  const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
+  if (await drawSettingsHistory.manager() != drawSettingsTimelockTriggerResult.address) {
     cyan('\nSetting tsunamiDrawSetingsHistor manager...')
-    const tx = await tsunamiDrawSettingsHistory.setManager(drawSettingsTimelockTriggerResult.address)
+    const tx = await drawSettingsHistory.setManager(drawSettingsTimelockTriggerResult.address)
     await tx.wait(1)
     green('don!')
   }
