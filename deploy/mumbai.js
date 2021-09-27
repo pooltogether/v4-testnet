@@ -85,9 +85,9 @@ module.exports = async (hardhat) => {
     green(`\nSet ticket!`)
   }
 
-  if (await yieldSourcePrizePool.balanceCap(ticketResult.address) != ethers.constants.MaxUint256) {
+  if (await yieldSourcePrizePool.balanceCap() != ethers.constants.MaxUint256) {
     cyan('\nSetting balance cap...')
-    let tx = await yieldSourcePrizePool.setBalanceCap(ticketResult.address, ethers.constants.MaxUint256)
+    let tx = await yieldSourcePrizePool.setBalanceCap(ethers.constants.MaxUint256)
     await tx.wait(1)
     green('\nDone!')
   }
@@ -104,30 +104,30 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawHistory', drawHistoryResult)
 
-  cyan('\nDeploying DrawSettingsHistory...')
-  const drawSettingsHistoryResult = await deploy('DrawSettingsHistory', {
+  cyan('\nDeploying PrizeDistributionHistory...')
+  const prizeDistributionHistoryResult = await deploy('PrizeDistributionHistory', {
     from: deployer,
     args: [
       deployer,
       cardinality
     ]
   })
-  displayResult('DrawSettingsHistory', drawSettingsHistoryResult)
+  displayResult('PrizeDistributionHistory', prizeDistributionHistoryResult)
     
-  cyan('\nDeploying TsunamiDrawCalculator...')
-  const drawCalculatorResult = await deploy('TsunamiDrawCalculator', {
+  cyan('\nDeploying DrawCalculator...')
+  const drawCalculatorResult = await deploy('DrawCalculator', {
     from: deployer,
     args: [
       deployer,
       ticketResult.address,
       drawHistoryResult.address,
-      drawSettingsHistoryResult.address
+      prizeDistributionHistoryResult.address
     ]
   })
-  displayResult('TsunamiDrawCalculator', drawCalculatorResult)
+  displayResult('DrawCalculator', drawCalculatorResult)
 
-  cyan('\nDeploying ClaimableDraw...')
-  const claimableDrawResult = await deploy('ClaimableDraw', {
+  cyan('\nDeploying DrawPrizes...')
+  const claimableDrawResult = await deploy('DrawPrizes', {
     from: deployer,
     args: [
       deployer,
@@ -135,7 +135,7 @@ module.exports = async (hardhat) => {
       drawCalculatorResult.address
     ]
   })
-  displayResult('ClaimableDraw', claimableDrawResult)
+  displayResult('DrawPrizes', claimableDrawResult)
 
   const period = 60 * 10 // 10 minutes
   const timelockDuration = period * 0.5 // five mins
@@ -151,55 +151,52 @@ module.exports = async (hardhat) => {
   })
   displayResult('DrawCalculatorTimelock', drawCalculatorTimelockResult)
   
-  cyan('\nDeploying FullTimelockTrigger...')
-  const fullTimelockTriggerResult = await deploy('FullTimelockTrigger', {
+  cyan('\nDeploying L2TimelockTrigger...')
+  const l2TimelockTriggerResult = await deploy('L2TimelockTrigger', {
     from: deployer,
     args: [
       deployer,
-      drawHistoryResult.address,
-      drawSettingsHistoryResult.address,
+      prizeDistributionHistoryResult.address,
       drawCalculatorTimelockResult.address
     ]
   })
-  displayResult('FullTimelockTrigger', fullTimelockTriggerResult)
+  displayResult('L2TimelockTrigger', l2TimelockTriggerResult)
 
-  // // const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
-  // if (await drawSettingsHistory.manager() != fullTimelockTriggerResult.address) {
-  //   cyan('\nSetting drawSettingsHistory manager...')
-  //   const tx = await drawSettingsHistory.setManager(fullTimelockTriggerResult.address)
-  //   await tx.wait(1)
-  //   green('Done!')
-  // }
 
-  const fullTimelockTrigger = await ethers.getContract('L2TimelockTrigger')
-  if (await fullTimelockTrigger.manager() != manager) {
-    cyan(`\nSetting FullTimelockTrigger manager to ${manager}...`)
-    const tx = await fullTimelockTrigger.setManager(manager)
+  /* ========================================= */
+  // Phase 3 ---------------------------------
+  // Set the manager(s) of the periphery smart contracts.
+  /* ========================================= */
+
+  const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
+  if (await l2TimelockTrigger.manager() != manager) {
+    cyan(`\nSetting L2TimelockTrigger manager to ${manager}...`)
+    const tx = await l2TimelockTrigger.setManager(manager)
     await tx.wait(1)
     green('\nDone!')
   }
 
   const drawHistory = await ethers.getContract('DrawHistory')
-  if (await drawHistory.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting DrawHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx = await drawHistory.setManager(fullTimelockTrigger.address)
+  if (await drawHistory.manager() != l2TimelockTrigger.address) {
+    cyan(`\nSetting DrawHistory manager to ${l2TimelockTrigger.address}...`)
+    const tx = await drawHistory.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green('Done!')
   }
 
   
-  const drawCalculatorTimelock = await getContract('DrawCalculatorTimelock')
-  if (await drawCalculatorTimelock.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting DrawCalculatorTimelock manager to ${fullTimelockTrigger.address}...`)
-    const tx = await drawCalculatorTimelock.setManager(fullTimelockTrigger.address)
+  const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
+  if (await drawCalculatorTimelock.manager() != l2TimelockTrigger.address) {
+    cyan(`\nSetting DrawCalculatorTimelock manager to ${l2TimelockTrigger.address}...`)
+    const tx = await drawCalculatorTimelock.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green('Done!')
   }
 
-  const drawSettingsHistory = await ethers.getContract('DrawSettingsHistory')
-  if (await drawSettingsHistory.manager() != fullTimelockTrigger.address) {
-    cyan(`\nSetting DrawSettingsHistory manager to ${fullTimelockTrigger.address}...`)
-    const tx =  await drawSettingsHistory.setManager(fullTimelockTrigger.address)
+  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+  if (await prizeDistributionHistory.manager() != l2TimelockTrigger.address) {
+    cyan(`\nSetting PrizeDistributionHistory manager to ${l2TimelockTrigger.address}...`)
+    const tx =  await prizeDistributionHistory.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }
