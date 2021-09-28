@@ -37,6 +37,8 @@ module.exports = async (hardhat) => {
   
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
+  const timelockDuration = PERIOD_IN_SECONDS * 0.5 // five mins
+
   if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
@@ -101,8 +103,6 @@ module.exports = async (hardhat) => {
     await tx.wait(1)
     green(`Set prizeFlush manager!`)
   }
-
-  const timelockDuration = PERIOD_IN_SECONDS * 0.5 // five mins
   
   /* ========================================= */
   // Phase 3 ---------------------------------
