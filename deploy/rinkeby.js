@@ -48,11 +48,11 @@ module.exports = async (hardhat) => {
   const chainId = parseInt(await getChainId(), 10)
   const isTestEnvironment = chainId === 31337 || chainId === 1337;
 
-  if (process.env.DEPLOY != 'rinkeby') {
-    dim(`Ignoring rinkeby...`)
+  if (process.env.DEPLOY != 'rinkeby' && process.env.DEPLOY != 'goerli') {
+    dim(`Ignoring rinkeby and goerli...`)
     return
   } else {
-    dim(`Deploying rinkeby...`)
+    dim(`Deploying rinkeby or goerli...`)
   }
 
   /* ========================================= */

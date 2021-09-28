@@ -89,6 +89,14 @@ if (infuraApiKey && mnemonic) {
       mnemonic,
     },
   };
+  
+  networks.goerli = {
+    chainId: 5,
+    url: `https://goerli.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
 
   networks.mainnet = {
     url: alchemyUrl,

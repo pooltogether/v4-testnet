@@ -11,11 +11,13 @@
     "compile": "hardhat compile",
     "deploy-mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy-rinkeby": "DEPLOY=rinkeby hardhat deploy --network rinkeby",
+    "deploy-goerli": "DEPLOY=goerli hardhat deploy --network goerli",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "deposit": "hardhat run ./scripts/deposit.js --network ",
     "generate": "node ./scripts/generateContractList.js",
     "node-mumbai": "DEPLOY=mumbai hardhat node",
     "node-rinkeby": "DEPLOY=rinkeby hardhat node",
+    "node-goerli": "DEPLOY=goerli hardhat node",
     "prepare-deploy": "yarn clean && yarn compile",
     "reinstall": "rm -rf node_modules/ && yarn cache clean && yarn"
   },
