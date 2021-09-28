@@ -441,7 +441,7 @@
 
 "@pooltogether/v4-core@github://pooltogether/v4-core":
   version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-core.git#7a445953f24a57a35f4bfbb3e93dc9f19fc1a79c"
+  resolved "git+ssh://git@github.com/pooltogether/v4-core.git#554d8d81f154a7d53d9d10f1f9d695c57292e83b"
   dependencies:
     "@openzeppelin/contracts" "^4.3.1"
     "@pooltogether/fixed-point" "1.0.0"
@@ -452,11 +452,11 @@
 
 "@pooltogether/v4-oracle-timelocks@github://pooltogether/v4-timelocks", "@pooltogether/v4-timelocks@github://pooltogether/v4-timelocks#master":
   version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-timelocks.git#0d13c70bebe1ae7d85316ce4a7934ab03a9350d1"
+  resolved "git+ssh://git@github.com/pooltogether/v4-timelocks.git#cc2fb7c7a1230e3941e0cab03a5b516a731cafc7"
 
 "@pooltogether/v4-periphery@github://pooltogether/v4-periphery#master":
   version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-periphery.git#aefec9e182b76ce5c09f5e64f8d67b392b581c63"
+  resolved "git+ssh://git@github.com/pooltogether/v4-periphery.git#f12d4ee17239ab163c267dba9b0038efe2ab8992"
   dependencies:
     "@openzeppelin/contracts" "^4.3.2"
     "@pooltogether/v4-core" "github://pooltogether/v4-core"

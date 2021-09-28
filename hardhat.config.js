@@ -30,6 +30,9 @@ module.exports = {
     deployer: {
       default: 0
     },
+    owner: {
+      default: 0
+    },
     manager: {
       default: 0,
       rinkeby: '0x7025879c052bbac44fb24600087fe30a0f32edfe',
@@ -56,14 +59,14 @@ module.exports = {
       "@pooltogether/v4-core/contracts/DrawBeacon.sol",
       "@pooltogether/v4-core/contracts/DrawCalculator.sol",
       "@pooltogether/v4-core/contracts/DrawHistory.sol",
-      "@pooltogether/v4-core/contracts/DrawPrizes.sol",
+      "@pooltogether/v4-core/contracts/DrawPrize.sol",
       "@pooltogether/v4-core/contracts/PrizeDistributionHistory.sol",
       "@pooltogether/v4-core/contracts/Ticket.sol",
-      "@pooltogether/v4-core/contracts/PrizeSplitStrategy.sol",
+      "@pooltogether/v4-core/contracts/prize-strategy/PrizeSplitStrategy.sol",
       "@pooltogether/v4-core/contracts/Reserve.sol",
       "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
       "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol",
-      // Timlock
+      // Timelock
       "@pooltogether/v4-timelocks/contracts/L1TimelockTrigger.sol",
       "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",
       "@pooltogether/v4-timelocks/contracts/DrawCalculatorTimelock.sol",
