@@ -83,7 +83,16 @@ if (infuraApiKey && mnemonic) {
   };
 
   networks.rinkeby = {
+    chainId: 4,
     url: `https://rinkeby.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+  
+  networks.goerli = {
+    chainId: 5,
+    url: `https://goerli.infura.io/v3/${infuraApiKey}`,
     accounts: {
       mnemonic,
     },

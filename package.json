@@ -11,22 +11,25 @@
     "compile": "hardhat compile",
     "deploy-mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy-rinkeby": "DEPLOY=rinkeby hardhat deploy --network rinkeby",
+    "deploy-goerli": "DEPLOY=goerli hardhat deploy --network goerli",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "deposit": "hardhat run ./scripts/deposit.js --network ",
     "generate": "node ./scripts/generateContractList.js",
     "node-mumbai": "DEPLOY=mumbai hardhat node",
     "node-rinkeby": "DEPLOY=rinkeby hardhat node",
+    "node-goerli": "DEPLOY=goerli hardhat node",
     "prepare-deploy": "yarn clean && yarn compile",
     "reinstall": "rm -rf node_modules/ && yarn cache clean && yarn"
   },
   "dependencies": {
-    "@pooltogether/v4-core": "github://pooltogether/pooltogether-contract-tsunami",
-    "@pooltogether/v4-oracle-timelocks": "github://pooltogether/v4-oracle-timelocks",
+    "@pooltogether/v4-core": "github://pooltogether/v4-core",
+    "@pooltogether/v4-timelocks": "github://pooltogether/v4-timelocks#master",
+    "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery#master",
+    "@pooltogether/draw-calculator-js": "github://pooltogether/draw-calculators-js",
     "@pooltogether/yield-source-interface": "^1.1.0",
     "@pooltogether/owner-manager-contracts": "1.1.0"
   },
   "devDependencies": {
-    "@pooltogether/draw-calculator-js": "1.0.0-beta.16",
     "ajv": "^6.12.2",
     "chalk": "^4.1.2",
     "debug": "^4.3.2",
