@@ -89,7 +89,7 @@ function convertBalanceToTable (user, balance, start, end) {
 
 }
 
- function convertUserToTable (account, user, address) {
+function convertUserToTable (account, user, address) {
   console.log('-------------------------------------------------------------------------------------------------------------------------')
   console.log('User:', cyan(account), `Account details retrieved from ${cyan(address)}`)
   console.log('-------------------------------------------------------------------------------------------------------------------------')

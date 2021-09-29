@@ -1,4 +1,4 @@
-const { generatePicks, computeDrawResults } = require("@pooltogether/draw-calculator-js")
+
 const chalk = require('chalk')
 
 const {BigNumber, ethers} = require("ethers")

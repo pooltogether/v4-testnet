@@ -1,4 +1,5 @@
 const networks = require('./hardhat.network')
+require('./tasks/calculations')
 require('./tasks/administrative')
 require('./tasks/DrawHistory')
 require('./tasks/DrawPrizes')
