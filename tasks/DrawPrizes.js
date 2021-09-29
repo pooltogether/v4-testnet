@@ -37,7 +37,7 @@ const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@poolt
       normalizedBalance: ethers.utils.parseEther('1000'),
       picks: []
     }
-    const result = runDrawCalculator(prizeDistributionList, drawList, drawList,User)
+    const result = runDrawCalculator(prizeDistributionList, drawList, User)
     const USER_CLAIM = prepareClaimForUserFromDrawResult(wallet.address, [result])
     await drawPrize.claim(USER_CLAIM.user, USER_CLAIM.drawIds, USER_CLAIM.data)
  });

@@ -1,5 +1,4 @@
-const chalk = require('chalk')
-const log = console.log
+const { green, cyan } = require('./colors');
 
 /**
  * @name getPrizeDistribution
@@ -21,8 +20,8 @@ const log = console.log
                 prizeDistributionWithId.prizeDistribution, 
                 prizeDistributionHistory.address
             ))
-    log(`Total PrizeDistribution(s): ${prizeDistributionList.length}`)
-    log('--------------------------')
+    console.log(`Total PrizeDistribution(s): ${prizeDistributionList.length}`)
+    console.log('--------------------------')
 
     return mapIdToObject(
         list,
@@ -97,16 +96,16 @@ function mapIdToObject(ids, objects) {
 }
 
 function convertPrizeDistributionToTable (drawId, prizeDistribution, address) {
-    log('----------------------------------------------------------------------------')
-    log('Draw ID:', drawId, `retrieved from ${address}`)
-    log('----------------------------------------------------------------------------')
+    console.log('----------------------------------------------------------------------------')
+    console.log('Draw ID:', drawId, `retrieved from ${address}`)
+    console.log('----------------------------------------------------------------------------')
 
-    log(chalk.green(`Prize: ${ethers.utils.formatEther(prizeDistribution.prize)}`))
-    log(chalk.green(`BitRange: ${prizeDistribution.bitRangeSize}`))
-    log(chalk.green(`MatchCardinality: ${prizeDistribution.matchCardinality}`))
-    log(chalk.green(`Start timestamp offset: ${prizeDistribution.startTimestampOffset}`))
-    log(chalk.green(`End timestamp offset: ${prizeDistribution.endTimestampOffset}`))
-    log(chalk.green(`Max User Picks: ${prizeDistribution.maxPicksPerUser}`))
-    log(chalk.green(`Number of Picks: ${prizeDistribution.numberOfPicks}`))
-    log('----------------------------------------------------------------------------\n')
+    console.log(green(`Prize: ${cyan(ethers.utils.formatEther(prizeDistribution.prize))}`))
+    console.log(green(`BitRange: ${cyan(prizeDistribution.bitRangeSize)}`))
+    console.log(green(`MatchCardinality: ${cyan(prizeDistribution.matchCardinality)}`))
+    console.log(green(`Start timestamp offset: ${cyan(prizeDistribution.startTimestampOffset)}`))
+    console.log(green(`End timestamp offset: ${cyan(prizeDistribution.endTimestampOffset)}`))
+    console.log(green(`Max User Picks: ${cyan(prizeDistribution.maxPicksPerUser)}`))
+    console.log(green(`Number of Picks: ${cyan(prizeDistribution.numberOfPicks)}`))
+    console.log('----------------------------------------------------------------------------\n')
 }
