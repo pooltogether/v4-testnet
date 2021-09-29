@@ -1,4 +1,4 @@
-const { red, green, blue, cyan } = require('../colors');
+const { red, green, blue, cyan } = require('./colors');
 
 function convertErrorToMsg(EthersErrorInterface, contract) {
   if(EthersErrorInterface.error) {

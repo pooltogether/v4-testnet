@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { DateTime } = require('luxon');
-const { range } = require('./helpers');
-const { red, green, blue, cyan } = require('./colors');
+const { range } = require('./utils/helpers');
+const { red, green, blue, cyan } = require('./utils/colors');
 const { convertErrorToMsg } = require('./utils/messages');
 
 /**
@@ -81,7 +81,7 @@ const { convertErrorToMsg } = require('./utils/messages');
   .addParam('wrn')
   .addParam('startedAt')
   .setAction(async (args, {ethers}) => {
-    const { id, time, wrn, startedAt, seconds} = args
+    const { id, time, wrn, startedAt } = args
     const drawHistory = await ethers.getContract('DrawHistory')
     const drawBeacon = await ethers.getContract('DrawBeacon')
     const beaconPeriodSeconds = await drawBeacon.beaconPeriodSeconds();

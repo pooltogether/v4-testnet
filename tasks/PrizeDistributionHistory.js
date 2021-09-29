@@ -1,4 +1,4 @@
-const { green, cyan } = require('./colors');
+const { green, cyan } = require('./utils/colors');
 
 /**
  * @name getPrizeDistribution

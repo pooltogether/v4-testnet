@@ -1,7 +1,4 @@
-const chalk = require('chalk')
-const log = console.log
-
-const { range } = require('./helpers')
+const { range } = require('./utils/helpers');
 const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@pooltogether/draw-calculator-js')
 
 /**
