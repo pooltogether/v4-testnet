@@ -34,11 +34,14 @@ function formatAddressUrl(network, address) {
   return url
 }
 
-function formatDeployments({ npmPackageName, network, githubBaseUrl }) {
+function formatDeployments({ npmPackageName, network, githubBaseUrl, projectRoot }) {
   const result = []
 
+  if (!projectRoot) {
+    projectRoot = `./node_modules/${npmPackageName}`
+  }
+
   const hardhatNetworkName = network.hardhatNetworkName || network.name
-  const projectRoot = `./node_modules/${npmPackageName}`
   
   const deploymentsDirectory = `${projectRoot}/deployments/${hardhatNetworkName}`
   const deploymentsDirectoryWithChainId = `${projectRoot}/deployments/${hardhatNetworkName}_${network.chainId}`
@@ -201,7 +204,8 @@ async function generate() {
 
   function buildNetworkDeployments({
     npmPackageName,
-    githubBaseUrl
+    githubBaseUrl,
+    projectRoot
   }) {
     return allNetworks.map((network) => {
       return {
@@ -210,21 +214,23 @@ async function generate() {
           npmPackageName,
           network,
           githubBaseUrl,
+          projectRoot
         })
       }
     })
   }
 
   const networkDeployments = buildNetworkDeployments({
-    npmPackageName: "@pooltogether/v4-rinkeby",
+    npmPackageName: "@pooltogether/v4-testnet",
     githubBaseUrl:
-      "https://github.com/pooltogether/v4-rinkeby/tree/master",
+      "https://github.com/pooltogether/v4-testnet/tree/master",
+    projectRoot: '.'
   })
   
   await generateBlockchainNetworks({
     name: "V4 Testnet",
     networkDeployments,
-    outputFilePath: `./docs/reference/deployments/testnet.md`
+    outputFilePath: `./testnet.md`
   });
 
   console.log(chalk.green(`Done!`));
