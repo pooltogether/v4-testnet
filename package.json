@@ -23,7 +23,7 @@
     "reinstall": "rm -rf node_modules/ && yarn cache clean && yarn"
   },
   "dependencies": {
-    "@pooltogether/draw-calculator-js": "github://pooltogether/draw-calculators-js",
+    "@pooltogether/draw-calculator-js": "^1.0.0-beta.22",
     "@pooltogether/owner-manager-contracts": "1.1.0",
     "@pooltogether/v4-core": "github://pooltogether/v4-core",
     "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery#master",

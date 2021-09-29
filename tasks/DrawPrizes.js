@@ -1,5 +1,5 @@
 const { range } = require('./utils/helpers');
-const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@pooltogether/draw-calculator-js')
+const { drawCalculator, prepareClaims } = require('@pooltogether/draw-calculator-js')
 
 /**
  * @name DrawPrize.claim()
@@ -12,7 +12,7 @@ const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@poolt
     const [ wallet ] = await getSigners();
     const drawPrize = await ethers.getContract('DrawPrize')
     const drawHistory = await ethers.getContract('DrawHistory')
-    const drawCalculator = await ethers.getContract('DrawCalculator')
+    const drawCalculatorContract = await ethers.getContract('DrawCalculator')
     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
     
     // READ Draw Range
@@ -25,16 +25,16 @@ const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@poolt
     const prizeDistributionList = await prizeDistributionHistory.getPrizeDistributions(list)
     
     // READ Normalized Balances
-    const balances = await drawCalculator.functions.getNormalizedBalancesForDrawIds(wallet.address, list) 
-    
+    const balances = await drawCalculatorContract.functions.getNormalizedBalancesForDrawIds(wallet.address, list) 
     // CREATE User struct
     const User = {
       address: wallet.address,
-      // normalizedBalance: [balances], // NOTE // Ask should this be a list of TWAB balances sorted with draw(s)/prizeDistribution(s)
-      normalizedBalance: ethers.utils.parseEther('1000'),
-      picks: []
+      normalizedBalances: balances[0],
     }
-    const result = runDrawCalculator(prizeDistributionList, drawList, User)
-    const USER_CLAIM = prepareClaimForUserFromDrawResult(wallet.address, [result])
+
+    const results = drawCalculator(prizeDistributionList, drawList, User)
+    if(results.length === 0) return console.log(`No Winning PickIndices`)
+    const USER_CLAIM = prepareClaims(User, [results])
     await drawPrize.claim(USER_CLAIM.user, USER_CLAIM.drawIds, USER_CLAIM.data)
+    return console.log('DrawPrize claim complete...')
  });
