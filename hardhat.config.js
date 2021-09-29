@@ -3,6 +3,8 @@ require('./tasks/check-draw')
 require('./tasks/deposit')
 require('./tasks/pool-stats')
 require('./tasks/draw-stats')
+require('./tasks/PrizeDistributionHistory')
+require('./tasks/DrawPrizes')
 require('./tasks/export-deployments-md')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
@@ -12,6 +14,7 @@ const optimizerEnabled = true
 
 module.exports = {
   networks,
+  defaultNetwork: "rinkeby",
   solidity: {
     compilers: [
       {

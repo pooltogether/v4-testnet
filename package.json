@@ -9,6 +9,7 @@
     "addPrizes": "hardhat run ./scripts/addPrizes.js --network ",
     "clean": "rm -rf cache/ artifacts/",
     "compile": "hardhat compile",
+    "task": "hardhat",
     "deploy-mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy-rinkeby": "DEPLOY=rinkeby hardhat deploy --network rinkeby",
     "deploy-goerli": "DEPLOY=goerli hardhat deploy --network goerli",
