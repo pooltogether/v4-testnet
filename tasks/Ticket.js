@@ -75,7 +75,6 @@ task("transfer", "")
   const ticket = await (await ethers.getContract('Ticket')).connect(wallet)
   const bnAmount = ethers.utils.parseUnits(args.amount, await ticket.decimals())
   const tx = await ticket.transfer(args.to, bnAmount)
-  console.log(tx)
 });
 
 /**
@@ -91,7 +90,6 @@ task("delegate", "")
   const tx = await ticket.delegate(args.to)
   console.log(tx)
 });
-
 
 
 function convertBalanceOfToTable(account, balance) {
@@ -110,7 +108,6 @@ function convertBalanceToTable (user, balance, start, end) {
   console.log(green(`Calendar Start: ${cyan(calendarStart)}`))
   console.log(green(`Calendar End: ${cyan(calendarEnd)}`))
   console.log('----------------------------------------------------------------')
-
 }
 
 function convertUserToTable (account, user, address) {

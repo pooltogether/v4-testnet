@@ -1,7 +1,8 @@
 const { ethers, constants } = require('ethers');
 const { green, cyan, yellow } = require('chalk');
 const { range } = require('./utils/helpers');
-const { drawCalculator, prepareClaims } = require('@pooltogether/draw-calculator-js');
+const { drawCalculator, prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw-calculator-js');
+const encoder = ethers.utils.defaultAbiCoder
 
 const DECIMALS_FOR_DISTRIBUTIONS = 8;
 
@@ -58,31 +59,22 @@ const calculatePrizeForDistributionIndex = (
     // READ PrizeDistribution list
     const drawList = await drawHistory.getDraws(list)
     const prizeDistributionList = (await prizeDistributionHistory.getPrizeDistributions(list))
-    .map(pd => (
-      {...pd, 
-        // numberOfPicks: 1000,
-        distributions: pd.distributions.map(dist=> toDistributionNumber(dist)),
-        numberOfPicks: pd.numberOfPicks.div(constants.WeiPerEther).toNumber()
-      }
-    ))
     
     // READ Normalized Balances
     const [balances] = await drawCalculatorContract.functions.getNormalizedBalancesForDrawIds(wallet.address, list) 
-    balances.forEach((bal,  idx) => convertBalanceOfToTable(bal, list[idx]))
-    
+
     // CREATE User struct
     const User = {
       address: wallet.address,
       normalizedBalances: balances,
     }
 
-    const results = drawCalculator(prizeDistributionList, drawList, User)
+    const results = batchCalculateDrawResults(prizeDistributionList, drawList, User)
     if(results.length === 0) return console.log(`No Winning PickIndices`)
 
-    console.log(results, 'resultsresults')
-    
-    const USER_CLAIM = prepareClaims(User, [results])
-    await drawPrize.claim(USER_CLAIM.user, USER_CLAIM.drawIds, USER_CLAIM.data)
+    const USER_CLAIM = prepareClaims(User, results)
+    const  encodedclaims = encoder.encode(['uint256[][]'], [USER_CLAIM.data])
+    await drawPrize.claim(USER_CLAIM.userAddress, USER_CLAIM.drawIds, encodedclaims )
     return console.log('DrawPrize claim complete...')
  });
 

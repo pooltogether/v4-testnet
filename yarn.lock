@@ -417,10 +417,10 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
   integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
 
-"@pooltogether/draw-calculator-js@^1.0.0-beta.22":
-  version "1.0.0-beta.22"
-  resolved "https://registry.yarnpkg.com/@pooltogether/draw-calculator-js/-/draw-calculator-js-1.0.0-beta.22.tgz#c07d41d1969a0cd3274df7c257e73719516875ed"
-  integrity sha512-OL28QZWoFQVe6SY2qzSrZla/YyzZc9xa9BOSZbY30Drie7HyvFU8kBxjk/pE6Kdc8BOBbSUKfIe83kPKOq1qKA==
+"@pooltogether/draw-calculator-js@^1.0.0-beta.24":
+  version "1.0.0-beta.24"
+  resolved "https://registry.yarnpkg.com/@pooltogether/draw-calculator-js/-/draw-calculator-js-1.0.0-beta.24.tgz#7460d0970bf626905e263fd4b731e7a9e0f7c698"
+  integrity sha512-yhDsovAEbReB9gbGNMkWXnSiJ6KGf5fdTag8REXsKkQm0ub0Ke7wvkAVNM4+y3zfIjLXngR+Cb3K0knYzyKNwQ==
   dependencies:
     chalk "^4.1.2"
     debug "^4.3.2"
