@@ -1,9 +1,11 @@
 const networks = require('./hardhat.network')
-require('./tasks/check-draw')
-require('./tasks/deposit')
-require('./tasks/pool-stats')
-require('./tasks/draw-stats')
-require('./tasks/export-deployments-md')
+require('./tasks/calculations')
+require('./tasks/administrative')
+require('./tasks/DrawHistory')
+require('./tasks/DrawPrizes')
+require('./tasks/PrizeDistributionHistory')
+require('./tasks/PrizePool')
+require('./tasks/Ticket')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
 require('hardhat-deploy-ethers')
@@ -12,6 +14,7 @@ const optimizerEnabled = true
 
 module.exports = {
   networks,
+  defaultNetwork: "rinkeby",
   solidity: {
     compilers: [
       {
