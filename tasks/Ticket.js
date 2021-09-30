@@ -1,8 +1,25 @@
 const { DateTime } = require('luxon');
 const { green, cyan, yellow } = require('chalk');
 const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@pooltogether/draw-calculator-js');
-const { ethers } = require('ethers');
+const { ethers, utils } = require('ethers');
 const { convertErrorToMsg } = require('./utils/messages');
+
+
+/**
+ * @name Ticket.balanceOf()
+ */
+ task("balanceOf", "")
+ .addOptionalParam("wallet", "<number>")
+ .setAction(async (args, hre) => {
+    const { ethers } = hre
+    const { getSigners } = ethers
+    const [ wallet ] = await getSigners();
+    const ticket = await ethers.getContract('Ticket')
+    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
+    const balanceOf = await ticket.balanceOf(user)
+    convertBalanceOfToTable(user, balanceOf)
+    return balanceOf
+ });
 
 /**
  * @name Ticket.getAccountDetails()
@@ -75,12 +92,19 @@ task("delegate", "")
   console.log(tx)
 });
 
+
+
+function convertBalanceOfToTable(account, balance) {
+  console.log('-------------------------------------------------------------------------------------------------------------------------')
+  console.log('User:', cyan(account), `has a balance of ${cyan(utils.formatEther(balance))}`)
+  console.log('-------------------------------------------------------------------------------------------------------------------------')
+}
+
 function convertBalanceToTable (user, balance, start, end) {
   const startDate = DateTime.fromMillis(start * 1000);
   const endDate = DateTime.fromMillis(end * 1000);
   const calendarStart = startDate.toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS);
   const calendarEnd = endDate.toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS);
-
   console.log('----------------------------------------------------------------')
   console.log(green(`Average Balance: ${yellow(ethers.utils.formatEther(balance))} beween timestamp ${yellow(start)} and timestamp ${yellow(end)} `))
   console.log(green(`Calendar Start: ${cyan(calendarStart)}`))
