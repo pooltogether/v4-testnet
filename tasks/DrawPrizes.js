@@ -42,10 +42,12 @@ const calculatePrizeForDistributionIndex = (
  */
  task("claim", "Claim prizes from DrawPrizs")
  .addOptionalParam("wallet", "<number>")
+ .addOptionalParam("address", "<string>")
  .setAction(async (args, hre) => {
     const { ethers } = hre
     const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
+    const { wallet, address } = args
+    const signers = await getSigners();
     const drawPrize = await ethers.getContract('DrawPrize')
     const drawHistory = await ethers.getContract('DrawHistory')
     const drawCalculatorContract = await ethers.getContract('DrawCalculator')
@@ -61,21 +63,38 @@ const calculatePrizeForDistributionIndex = (
     const prizeDistributionList = (await prizeDistributionHistory.getPrizeDistributions(list))
     
     // READ Normalized Balances
-    const [balances] = await drawCalculatorContract.functions.getNormalizedBalancesForDrawIds(wallet.address, list) 
+    let claimAddress = signers[0].address
+    if (wallet) {
+      claimAddress = signers[wallet].address
+    } else if (address) {
+      claimAddress = address
+    }
+
+    const [balances] = await drawCalculatorContract.functions.getNormalizedBalancesForDrawIds(claimAddress, list) 
 
     // CREATE User struct
     const User = {
-      address: wallet.address,
+      address: claimAddress,
       normalizedBalances: balances,
     }
 
     const results = batchCalculateDrawResults(prizeDistributionList, drawList, User)
-    if(results.length === 0) return console.log(`No Winning PickIndices`)
-
-    const USER_CLAIM = prepareClaims(User, results)
-    const  encodedclaims = encoder.encode(['uint256[][]'], [USER_CLAIM.data])
-    await drawPrize.claim(USER_CLAIM.userAddress, USER_CLAIM.drawIds, encodedclaims )
-    return console.log('DrawPrize claim complete...')
+    if(results.length === 0) {
+      return console.log(`No Winning PickIndices`)
+    } else {
+      const totalValue = results.reduce((totalValue, drawResult) => totalValue + drawResult.totalValue, 0)
+      if (totalValue > 0) {
+        console.log(cyan(`Wallet ${claimAddress} has ${results.length} draws that won ${ethers.utils.parseEther(totalValue)} tickets`))
+        const USER_CLAIM = prepareClaims(User, results)
+        const encodedclaims = encoder.encode(['uint256[][]'], [USER_CLAIM.data])
+        await drawPrize.claim(USER_CLAIM.userAddress, USER_CLAIM.drawIds, encodedclaims )
+      } else {
+        console.log(`Wallet ${claimAddress} has not won anything`)
+      }
+      
+    }
+    
+    return console.log('DrawPrize claim complete')
  });
 
 
