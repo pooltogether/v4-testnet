@@ -12,7 +12,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 ## Calculations
 
-- **winningPickIndices:** Calclates a users winning picks on target DrawCalculator.
+- **winningPickIndices:** Calclates a users winning picks and prize tier (distribution index) results
 
 ## DrawPrize
 
@@ -20,20 +20,24 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 ## DrawHistory
 
-- **getDraws:** Claim winning draw prizes and receive tickets 
-- **getNewestDraw:** Claim winning draw prizes and receive tickets 
-- **getOldestDraw:** Claim winning draw prizes and receive tickets 
-- **getLiveDraws:** Claim winning draw prizes and receive tickets 
-- **pushDraw:** Claim winning draw prizes and receive tickets 
-- **setDraw:** Claim winning draw prizes and receive tickets 
+- **getDraws:** Read target draw history parameters 
+- **getOldestDraw:** Read oldest draw history parameters
+- **getNewestDraw:** Read newest draw history parameters
+- **getLiveDraws:** Read all draw history parameters between oldest and newest
+- **pushDraw:** Push new draw parameters
+- **setDraw:** Set existing draw parameters
 
 ## PrizeDistributionHistory
 
-- **getLivePrizeDistributionList:** Claim winning draw prizes and receive tickets 
-- **getPrizeDistribution:** Claim winning draw prizes and receive tickets 
-- **getOldestPrizeDistribution:** Claim winning draw prizes and receive tickets 
-- **getNewestPrizeDistribution:** Claim winning draw prizes and receive tickets 
+- **getPrizeDistribution:** Read target prize distribtion parameters
+- **getOldestPrizeDistribution:** Read oldest prize distribtion parameters
+- **getNewestPrizeDistribution:** Read newest prize distribtion parameters 
+- **getLivePrizeDistributionList:** Read all prize distribution history between oldest and newest
 
+## PrizePool
+
+ - **deposit:** Deposit tokens and mint tickets
+ 
 ## Ticket
 
  - **balanceOf:** Read balance of user address
