@@ -19,4 +19,4 @@ export REPORT_GAS=''
 export COINMARKETCAP_API_KEY=''
 
 # addresses to disburse tokens to
-export DISBURSE_ADDRESSES="0x1234,0xabcd"
+export DISBURSE_ADDRESSES='0x1234,0xabcd'

@@ -1,46 +1,69 @@
 # PoolTogeher V4 Testnet
 The V4 testnet deployed contracts and essential hardhat tasks.
 
+# Getting Started
+Install `direnv` module.
+
+We use [direnv](https://direnv.net/) to manage environment variables.  You'll likely need to install it.
+
+```sh
+cp .envrc.example .envrv
+```
+
+To run fork scripts, deploy or perform any operation with a mainnet/testnet node you will need an Infura API key.
+
+### Disbursement Address
+To `disburse` and `deposit` you will need to add a list of address(s) to DISBURSE_ADDRESSES.
+
+```.sh
+cp .envrc.example .envrc
+```
+
+**Example**
+```.sh
+export DISBURSE_ADDRESSES='0x0000000000000000000000000000000000000000,0x0000000000000000000000000000000000000001'
+```
+
 # Setup
 ```.sh
-$ yarn
+yarn
 ```
 
 ## New Deployments
 ```.sh
-$ yarn deploy-rinkeby
+yarn deploy-rinkeby
 ```
 
 ```.sh
-$ yarn deploy-mumbai
+yarn deploy-mumbai
 ```
 
 ## Acquire Tokens & Tickets
 
 ```.sh
-$ yarn disburse rinkeby
+yarn disburse rinkeby
 ```
 
 ```sh
-$ yarn disburse mumbai
+yarn disburse mumbai
 ```
 
 ```sh
-$ yarn deposit rinkeby
+yarn deposit rinkeby
 ```
 
 ```sh
-$ yarn deposit mumbai
+yarn deposit mumbai
 ```
 
 ## Test Deployment Scripts
 
 ```.sh
-$ yarn node-rinkeby
+yarn node-rinkeby
 ```
 
 ```.sh
-$ yarn node-mumbai
+yarn node-mumbai
 ```
 
 # Tasks
@@ -107,10 +130,10 @@ Default the `wallet` address is used. A `user` address can be passedd
 Open a CLI dashboard to view the state of deployed testnet contracts.
 
 ```.sh
-$ yarn dashboard
+yarn dashboard
 ```
 <p align="left">
   <a href="https://github.com/pooltogether/pooltogether--brand-assets">
-    <img src="./img/dashboard.png" alt="PoolTogether Brand" style="max-width:100%;" width="400">
+    <img src="./img/dashboard.png" alt="PoolTogether Brand" style="max-width:100%;" width="100%">
   </a>
 </p>
