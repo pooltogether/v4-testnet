@@ -1,5 +1,47 @@
 # PoolTogeher V4 Testnet
-The V4 testnet repo contains the deployments contracts.
+The V4 testnet deployed contracts and essential hardhat tasks.
+
+# Setup
+```.sh
+$ yarn
+```
+
+## New Deployments
+```.sh
+$ yarn deploy-rinkeby
+```
+
+```.sh
+$ yarn deploy-mumbai
+```
+
+## Acquire Tokens & Tickets
+
+```.sh
+$ yarn disburse rinkeby
+```
+
+```sh
+$ yarn disburse mumbai
+```
+
+```sh
+$ yarn deposit rinkeby
+```
+
+```sh
+$ yarn deposit mumbai
+```
+
+## Test Deployment Scripts
+
+```.sh
+$ yarn node-rinkeby
+```
+
+```.sh
+$ yarn node-mumbai
+```
 
 # Tasks
 Interact with the V4 testnet deployed contracts through hardhat tasks.
@@ -46,18 +88,29 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
  - **delegate:** Delegate TWAB to delegate address
  - **transfer:** Transfer balance of ticket to recipient address
 
-
-
 ### Parameters
-
-By default tasks will connect to network specific deployed contracts and use the default wallet/address for reads/writes to the contract.
-
-To change wallets just pass a new index. i.e. 1,2,3, etc...
 
 Certain tasks require a "user" address like `claim` and `calculate`.
 
-In these instances the default the wallet address is used. 
+Default the `wallet` address is used. A `user` address can be passedd
 
-To use pass an alternative user address, without changing the default wallet  pass a new "user" address with the --user flag.
+**Default (Index 0) Wallet in Mnemonic**<br/>
+`yarn task [TASK_NAME] --wallet 0`
 
-yarn task [TASK_NAME] --user 0x0000000000000000000000000000000000000000 // Default Wallet
+**Index 1 Wallet in Mnemonic**<br/>
+`yarn task [TASK_NAME] --wallet 1`
+
+**Pass User Address**<br/>
+`yarn task [TASK_NAME] --user 0x0000000000000000000000000000000000000000`
+
+## Dashboard (Experimental)
+Open a CLI dashboard to view the state of deployed testnet contracts.
+
+```.sh
+$ yarn dashboard
+```
+<p align="left">
+  <a href="https://github.com/pooltogether/pooltogether--brand-assets">
+    <img src="./img/dashboard.png" alt="PoolTogether Brand" style="max-width:100%;" width="400">
+  </a>
+</p>
