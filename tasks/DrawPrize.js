@@ -1,6 +1,6 @@
 Wconst { ethers } = require('ethers');
 const { cyan } = require('chalk');
-const { range } = require('./utils/helpers');
+const { range } = require('./utils/range');
 const { getUserAndWallet } = require('./utils/getUserAndWallet');
 const { prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw-calculator-js');
 
@@ -57,11 +57,5 @@ const { prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw
   const percentage = ethers.utils.formatEther(balance.mul('10')).toString().slice(0, 4)
   console.log('-------------------------------------------------------------------------------------------------------------------------')
   console.log(`For ${cyan(`Draw ${drawId}`)} :`, `your aveage normalized balance was ${cyan(ethers.utils.formatEther(balance))} or roughly ${percentage}% of the total supply`)
-  console.log('-------------------------------------------------------------------------------------------------------------------------')
-}
-
-function convertOfToTable(balance, drawId) {
-  console.log('-------------------------------------------------------------------------------------------------------------------------')
-  console.log(`Draw ${drawId}:`, `has average balance of ${cyan(ethers.utils.formatEther(balance))}`)
   console.log('-------------------------------------------------------------------------------------------------------------------------')
 }

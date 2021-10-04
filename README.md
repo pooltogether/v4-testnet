@@ -15,10 +15,6 @@ To run fork scripts, deploy or perform any operation with a mainnet/testnet node
 ### Disbursement Address
 To `disburse` and `deposit` you will need to add a list of address(s) to DISBURSE_ADDRESSES.
 
-```.sh
-cp .envrc.example .envrc
-```
-
 **Example**
 ```.sh
 export DISBURSE_ADDRESSES='0x0000000000000000000000000000000000000000,0x0000000000000000000000000000000000000001'

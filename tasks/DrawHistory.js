@@ -1,8 +1,21 @@
-const chalk = require('chalk');
+const { red, green, cyan } = require('chalk');
+const emoji = require('node-emoji');
 const { DateTime } = require('luxon');
 const { range } = require('./utils/helpers');
-const { red, green, blue, cyan } = require('./utils/colors');
 const { convertErrorToMsg } = require('./utils/messages');
+const { getUserAndWallet } = require('./utils/getUserAndWallet');
+const debug = require('debug')('tasks')
+
+/**
+ * @name DrawHistory.getNewestDraw()
+ * @description Read newest Draws from DrawHistory
+ */
+ task("getDraw", "Read Draw from DrawHistory")
+ .addParam('id')
+ .setAction(async (args, {ethers}) => {
+    const drawHistory = await ethers.getContract('DrawHistory')
+    convertDrawToTable(await drawHistory.getDraw(args.id), drawHistory.address)
+ });
 
 /**
  * @name DrawHistory.getNewestDraw()
@@ -19,7 +32,7 @@ const { convertErrorToMsg } = require('./utils/messages');
  * @description Read oldest Draws from DrawHistory
  */
   task("getOldestDraw", "Read oldest Draws from DrawHistory")
-  .setAction(async ({ids}, {ethers}) => {
+  .setAction(async (args, {ethers}) => {
      const drawHistory = await ethers.getContract('DrawHistory')
      convertDrawToTable(await drawHistory.getOldestDraw(), drawHistory.address)
   });
@@ -28,7 +41,7 @@ const { convertErrorToMsg } = require('./utils/messages');
  * @name DrawHistory.getDraws()
  * @description Read list of Draws from DrawHistory
  */
- task("getDraws", "Read list of Draws from DrawHistory")
+ task("getDrawList", "Read list of Draws from DrawHistory")
  .addParam('ids')
  .setAction(async ({ids}, {ethers}) => {
     const drawHistory = await ethers.getContract('DrawHistory')
@@ -39,7 +52,7 @@ const { convertErrorToMsg } = require('./utils/messages');
     if(expiredList.length > 0) {
       console.log(red(`Draw IDs expired: ${expiredList} `))
       console.log(red('Remove expired ID(s) from passed --ids param'))
-      console.log(green(`Run ${blue('yarn task getActiveDraws')} to fetch all active Draws\n`))
+      console.log(green(`Run ${cyan('yarn task getLiveDraws')} to fetch all active Draws\n`))
       return;
     }
     try {
@@ -47,8 +60,7 @@ const { convertErrorToMsg } = require('./utils/messages');
       drawList.forEach(draw => convertDrawToTable(draw, drawHistory.address))
       return drawList;
     } catch (error) {
-      console.log(red('Error: Draw Expired'))
-      console.log(error)
+      convertErrorToMsg(error, drawHistory)
     }
  });
 
@@ -67,7 +79,7 @@ const { convertErrorToMsg } = require('./utils/messages');
       drawList.forEach(draw => convertDrawToTable(draw, drawHistory.address));
       return drawList;
     } catch (error) {
-      console.log(chalk.red('Error: Draw Expired'))
+      convertErrorToMsg(error, drawHistory)
     }
  });
 
@@ -81,8 +93,11 @@ const { convertErrorToMsg } = require('./utils/messages');
   .addParam('wrn')
   .addParam('startedAt')
   .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    debug(user, wallet)
     const { id, time, wrn, startedAt } = args
-    const drawHistory = await ethers.getContract('DrawHistory')
+    debug(id, time, wrn, startedAt)
+    const drawHistory = await (await ethers.getContract('DrawHistory').connect(wallet))
     const drawBeacon = await ethers.getContract('DrawBeacon')
     const beaconPeriodSeconds = await drawBeacon.beaconPeriodSeconds();
     try {
@@ -94,7 +109,7 @@ const { convertErrorToMsg } = require('./utils/messages');
         beaconPeriodSeconds: beaconPeriodSeconds
       }
       const tx = await drawHistory.pushDraw(newDraw);
-      console.log(tx)
+      console.log(cyan(emoji.get('checkmark'), 'Draw Pushed'))
       return tx
     } catch (error) {
       convertErrorToMsg(error, drawHistory)
@@ -110,8 +125,11 @@ const { convertErrorToMsg } = require('./utils/messages');
   .addParam('timestamp')
   .addParam('wrn')
   .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    debug(user, wallet)
     const { id, timestamp, winningRandomNumber} = args
-    const drawHistory = await ethers.getContract('DrawHistory')
+    debug(id, timestamp, winningRandomNumber)
+    const drawHistory = await( await ethers.getContract('DrawHistory').connect(wallet))
     try {
       const drawCurrent = await drawHistory.getDraw(id)
       const newDraw = {
@@ -122,7 +140,7 @@ const { convertErrorToMsg } = require('./utils/messages');
         beaconPeriodSeconds: drawCurrent.beaconPeriodSeconds,
       }
       const tx = await drawHistory.setDraw(newDraw);
-      console.log(tx)
+      console.log(cyan(emoji.get('checkmark'), 'Draw Set'))
       return tx
     } catch (error) {
       convertErrorToMsg(error, drawHistory)

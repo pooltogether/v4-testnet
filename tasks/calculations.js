@@ -1,5 +1,5 @@
 const { BigNumber } = require("@ethersproject/bignumber")
-const { computePicks, prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw-calculator-js');
+const { computePicks, batchCalculateDrawResults } = require('@pooltogether/draw-calculator-js');
 const { green, cyan } = require("chalk")
 const { ethers } = require("ethers")
 const debug = require('debug')('tasks')
@@ -13,7 +13,7 @@ task("winningPickIndices", "")
 .addOptionalParam("wallet", "<address>")
 .setAction(async (args, {ethers}) => {
   const { user, wallet } = await getUserAndWallet(ethers, args)
-    debug(user, wallet)
+  debug(user, wallet)
   const drawCalculatorContract = await ethers.getContract('DrawCalculator')
   const [drawList, prizeDistributionList, oldestId, newestId] = await getDrawAndPrizeDistributionHistory(ethers);
   

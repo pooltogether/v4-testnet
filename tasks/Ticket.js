@@ -2,7 +2,7 @@ const { DateTime } = require('luxon');
 const { green, cyan, yellow } = require('chalk');
 const { ethers, utils } = require('ethers');
 const { getUserAndWallet } = require('./utils/getUserAndWallet');
-const { convertErrorToMsg } = require('./utils/messages');
+const { convertErrorToMsg } = require('./utils/convertErrorToMsg');
 const { contractConnectWallet } = require('./utils/contractConnectWallet');
 
 /**
@@ -27,7 +27,7 @@ const { contractConnectWallet } = require('./utils/contractConnectWallet');
  .addOptionalParam("wallet", "<address>")
  .setAction(async (args, {ethers}) => {
     const { user, wallet } = await getUserAndWallet(ethers, args)
-    const ticket = contractConnectWallet(ethers, 'Ticket', wallet)
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     const getAccountDetails = await ticket.getAccountDetails(user)
     convertUserToTable(user, getAccountDetails, ticket.address);
     return getAccountDetails;
@@ -43,10 +43,10 @@ const { contractConnectWallet } = require('./utils/contractConnectWallet');
   .addOptionalParam("wallet", "<address>")
   .setAction(async (args, {ethers}) => {
     const { user, wallet } = await getUserAndWallet(ethers, args)
-    const ticket = contractConnectWallet(ethers, 'Ticket', wallet)
     const { start, end } = args
     const rangeStart = start.split(',')
     const rangeEnd = end.split(',')
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     try {   
       const getAverageBalancesBetween = await ticket.getAverageBalancesBetween(user,rangeStart,rangeEnd)
       getAverageBalancesBetween.forEach((balance, idx) =>  convertBalanceToTable(user, balance, rangeStart[idx], rangeEnd[idx]))
@@ -64,11 +64,15 @@ task("transfer", "")
 .addParam("amount", "<number>[]")
 .addOptionalParam("wallet", "<number>")
 .setAction(async (args, {ethers}) => {
-  const { getSigners } = ethers
-  const wallet = (await getSigners())[args.wallet || 0]
-  const ticket = await (await ethers.getContract('Ticket')).connect(wallet)
-  const bnAmount = ethers.utils.parseUnits(args.amount, await ticket.decimals())
-  const tx = await ticket.transfer(args.to, bnAmount)
+  const { wallet } = await getUserAndWallet(ethers, args)
+  const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
+  const amount = ethers.utils.parseUnits(args.amount, await ticket.decimals())
+  try {
+    const tx = await ticket.transfer(args.to, amount)
+    console.log(tx)
+  } catch (error) {
+    convertErrorToMsg(error, ticket)
+  }
 });
 
 /**
@@ -78,11 +82,14 @@ task("delegate", "")
 .addParam("to", "<string>")
 .addOptionalParam("wallet", "<number>")
 .setAction(async (args, {ethers}) => {
-  const { getSigners } = ethers
-  const wallet = (await getSigners())[args.wallet || 0]
-  const ticket = await (await ethers.getContract('Ticket')).connect(wallet)
-  const tx = await ticket.delegate(args.to)
-  console.log(tx)
+  const { wallet } = await getUserAndWallet(ethers, args)
+  const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
+  try {
+    const tx = await ticket.delegate(args.to)
+    console.log(tx)
+  } catch (error) {
+    convertErrorToMsg(error, ticket)
+  }
 });
 
 
