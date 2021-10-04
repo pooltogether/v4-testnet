@@ -1,11 +1,8 @@
 
 const chalk = require('chalk')
-
 const {BigNumber, ethers} = require("ethers")
 const encoder = ethers.utils.defaultAbiCoder;
-
 const { generate } = require('./utils/generate')
-
 task("export-deployments-md", "Exports deployments as a markdown file")
   .setAction(async (taskArgs, hre) => {
     await generate({
