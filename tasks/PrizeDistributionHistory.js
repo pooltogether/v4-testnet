@@ -1,11 +1,61 @@
-const { green, cyan } = require('./utils/colors');
+const { green, cyan } = require('chalk');
+const { range } = require('./utils/range');
+const { mapIdToObject } = require('./utils/mapIdToObject');
 
 /**
  * @name getPrizeDistribution
  */
- task("getLivePrizeDistributionList", "Read single prize distribution parameters")
- .setAction(async (args, hre) => {
-    const { ethers } = hre
+task("getPrizeDistribution", "Read single prize distribution parameters")
+.addParam("id", "")
+.setAction(async ({id}, { ethers }) => {
+    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+    const {drawId, prizeDistribution} = await prizeDistributionHistory.getPrizeDistribution(id)
+    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address )
+});
+
+/**
+ * @name getOldestPrizeDistribution
+ */
+ task("getOldestPrizeDistribution")
+ .setAction(async (args, { ethers }) => {
+     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+     const {drawId, prizeDistribution}  = await prizeDistributionHistory.getOldestPrizeDistribution()
+     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
+   });
+ 
+ /**
+  * @name getNewestPrizeDistribution
+  */
+ task("getNewestPrizeDistribution")
+ .setAction(async (args, { ethers }) => {
+     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+     const {drawId, prizeDistribution}  = await prizeDistributionHistory.getNewestPrizeDistribution()
+     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
+   });
+
+/**
+ * @name getPrizeDistributionList
+ */
+task("getPrizeDistributionList", "Read list of prize distribution parameters")
+.addParam("drawIds", "<string> (1,2,3) ")
+.setAction(async ({drawIds}, { ethers }) => {
+    const prizeDist = await ethers.getContract('PrizeDistributionHistory')
+    const range = drawIds.split(',')
+    prizeDistributionList = await prizeDist.getPrizeDistributions(range)
+    mapIdToObject(range, prizeDistributionList)
+        .forEach(prizeDistributionWithId => 
+            convertPrizeDistributionToTable(
+                prizeDistributionWithId.drawId, 
+                prizeDistributionWithId.prizeDistribution, 
+                prizeDist.address
+            ))
+});
+
+/**
+ * @name getPrizeDistribution
+ */
+ task("getLivePrizeDistribution", "Read all prize distribution(s) parameters from oldest to newest")
+ .setAction(async (args, {ethers}) => {
     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
     const {drawId: drawIdNewest } = await prizeDistributionHistory.getNewestPrizeDistribution()
     const {drawId: drawIdOldest } = await prizeDistributionHistory.getOldestPrizeDistribution()
@@ -28,72 +78,6 @@ const { green, cyan } = require('./utils/colors');
         prizeDistributionList
     );
  });
-
-/**
- * @name getPrizeDistribution
- */
-task("getPrizeDistribution", "Read single prize distribution parameters")
-.addParam("id", "")
-.setAction(async ({id}, hre) => {
-    const { ethers } = hre
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-    const {drawId, prizeDistribution} = await prizeDistributionHistory.getPrizeDistribution(id)
-    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address )
-});
-
-/**
- * @name getPrizeDistributionList
- */
-task("getPrizeDistributionList", "Read list of prize distribution parameters")
-.addParam("drawIds", "<string> (1,2,3) ")
-.setAction(async ({drawIds}, hre) => {
-    const { ethers } = hre
-    const prizeDist = await ethers.getContract('PrizeDistributionHistory')
-    const range = drawIds.split(',')
-    prizeDistributionList = await prizeDist.getPrizeDistributions(range)
-    mapIdToObject(range, prizeDistributionList)
-        .forEach(prizeDistributionWithId => 
-            convertPrizeDistributionToTable(
-                prizeDistributionWithId.drawId, 
-                prizeDistributionWithId.prizeDistribution, 
-                prizeDist.address
-            ))
-});
-
-/**
- * @name getOldestPrizeDistribution
- */
-task("getOldestPrizeDistribution")
-.setAction(async (args, hre) => {
-    const { ethers } = hre
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-    const {drawId, prizeDistribution}  = await prizeDistributionHistory.getOldestPrizeDistribution()
-    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
-  });
-
-/**
- * @name getNewestPrizeDistribution
- */
-task("getNewestPrizeDistribution")
-.setAction(async (args, hre) => {
-    const { ethers } = hre
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-    const {drawId, prizeDistribution}  = await prizeDistributionHistory.getNewestPrizeDistribution()
-    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
-  });
-
-
- function range(size, startAt = 0) {
-    return [...Array(size).keys()].map(i => i + startAt);
-}
-
-
-function mapIdToObject(ids, objects) {
-    return ids.map((id, idx) => ({
-        drawId: id,
-        prizeDistribution: objects[idx]
-    }))
-}
 
 function convertPrizeDistributionToTable (drawId, prizeDistribution, address) {
     console.log('----------------------------------------------------------------------------')
