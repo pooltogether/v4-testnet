@@ -1,21 +1,19 @@
 const { DateTime } = require('luxon');
 const { green, cyan, yellow } = require('chalk');
-const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@pooltogether/draw-calculator-js');
 const { ethers, utils } = require('ethers');
+const { getUserAndWallet } = require('./utils/getUserAndWallet');
 const { convertErrorToMsg } = require('./utils/messages');
-
+const { contractConnectWallet } = require('./utils/contractConnectWallet');
 
 /**
  * @name Ticket.balanceOf()
  */
  task("balanceOf", "")
- .addOptionalParam("wallet", "<number>")
- .setAction(async (args, hre) => {
-    const { ethers } = hre
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
+ .addOptionalParam("user", "<address>")
+ .addOptionalParam("wallet", "<address>")
+ .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     const balanceOf = await ticket.balanceOf(user)
     convertBalanceOfToTable(user, balanceOf)
     return balanceOf
@@ -25,13 +23,11 @@ const { convertErrorToMsg } = require('./utils/messages');
  * @name Ticket.getAccountDetails()
  */
  task("getAccountDetails", "")
- .addOptionalParam("wallet", "<number>")
- .setAction(async (args, hre) => {
-    const { ethers } = hre
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
+ .addOptionalParam("user", "<address>")
+ .addOptionalParam("wallet", "<address>")
+ .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const ticket = contractConnectWallet(ethers, 'Ticket', wallet)
     const getAccountDetails = await ticket.getAccountDetails(user)
     convertUserToTable(user, getAccountDetails, ticket.address);
     return getAccountDetails;
@@ -43,13 +39,12 @@ const { convertErrorToMsg } = require('./utils/messages');
   task("getAverageBalancesBetween", "")
   .addParam("start", "<number>[]")
   .addParam("end", "<number>[]")
-  .addOptionalParam("wallet", "<number>")
+  .addOptionalParam("user", "<address>")
+  .addOptionalParam("wallet", "<address>")
   .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const ticket = contractConnectWallet(ethers, 'Ticket', wallet)
     const { start, end } = args
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
     const rangeStart = start.split(',')
     const rangeEnd = end.split(',')
     try {   
@@ -60,7 +55,6 @@ const { convertErrorToMsg } = require('./utils/messages');
       convertErrorToMsg(error, ticket)
     }
   });
-
 
 /**
  * @name Ticket.transfer()
