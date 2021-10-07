@@ -8,9 +8,9 @@ const { mapIdToObject } = require('./utils/mapIdToObject');
 task("getPrizeDistribution", "Read single prize distribution parameters")
 .addParam("id", "")
 .setAction(async ({id}, { ethers }) => {
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-    const {drawId, prizeDistribution} = await prizeDistributionHistory.getPrizeDistribution(id)
-    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address )
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+    const {drawId, prizeDistribution} = await prizeDistributionBuffer.getPrizeDistribution(id)
+    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionBuffer.address )
 });
 
 /**
@@ -18,9 +18,9 @@ task("getPrizeDistribution", "Read single prize distribution parameters")
  */
  task("getOldestPrizeDistribution")
  .setAction(async (args, { ethers }) => {
-     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-     const {drawId, prizeDistribution}  = await prizeDistributionHistory.getOldestPrizeDistribution()
-     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
+     const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+     const {drawId, prizeDistribution}  = await prizeDistributionBuffer.getOldestPrizeDistribution()
+     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionBuffer.address)
    });
  
  /**
@@ -28,9 +28,9 @@ task("getPrizeDistribution", "Read single prize distribution parameters")
   */
  task("getNewestPrizeDistribution")
  .setAction(async (args, { ethers }) => {
-     const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-     const {drawId, prizeDistribution}  = await prizeDistributionHistory.getNewestPrizeDistribution()
-     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionHistory.address)
+     const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+     const {drawId, prizeDistribution}  = await prizeDistributionBuffer.getNewestPrizeDistribution()
+     convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionBuffer.address)
    });
 
 /**
@@ -39,7 +39,7 @@ task("getPrizeDistribution", "Read single prize distribution parameters")
 task("getPrizeDistributionList", "Read list of prize distribution parameters")
 .addParam("drawIds", "<string> (1,2,3) ")
 .setAction(async ({drawIds}, { ethers }) => {
-    const prizeDist = await ethers.getContract('PrizeDistributionHistory')
+    const prizeDist = await ethers.getContract('PrizeDistributionBuffer')
     const range = drawIds.split(',')
     prizeDistributionList = await prizeDist.getPrizeDistributions(range)
     mapIdToObject(range, prizeDistributionList)
@@ -56,11 +56,11 @@ task("getPrizeDistributionList", "Read list of prize distribution parameters")
  */
  task("getLivePrizeDistribution", "Read all prize distribution(s) parameters from oldest to newest")
  .setAction(async (args, {ethers}) => {
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
-    const {drawId: drawIdNewest } = await prizeDistributionHistory.getNewestPrizeDistribution()
-    const {drawId: drawIdOldest } = await prizeDistributionHistory.getOldestPrizeDistribution()
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+    const {drawId: drawIdNewest } = await prizeDistributionBuffer.getNewestPrizeDistribution()
+    const {drawId: drawIdOldest } = await prizeDistributionBuffer.getOldestPrizeDistribution()
     const list = range((drawIdNewest - drawIdOldest), drawIdOldest) // Generate Draw.drawId list [1,2,4,5,6,7]
-    prizeDistributionList = await prizeDistributionHistory.getPrizeDistributions(list)
+    prizeDistributionList = await prizeDistributionBuffer.getPrizeDistributions(list)
     mapIdToObject(
             list,
             prizeDistributionList
@@ -68,7 +68,7 @@ task("getPrizeDistributionList", "Read list of prize distribution parameters")
             convertPrizeDistributionToTable(
                 prizeDistributionWithId.drawId, 
                 prizeDistributionWithId.prizeDistribution, 
-                prizeDistributionHistory.address
+                prizeDistributionBuffer.address
             ))
     console.log(`Total PrizeDistribution(s): ${prizeDistributionList.length}`)
     console.log('--------------------------')
