@@ -81,10 +81,10 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 ## DrawBuffer
 
-- **getDraws:** Read target draw history parameters 
-- **getOldestDraw:** Read oldest draw history parameters
-- **getNewestDraw:** Read newest draw history parameters
-- **getLiveDraws:** Read all draw history parameters between oldest and newest
+- **getDraws:** Read target draw buffer parameters 
+- **getOldestDraw:** Read oldest draw buffer parameters
+- **getNewestDraw:** Read newest draw buffer parameters
+- **getLiveDraws:** Read all draw buffer parameters between oldest and newest
 - **pushDraw:** Push new draw parameters
 - **setDraw:** Set existing draw parameters
 
