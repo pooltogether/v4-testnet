@@ -20,27 +20,43 @@ task("draw-stats", "Checks whether an address won a draw")
 
     const ticket = await ethers.getContract('Ticket')
     const drawHistory = await ethers.getContract('DrawHistory')
-    const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
+    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
     
     const draw = await drawHistory.getDraw(taskArgs.draw)
     console.log(chalk.dim(`Winning Number: `, draw.winningRandomNumber))
     console.log(chalk.dim(`Timestamp: `, new Date(draw.timestamp*1000).toString()))
 
-    const drawSettings = await drawCalculator.getDrawSettings(taskArgs.draw)
-    console.log(chalk.dim(`Bit range: `, drawSettings.bitRangeSize))
-    console.log(chalk.dim(`Cardinality: `, drawSettings.matchCardinality))
-    console.log(chalk.dim(`Prize: `, ethers.utils.formatEther(drawSettings.prize)))
-    console.log(chalk.dim(`Distributions: `, drawSettings.distributions.map(dist => ethers.utils.formatEther(dist))))
-    console.log(chalk.dim(`Total picks: ${(2**drawSettings.bitRangeSize)**drawSettings.matchCardinality}`))
-    console.log(chalk.dim(`Pick cost (tickets / pick): `, drawSettings.pickCost.toString()))
-    for (let i = 0; i < drawSettings.distributions.length; i++) {
-      const numberOfPrizes = (2**drawSettings.bitRangeSize)**i
-      const fraction = parseFloat(ethers.utils.formatEther(drawSettings.distributions[i]))
-      const payout = fraction * parseFloat(ethers.utils.formatEther(drawSettings.prize))
-      console.log(chalk.dim(`Prize ${i}: ${payout / numberOfPrizes} tokens with ${numberOfPrizes} winners`))
-    }
+    const prizeDistribution = await prizeDistributionHistory.getPrizeDistribution(taskArgs.draw)
+    console.log(chalk.dim(`Bit range: `, prizeDistribution.bitRangeSize))
+    console.log(chalk.dim(`Cardinality: `, prizeDistribution.matchCardinality))
+    console.log(chalk.dim(`Prize: `, ethers.utils.formatEther(prizeDistribution.prize)))
+    console.log(chalk.dim(`Distributions: `, prizeDistribution.distributions.map(dist => ethers.utils.formatUnits(dist, 9))))
+    console.log(chalk.dim(`Total picks: ${(2**prizeDistribution.bitRangeSize)**prizeDistribution.matchCardinality}`))
+    console.log(chalk.dim(`Number of picks: `, prizeDistribution.numberOfPicks.toString()))
   });
 
+task("user-stats", "Checks whether an address won a draw")
+  .addParam("address", "The address to check")
+  .addParam("draw", "the draw to check")
+  .setAction(async (taskArgs, hre) => {
+    const { ethers } = hre
+
+    const ticket = await ethers.getContract('Ticket')
+    const drawHistory = await ethers.getContract('DrawHistory')
+    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+    
+    const draw = await drawHistory.getDraw(taskArgs.draw)
+    console.log(chalk.dim(`Winning Number: `, draw.winningRandomNumber))
+    console.log(chalk.dim(`Timestamp: `, new Date(draw.timestamp*1000).toString()))
+
+    const prizeDistribution = await prizeDistributionHistory.getPrizeDistribution(taskArgs.draw)
+    console.log(chalk.dim(`Bit range: `, prizeDistribution.bitRangeSize))
+    console.log(chalk.dim(`Cardinality: `, prizeDistribution.matchCardinality))
+    console.log(chalk.dim(`Prize: `, ethers.utils.formatEther(prizeDistribution.prize)))
+    console.log(chalk.dim(`Distributions: `, prizeDistribution.distributions.map(dist => ethers.utils.formatUnits(dist, 9))))
+    console.log(chalk.dim(`Total picks: ${(2**prizeDistribution.bitRangeSize)**prizeDistribution.matchCardinality}`))
+    console.log(chalk.dim(`Number of picks: `, prizeDistribution.numberOfPicks.toString()))
+  });
 
   task("pool-stats", "Prints pool stats")
   .setAction(async (taskArgs, hre) => {
@@ -81,7 +97,7 @@ task("check-draw", "Checks whether an address won a draw")
     const drawSettings = await tsunamiDrawSettingsHistory.getDrawSetting(drawId)
     console.log("drawSettings are: ", drawSettings)
 
-    const drawCalculator = await ethers.getContract('TsunamiDrawCalculator')
+    const drawCalculator = await ethers.getContract('DrawCalculator')
     console.log("getting balances from ", drawCalculator.address, " for drawId ", drawId)
     const balances = await drawCalculator.getNormalizedBalancesForDrawIds(address, [drawId])
     console.log("user's balances are ", balances)
@@ -103,7 +119,7 @@ task("check-draw", "Checks whether an address won a draw")
     }
     console.log("running draw calculator...")
 
-    const result = runTsunamiDrawCalculatorForSingleDraw(tsunamiDrawSettings, draw, user)
+    const result = runDrawCalculatorForSingleDraw(tsunamiDrawSettings, draw, user)
     console.log("got draw result ", result.prizes)
 
     const claim = prepareClaimForUserFromDrawResult(user, result)
