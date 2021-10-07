@@ -7,14 +7,14 @@ const { getUserAndWallet } = require('./utils/getUserAndWallet');
 const debug = require('debug')('tasks')
 
 /**
- * @name DrawHistory.getNewestDraw()
- * @description Read newest Draws from DrawHistory
+ * @name DrawBuffer.getNewestDraw()
+ * @description Read newest Draws from DrawBuffer
  */
- task("getDraw", "Read Draw from DrawHistory")
+ task("getDraw", "Read Draw from DrawBuffer")
  .addParam('id')
  .setAction(async (args, {ethers}) => {
-    const drawHistory = await ethers.getContract('DrawHistory')
-    convertDrawToTable(await drawHistory.getDraw(args.id), drawHistory.address)
+    const drawHistory = await ethers.getContract('DrawBuffer')
+    convertDrawToTable(await drawBuffer.getDraw(args.id), drawBuffer.address)
  });
 
 /**
