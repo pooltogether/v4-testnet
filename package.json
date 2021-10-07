@@ -11,6 +11,7 @@
     "compile": "hardhat compile",
     "task": "hardhat",
     "dashboard": "node tasks/dashboard",
+    "verify-mumbai": "hardhat --network mumbai etherscan-verify --api-key $POLYGONSCAN_API_KEY",
     "deploy-mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy-rinkeby": "DEPLOY=rinkeby hardhat deploy --network rinkeby",
     "deploy-goerli": "DEPLOY=goerli hardhat deploy --network goerli",

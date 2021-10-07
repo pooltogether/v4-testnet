@@ -7,13 +7,14 @@ Install `direnv` module.
 We use [direnv](https://direnv.net/) to manage environment variables.  You'll likely need to install it.
 
 ```sh
-cp .envrc.example .envrv
+cp .envrc.example .envrc
 ```
 
 To run fork scripts, deploy or perform any operation with a mainnet/testnet node you will need an Infura API key.
 
 ### Disbursement Address
-To `disburse` and `deposit` you will need to add a list of address(s) to DISBURSE_ADDRESSES.
+To `disburse` and `deposit` you will need to add a list of address(es) to DISBURSE_ADDRESSES.
+
 
 **Example**
 ```.sh
@@ -73,18 +74,19 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 ## Calculations
 
-- **winningPickIndices:** Calclates a users winning picks and prize tier (distribution index) results
 
-## DrawPrize
+- **winningPickIndices:** Calculates a user winning picks and prize tier (distribution index) results 
 
-- **claim:** Claim winning draw prizes and receive tickets 
+## PrizeDistributor
+
+- **claim:** Claim winning prizes and receive tickets 
 
 ## DrawBuffer
 
-- **getDraws:** Read target draw history parameters 
-- **getOldestDraw:** Read oldest draw history parameters
-- **getNewestDraw:** Read newest draw history parameters
-- **getLiveDraws:** Read all draw history parameters between oldest and newest
+- **getDraws:** Read target draw buffer parameters 
+- **getOldestDraw:** Read oldest draw buffer parameters
+- **getNewestDraw:** Read newest draw buffer parameters
+- **getLiveDraws:** Read all draw buffer parameters between oldest and newest
 - **pushDraw:** Push new draw parameters
 - **setDraw:** Set existing draw parameters
 
@@ -93,7 +95,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 - **getPrizeDistribution:** Read target prize distribtion parameters
 - **getOldestPrizeDistribution:** Read oldest prize distribtion parameters
 - **getNewestPrizeDistribution:** Read newest prize distribtion parameters 
-- **getLivePrizeDistributionList:** Read all prize distribution history between oldest and newest
+- **getLivePrizeDistributionList:** Read all prize distribution buffer between oldest and newest
 
 ## PrizePool
 
@@ -111,7 +113,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 Certain tasks require a "user" address like `claim` and `calculate`.
 
-Default the `wallet` address is used. A `user` address can be passedd
+Default the `wallet` address is used. A `user` address can be passed
 
 **Default (Index 0) Wallet in Mnemonic**<br/>
 `yarn task [TASK_NAME] --wallet 0`

@@ -13,7 +13,11 @@ const debug = require('debug')('tasks')
  task("getDraw", "Read Draw from DrawBuffer")
  .addParam('id')
  .setAction(async (args, {ethers}) => {
+<<<<<<< HEAD:tasks/DrawBuffer.js
     const drawBuffer = await ethers.getContract('DrawBuffer')
+=======
+    const drawHistory = await ethers.getContract('DrawBuffer')
+>>>>>>> 700a3f24a144cea02a4f998cde6dfcc221f81494:tasks/DrawHistory.js
     convertDrawToTable(await drawBuffer.getDraw(args.id), drawBuffer.address)
  });
 
@@ -52,7 +56,7 @@ const debug = require('debug')('tasks')
     if(expiredList.length > 0) {
       console.log(red(`Draw IDs expired: ${expiredList} `))
       console.log(red('Remove expired ID(s) from passed --ids param'))
-      console.log(green(`Run ${cyan('yarn task getLiveDraws')} to fetch all active Draws\n`))
+      console.log(green(`Run ${cyan('yarn task getDrawList')} to fetch all active Draws\n`))
       return;
     }
     try {
