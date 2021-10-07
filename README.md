@@ -75,7 +75,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 - **winningPickIndices:** Calculates a user winning picks and prize tier (distribution index) results 
 
-## DrawPrize
+## PrizeDistributor
 
 - **claim:** Claim winning draw prizes and receive tickets 
 
