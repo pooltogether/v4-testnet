@@ -1,4 +1,4 @@
-# PoolTogeher V4 Testnet
+# PoolTogether V4 Testnet
 The V4 testnet deployed contracts and essential hardhat tasks.
 
 # Getting Started
