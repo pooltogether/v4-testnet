@@ -77,7 +77,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 ## PrizeDistributor
 
-- **claim:** Claim winning draw prizes and receive tickets 
+- **claim:** Claim winning prizes and receive tickets 
 
 ## DrawHistory
 
