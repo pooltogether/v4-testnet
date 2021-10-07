@@ -52,7 +52,7 @@ const debug = require('debug')('tasks')
     if(expiredList.length > 0) {
       console.log(red(`Draw IDs expired: ${expiredList} `))
       console.log(red('Remove expired ID(s) from passed --ids param'))
-      console.log(green(`Run ${cyan('yarn task getLiveDraws')} to fetch all active Draws\n`))
+      console.log(green(`Run ${cyan('yarn task getDrawList')} to fetch all active Draws\n`))
       return;
     }
     try {
