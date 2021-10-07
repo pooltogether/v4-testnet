@@ -170,10 +170,10 @@ module.exports = async (hardhat) => {
   displayResult('DrawBeacon', drawBeaconResult)
 
 
-  const drawHistory = await ethers.getContract('DrawBuffer')
-  if (await drawHistory.manager() != drawBeaconResult.address) {
+  const drawBuffer = await ethers.getContract('DrawBuffer')
+  if (await drawBuffer.manager() != drawBeaconResult.address) {
     cyan('\nSetting DrawBuffer manager to DrawBeacon...')
-    const tx = await drawHistory.setManager(drawBeaconResult.address)
+    const tx = await drawBuffer.setManager(drawBeaconResult.address)
     await tx.wait(1)
     green('Set!')
   }
@@ -264,10 +264,10 @@ module.exports = async (hardhat) => {
   // Set the manager(s) of the periphery smart contracts.
   /* ========================================= */
 
-  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionBuffer')
-  if (await prizeDistributionHistory.manager() != L1TimelockTriggerResult.address) {
+  const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+  if (await prizeDistributionBuffer.manager() != L1TimelockTriggerResult.address) {
     cyan('\nSetting PrizeDistributionBuffer manager...')
-    const tx = await prizeDistributionHistory.setManager(L1TimelockTriggerResult.address)
+    const tx = await prizeDistributionBuffer.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
     green('Done!')
   }

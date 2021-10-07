@@ -28,7 +28,7 @@ ${cyan('Period Seconds:')} ${drawBeacon.beaconPeriodSeconds}
 ${cyan('Period Seconds:')} ${drawBeacon.beaconPeriodStartedAt}
 ${cyan('Last RNG Block:')} ${drawBeacon.lastRngLockBlock}
 ${cyan('Last RNG ID:')} ${drawBeacon.lastRngRequestId}
-${cyan('Draw History:\n')}${drawBeacon.drawHistory}
+${cyan('Draw History:\n')}${drawBeacon.drawBuffer}
 ${cyan('RNG Service:\n')}${drawBeacon.rngService}
 
 ------------------
@@ -40,9 +40,9 @@ Upcoming PrizeDistribution parameters:
  - ${green('Cardinality')}: ${cyan('5')}
  - ${green('Picks')}: ${cyan('1,000')}
 
-The manager (${cyan(shortenAddress(data.manager))}) will read from the ${cyan('DrawHistory')} and push the ${cyan('Draw')} and ${cyan('PrizeDisribution')} via ${cyan('L1TimelockManager')}.
+The manager (${cyan(shortenAddress(data.manager))}) will read from the ${cyan('DrawBuffer')} and push the ${cyan('Draw')} and ${cyan('PrizeDisribution')} via ${cyan('L1TimelockManager')}.
 
-DrawBeacon pushes draws onto DrawHistory (${cyan(shortenAddress(data.contracts.DrawHistory))})
+DrawBeacon pushes draws onto DrawBuffer (${cyan(shortenAddress(data.contracts.DrawBuffer))})
 
 `
   });

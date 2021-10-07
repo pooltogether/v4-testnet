@@ -6,7 +6,7 @@ const debug = require('debug')('tasks')
 
 const { range } = require("./utils/helpers")
 const { getUserAndWallet } = require('./utils/getUserAndWallet');
-const { getDrawAndPrizeDistributionHistory } = require("./fetch/getDrawAndPrizeDistributionHistory")
+const { getDrawAndPrizeDistributionBuffer } = require("./fetch/getDrawAndPrizeDistributionBuffer")
 
 task("winningPickIndices", "")
 .addOptionalParam("user", "<address>")
@@ -15,7 +15,7 @@ task("winningPickIndices", "")
   const { user, wallet } = await getUserAndWallet(ethers, args)
   debug(user, wallet)
   const drawCalculatorContract = await ethers.getContract('DrawCalculator')
-  const [drawList, prizeDistributionList, oldestId, newestId] = await getDrawAndPrizeDistributionHistory(ethers);
+  const [drawList, prizeDistributionList, oldestId, newestId] = await getDrawAndPrizeDistributionBuffer(ethers);
   
   // Normalized Balances
   const list = range((newestId - oldestId), oldestId) // Generate Draw.drawId list [1,2,4,5,6,7]
@@ -54,7 +54,7 @@ task("generatePicks", "")
 .addOptionalParam("user", "<address>")
 .addOptionalParam("wallet", "<address>")
 .setAction(async (args, {ethers}) => {
-  const [drawList, prizeDistributionList] = getDrawAndPrizeDistributionHistory()
+  const [drawList, prizeDistributionList] = getDrawAndPrizeDistributionBuffer()
 })
 
 

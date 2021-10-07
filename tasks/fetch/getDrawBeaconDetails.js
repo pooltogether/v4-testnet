@@ -1,12 +1,12 @@
 const hardhat = require('hardhat');
 const { ethers } = hardhat
 
-async function getDrawBeacnDetails() {
+async function getDrawBeaconDetails() {
   const [wallet] = await ethers.getSigners()
   const DrawBeacon = await ethers.getContract('DrawBeacon')
   const beaconPeriodSeconds = await DrawBeacon.getBeaconPeriodSeconds()
   const beaconPeriodStartedAt = await DrawBeacon.getBeaconPeriodStartedAt()
-  const drawHistory = await DrawBeacon.getDrawHistory()
+  const drawBuffer = await DrawBeacon.getDrawBuffer()
   const nextDrawId = await DrawBeacon.getNextDrawId()
   const lastRngLockBlock = await DrawBeacon.getLastRngLockBlock()
   const lastRngRequestId = await DrawBeacon.getLastRngRequestId()
@@ -16,7 +16,7 @@ async function getDrawBeacnDetails() {
   return {
     beaconPeriodSeconds,
     beaconPeriodStartedAt,
-    drawHistory,
+    drawBuffer,
     nextDrawId,
     lastRngLockBlock,
     lastRngRequestId,
@@ -28,5 +28,5 @@ async function getDrawBeacnDetails() {
 }
 
 module.exports = {
-  getDrawBeacnDetails
+  getDrawBeaconDetails
 }

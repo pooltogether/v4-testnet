@@ -1,7 +1,7 @@
 const blessed = require("blessed");
 const contrib = require('blessed-contrib');
 
-function DrawHistoryTable(parent) {
+function DrawBufferTable(parent) {
   const box = contrib.table({
     parent: parent
      , fg: 'white'
@@ -16,5 +16,5 @@ function DrawHistoryTable(parent) {
 };
 
 module.exports = {
-  DrawHistoryTable
+  DrawBufferTable
 }

@@ -3,7 +3,7 @@ const blessed = require('blessed');
 const getDashboardAreas = require('./getDashboardAreas');
 
 // Views
-const { DrawHistoryTable } = require('./views/DrawHistoryTable');
+const { DrawBufferTable } = require('./views/DrawBufferTable');
 const { ContractAddresses } = require('./views/ContractAddresses');
 const { TicketDetails } = require('./views/TicketDetails');
 const { DrawBeaconDetails } = require('./views/DrawBeaconDetails');
@@ -13,9 +13,9 @@ const { ContractTree } = require('./views/ContractTree');
 // Fetch Data
 const { getContractAddresses } = require('../fetch/getContractAddresses')
 const { getTicketDetails } = require('../fetch/getTicketDetails')
-const { getDrawHistoryAndPrizeDistributionHistory } = require('../fetch/getDrawHistoryAndPrizeDistributionHistory');
+const { getDrawBufferAndPrizeDistributionBuffer } = require('../fetch/getDrawBufferAndPrizeDistributionBuffer');
 const { ethers } = require('hardhat');
-const { getDrawBeacnDetails } = require('../fetch/getDrawBeacnDetails');
+const { getDrawBeaconDetails } = require('../fetch/getDrawBeaconDetails');
 
 async function main(data) {
   const SCREEN = blessed.screen({smartCSR: true});  
@@ -37,7 +37,7 @@ async function main(data) {
   // Create views from Data
   /* ================================================ */
   // Top Left
-  const drawHistoryTable = DrawHistoryTable(areaTopLeft)
+  const drawBufferTable = DrawBufferTable(areaTopLeft)
 
   // Top Center
   const ticketDetails = TicketDetails(data.ticket, data.user)
@@ -52,7 +52,7 @@ async function main(data) {
   /* ================================================ */
   // Assign Views to Areas
   /* ================================================ */
-  areaTopLeft.append(drawHistoryTable)
+  areaTopLeft.append(drawBufferTable)
   areaTopRight.append(contractAddresses)
   areaTopCenterRowFirst.append(ticketDetails)
   areaTopCenterRowSecond.append(drawBeaconDetails)
@@ -60,7 +60,7 @@ async function main(data) {
   areaBottomRight.append(contractTree)
   
   // Date Setting
-  updateTable(drawHistoryTable, data)
+  updateTable(drawBufferTable, data)
   
   /* ================================================ */
   // Handle Focus and Exiting Program
@@ -78,15 +78,15 @@ async function data() {
   const [wallet] = await ethers.getSigners()
   const contracts = await getContractAddresses();
   const ticket = await getTicketDetails();
-  const drawBeacon = await getDrawBeacnDetails();
+  const drawBeacon = await getDrawBeaconDetails();
 
   const {
     deployer,
     manager
   } = await hardhat.getNamedAccounts();
 
-  // READ DrawHistory and lnked PrizeDistribution parameters 
-  const [ draws, prizeDistribtuion] = await getDrawHistoryAndPrizeDistributionHistory(hardhat.ethers)
+  // READ DrawBuffer and lnked PrizeDistribution parameters 
+  const [ draws, prizeDistribtuion] = await getDrawBufferAndPrizeDistributionBuffer(hardhat.ethers)
   const drawsAndPrizeDistribution = draws.map((draw, idx) => convertDataToTableArray(draw, prizeDistribtuion[idx]))
 
   // Construct Data for Dashboard Views

@@ -10,7 +10,7 @@ async function run() {
   const token = await ethers.getContractAt('ERC20Mintable', (await yieldSource.depositToken()))
   const ticket = await ethers.getContract('Ticket')
   const prizePool = await ethers.getContract('YieldSourcePrizePool')
-  const claimableDraw = await ethers.getContract('DrawPrize')
+  const claimableDraw = await ethers.getContract('PrizeDistributor')
 
   const signers = await ethers.getSigners()
 

@@ -10,11 +10,11 @@ function ContractAddresses(contracts) {
     content:
 `
 ${cyan('DrawBeacon')}:\n${contracts.DrawBeacon}
-${cyan('DrawHistory')}:\n${contracts.DrawHistory}
-${cyan('DrawPrize')}:\n${contracts.DrawPrize}
+${cyan('DrawBuffer')}:\n${contracts.DrawBuffer}
+${cyan('PrizeDistributor')}:\n${contracts.PrizeDistributor}
 ${cyan('DrawCalculator')}:\n${contracts.DrawCalculator}
 ${cyan('DrawCalculator')}:\n${contracts.DrawCalculator}
-${cyan('PrizeDistributionHistory')}:\n${contracts.PrizeDistributionHistory}
+${cyan('PrizeDistributionBuffer')}:\n${contracts.PrizeDistributionBuffer}
 ${cyan('Reserve')}:\n${contracts.Reserve}
 ${cyan('DrawCalculatorTimelock')}:\n${contracts.DrawCalculatorTimelock}
 ${cyan('L1TimelockTrigger')}:\n${contracts.L1TimelockTrigger}

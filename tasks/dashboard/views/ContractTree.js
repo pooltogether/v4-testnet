@@ -125,18 +125,18 @@ Documentation:
           'calculate': {},
       }
      },
-       'DrawPrize': { 
+       'PrizeDistributor': { 
           extended: true,
           children: { 
             'claim': {},
         }
        },
-       'DrawHistory': { 
+       'DrawBuffer': { 
         extended: true,
         children: { 
           'setDraw': {}
         },
-        'DrawHistory': { 
+        'DrawBuffer': { 
           children: { 
             'setDraw': {}
           }

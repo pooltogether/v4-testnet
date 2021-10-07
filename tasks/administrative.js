@@ -19,14 +19,14 @@ task("draw-stats", "Checks whether an address won a draw")
     const { ethers } = hre
 
     const ticket = await ethers.getContract('Ticket')
-    const drawHistory = await ethers.getContract('DrawHistory')
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
     
-    const draw = await drawHistory.getDraw(taskArgs.draw)
+    const draw = await drawBuffer.getDraw(taskArgs.draw)
     console.log(chalk.dim(`Winning Number: `, draw.winningRandomNumber))
     console.log(chalk.dim(`Timestamp: `, new Date(draw.timestamp*1000).toString()))
 
-    const prizeDistribution = await prizeDistributionHistory.getPrizeDistribution(taskArgs.draw)
+    const prizeDistribution = await prizeDistributionBuffer.getPrizeDistribution(taskArgs.draw)
     console.log(chalk.dim(`Bit range: `, prizeDistribution.bitRangeSize))
     console.log(chalk.dim(`Cardinality: `, prizeDistribution.matchCardinality))
     console.log(chalk.dim(`Prize: `, ethers.utils.formatEther(prizeDistribution.prize)))
@@ -42,14 +42,14 @@ task("user-stats", "Checks whether an address won a draw")
     const { ethers } = hre
 
     const ticket = await ethers.getContract('Ticket')
-    const drawHistory = await ethers.getContract('DrawHistory')
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
     
-    const draw = await drawHistory.getDraw(taskArgs.draw)
+    const draw = await drawBuffer.getDraw(taskArgs.draw)
     console.log(chalk.dim(`Winning Number: `, draw.winningRandomNumber))
     console.log(chalk.dim(`Timestamp: `, new Date(draw.timestamp*1000).toString()))
 
-    const prizeDistribution = await prizeDistributionHistory.getPrizeDistribution(taskArgs.draw)
+    const prizeDistribution = await prizeDistributionBuffer.getPrizeDistribution(taskArgs.draw)
     console.log(chalk.dim(`Bit range: `, prizeDistribution.bitRangeSize))
     console.log(chalk.dim(`Cardinality: `, prizeDistribution.matchCardinality))
     console.log(chalk.dim(`Prize: `, ethers.utils.formatEther(prizeDistribution.prize)))
@@ -64,7 +64,7 @@ task("user-stats", "Checks whether an address won a draw")
     
       const beacon = await ethers.getContract('DrawBeacon')
       const claimableDraw = await ethers.getContract("ClaimableDraw")
-      const history = await ethers.getContract('DrawHistory')
+      const history = await ethers.getContract('DrawBuffer')
       const ticket = await ethers.getContract('Ticket')
 
       const totalSupply = await ticket.totalSupply()
@@ -87,10 +87,10 @@ task("check-draw", "Checks whether an address won a draw")
   
     console.log(chalk.dim(`Checking if ${address} won...`))
     
-    const drawHistory = await ethers.getContract('DrawHistory')
-    console.log("getting draw info for drawId ",drawId, "from ", drawHistory.address)
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    console.log("getting draw info for drawId ",drawId, "from ", drawBuffer.address)
 
-    const draw = await drawHistory.getDraw(drawId)
+    const draw = await drawBuffer.getDraw(drawId)
     console.log("got draw for drawId ", draw)
 
     const tsunamiDrawSettingsHistory = await ethers.getContract('TsunamiDrawSettingsHistory')

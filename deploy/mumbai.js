@@ -72,7 +72,7 @@ module.exports = async (hardhat) => {
   await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer,drawBufferResult.address, prizeDistributionBufferResult.address,drawCalculatorTimelockResult.address])
   const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   const reserve = await ethers.getContract('Reserve')
-  const drawHistory = await ethers.getContract('DrawBuffer')
+  const drawBuffer = await ethers.getContract('DrawBuffer')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
 
   const prizeFlush = await ethers.getContract('PrizeFlush')
@@ -101,9 +101,9 @@ module.exports = async (hardhat) => {
     green('\nDone!')
   }
 
-  if (await drawHistory.manager() != l2TimelockTrigger.address) {
+  if (await drawBuffer.manager() != l2TimelockTrigger.address) {
     cyan(`\nSetting DrawBuffer manager to ${l2TimelockTrigger.address}...`)
-    const tx = await drawHistory.setManager(l2TimelockTrigger.address)
+    const tx = await drawBuffer.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green('Done!')
   }
@@ -115,10 +115,10 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionBuffer')
-  if (await prizeDistributionHistory.manager() != l2TimelockTrigger.address) {
+  const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+  if (await prizeDistributionBuffer.manager() != l2TimelockTrigger.address) {
     cyan(`\nSetting PrizeDistributionBuffer manager to ${l2TimelockTrigger.address}...`)
-    const tx =  await prizeDistributionHistory.setManager(l2TimelockTrigger.address)
+    const tx =  await prizeDistributionBuffer.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }
