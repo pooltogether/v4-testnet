@@ -111,7 +111,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 Certain tasks require a "user" address like `claim` and `calculate`.
 
-Default the `wallet` address is used. A `user` address can be passedd
+Default the `wallet` address is used. A `user` address can be passed
 
 **Default (Index 0) Wallet in Mnemonic**<br/>
 `yarn task [TASK_NAME] --wallet 0`
