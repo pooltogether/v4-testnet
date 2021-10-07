@@ -88,7 +88,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 - **pushDraw:** Push new draw parameters
 - **setDraw:** Set existing draw parameters
 
-## PrizeDistributionHistory
+## PrizeDistributionBuffer
 
 - **getPrizeDistribution:** Read target prize distribtion parameters
 - **getOldestPrizeDistribution:** Read oldest prize distribtion parameters
