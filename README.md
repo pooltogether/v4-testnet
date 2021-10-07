@@ -79,7 +79,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 - **claim:** Claim winning prizes and receive tickets 
 
-## DrawHistory
+## DrawBuffer
 
 - **getDraws:** Read target draw history parameters 
 - **getOldestDraw:** Read oldest draw history parameters
