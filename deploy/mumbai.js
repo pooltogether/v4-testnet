@@ -1,6 +1,4 @@
-const chalk = require('chalk');
 const { dim, cyan, green } = require('../colors')
-const { PERIOD_IN_SECONDS } = require('../constants')
 const { deployContract } = require('../deployContract')
 
 const { 

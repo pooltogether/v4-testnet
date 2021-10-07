@@ -18,8 +18,8 @@
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "deposit": "hardhat run ./scripts/deposit.js --network ",
     "generate": "node ./scripts/generateContractList.js",
-    "node-mumbai": "DEPLOY=mumbai hardhat node",
-    "node-rinkeby": "DEPLOY=rinkeby hardhat node",
+    "node-mumbai": "DEPLOY=mumbai hardhat node --network hardhat",
+    "node-rinkeby": "DEPLOY=rinkeby hardhat node --network hardhat",
     "node-goerli": "DEPLOY=goerli hardhat node",
     "prepare-deploy": "yarn clean && yarn compile",
     "reinstall": "rm -rf node_modules/ && yarn cache clean && yarn"
