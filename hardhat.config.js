@@ -8,7 +8,7 @@ require('./tasks/calculations')
 require('./tasks/administrative')
 require('./tasks/DrawBuffer')
 require('./tasks/PrizeDistributor')
-require('./tasks/PrizeDistributionHistory')
+require('./tasks/PrizeDistributionBuffer')
 require('./tasks/PrizePool')
 require('./tasks/Ticket')
 
