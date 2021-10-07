@@ -13,11 +13,7 @@ const debug = require('debug')('tasks')
  task("getDraw", "Read Draw from DrawBuffer")
  .addParam('id')
  .setAction(async (args, {ethers}) => {
-<<<<<<< HEAD:tasks/DrawBuffer.js
     const drawBuffer = await ethers.getContract('DrawBuffer')
-=======
-    const drawHistory = await ethers.getContract('DrawBuffer')
->>>>>>> 700a3f24a144cea02a4f998cde6dfcc221f81494:tasks/DrawHistory.js
     convertDrawToTable(await drawBuffer.getDraw(args.id), drawBuffer.address)
  });
 
