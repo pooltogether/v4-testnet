@@ -1,6 +1,13 @@
 const chalk = require('chalk');
 
-const { PERIOD_IN_SECONDS } = require('../constants')
+const { 
+  DRAW_BUFFER_CARDINALITY,
+  PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
+  BEACON_PERIOD_SECONDS,
+  DRAW_CALCULATOR_TIMELOCK,
+  TOKEN_DECIMALS 
+} = require('../constants')
+
 const { deployContract } = require('../deployContract')
 
 function dim() {
@@ -99,7 +106,7 @@ module.exports = async (hardhat) => {
     args: [
       "Ticket",
       "TICK",
-      18,
+      TOKEN_DECIMALS,
       yieldSourcePrizePoolResult.address
     ]
   })
@@ -107,7 +114,7 @@ module.exports = async (hardhat) => {
 
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
-  if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
+  if (await yieldSourcePrizePool.getTicket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
     await tx.wait(1)
@@ -119,7 +126,7 @@ module.exports = async (hardhat) => {
     
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
 
-  if (await yieldSourcePrizePool.prizeStrategy() != prizeSplitStrategyResult.address) {
+  if (await yieldSourcePrizePool.getPrizeStrategy() != prizeSplitStrategyResult.address) {
     cyan('\nSetting prize strategy on prize pool...')
     const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
     await tx.wait(1)
@@ -135,50 +142,50 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const cardinality = 8
-
-  cyan('\nDeploying DrawHistory...')
-  const drawHistoryResult = await deploy('DrawHistory', {
+  cyan('\nDeploying DrawBuffer...')
+  const drawBufferResult = await deploy('DrawBuffer', {
     from: deployer,
     args: [
       deployer,
-      cardinality
+      DRAW_BUFFER_CARDINALITY
     ]
   })
-  displayResult('DrawHistory', drawHistoryResult)
+  displayResult('DrawBuffer', drawBufferResult)
 
   cyan('\nDeploying DrawBeacon...')
   const drawBeaconResult = await deploy('DrawBeacon', {
     from: deployer,
     args: [
       deployer,
-      drawHistoryResult.address,
+      drawBufferResult.address,
       rngServiceAddress,
       1, // Starting DrawID
       parseInt('' + new Date().getTime() / 1000),
-      PERIOD_IN_SECONDS
+      BEACON_PERIOD_SECONDS,
+      60 * 60 * 6 // RNG timeout = 6 hours
     ],
     skipIfAlreadyDeployed: true
   })
   displayResult('DrawBeacon', drawBeaconResult)
 
-  const drawHistory = await ethers.getContract('DrawHistory')
+
+  const drawHistory = await ethers.getContract('DrawBuffer')
   if (await drawHistory.manager() != drawBeaconResult.address) {
-    cyan('\nSetting DrawHistory manager to DrawBeacon...')
+    cyan('\nSetting DrawBuffer manager to DrawBeacon...')
     const tx = await drawHistory.setManager(drawBeaconResult.address)
     await tx.wait(1)
     green('Set!')
   }
 
-  cyan('\nDeploying PrizeDistributionHistory...')
-  const prizeDistributionHistoryResult = await deploy('PrizeDistributionHistory', {
+  cyan('\nDeploying PrizeDistributionBuffer...')
+  const prizeDistributionBufferResult = await deploy('PrizeDistributionBuffer', {
     from: deployer,
     args: [
       deployer,
-      cardinality
+      PRIZE_DISTRIBUTION_BUFFER_CARDINALITY
     ]
   })
-  displayResult('PrizeDistributionHistory', prizeDistributionHistoryResult)
+  displayResult('PrizeDistributionBuffer', prizeDistributionBufferResult)
   
   cyan('\nDeploying DrawCalculator...')
   const drawCalculatorResult = await deploy('DrawCalculator', {
@@ -186,14 +193,14 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       ticketResult.address,
-      drawHistoryResult.address,
-      prizeDistributionHistoryResult.address
+      drawBufferResult.address,
+      prizeDistributionBufferResult.address
     ]
   })
   displayResult('DrawCalculator', drawCalculatorResult)
 
-  cyan('\nDeploying DrawPrize...')
-  const drawPrizeResult = await deploy('DrawPrize', {
+  cyan('\nDeploying PrizeDistributor...')
+  const prizeDistributorResult = await deploy('PrizeDistributor', {
     from: deployer,
     args: [
       deployer,
@@ -201,9 +208,9 @@ module.exports = async (hardhat) => {
       drawCalculatorResult.address
     ]
   })
-  displayResult('DrawPrize', drawPrizeResult)
+  displayResult('PrizeDistributor', prizeDistributorResult)
 
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,drawPrizeResult.address,prizeSplitStrategyResult.address,reserveResult.address])
+  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,prizeDistributorResult.address,prizeSplitStrategyResult.address,reserveResult.address])
 
   const prizeFlush = await ethers.getContract('PrizeFlush')
   if (await prizeFlush.manager() != manager) {
@@ -227,8 +234,6 @@ module.exports = async (hardhat) => {
   // Setup the Timelock contracts
   /* ========================================= */
   
-  const period = 60 * 10 // five mins
-  const timelockDuration = period * 0.5 // five mins
   
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {
@@ -236,7 +241,7 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       drawCalculatorResult.address,
-      timelockDuration
+      DRAW_CALCULATOR_TIMELOCK
     ]
   })
   displayResult('DrawCalculatorTimelock', drawCalculatorTimelockResult)
@@ -246,7 +251,7 @@ module.exports = async (hardhat) => {
     from: deployer,
     args: [
       deployer,
-      prizeDistributionHistoryResult.address,
+      prizeDistributionBufferResult.address,
       drawCalculatorTimelockResult.address
     ]
   })
@@ -258,9 +263,9 @@ module.exports = async (hardhat) => {
   // Set the manager(s) of the periphery smart contracts.
   /* ========================================= */
 
-  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionBuffer')
   if (await prizeDistributionHistory.manager() != L1TimelockTriggerResult.address) {
-    cyan('\nSetting PrizeDistributionHistory manager...')
+    cyan('\nSetting PrizeDistributionBuffer manager...')
     const tx = await prizeDistributionHistory.setManager(L1TimelockTriggerResult.address)
     await tx.wait(1)
     green('Done!')

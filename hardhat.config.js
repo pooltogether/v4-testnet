@@ -63,9 +63,9 @@ module.exports = {
       // Core
       "@pooltogether/v4-core/contracts/DrawBeacon.sol",
       "@pooltogether/v4-core/contracts/DrawCalculator.sol",
-      "@pooltogether/v4-core/contracts/DrawHistory.sol",
-      "@pooltogether/v4-core/contracts/DrawPrize.sol",
-      "@pooltogether/v4-core/contracts/PrizeDistributionHistory.sol",
+      "@pooltogether/v4-core/contracts/DrawBuffer.sol",
+      "@pooltogether/v4-core/contracts/PrizeDistributor.sol",
+      "@pooltogether/v4-core/contracts/PrizeDistributionBuffer.sol",
       "@pooltogether/v4-core/contracts/Ticket.sol",
       "@pooltogether/v4-core/contracts/prize-strategy/PrizeSplitStrategy.sol",
       "@pooltogether/v4-core/contracts/Reserve.sol",

@@ -412,15 +412,15 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@openzeppelin/contracts@^4.3.1", "@openzeppelin/contracts@^4.3.2":
+"@openzeppelin/contracts@4.3.2", "@openzeppelin/contracts@^4.3.1":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
   integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
 
 "@pooltogether/draw-calculator-js@^1.0.0-beta.25":
-  version "1.0.0-beta.25"
-  resolved "https://registry.yarnpkg.com/@pooltogether/draw-calculator-js/-/draw-calculator-js-1.0.0-beta.25.tgz#54f5984cf1e8fb647c8ecb884bb1c7ee3a7722b2"
-  integrity sha512-WwPlCGnGSUdx0EnSHTdB8oby71BuxZa3QlVHnumsFbGegq//+mfj4LZtQuqZRq5w/awRdHVOyvYf0yuwHC14eA==
+  version "1.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@pooltogether/draw-calculator-js/-/draw-calculator-js-1.0.0-beta.26.tgz#b762a44dbd6dbdc8ca57de09785c67a0680ea894"
+  integrity sha512-itzp4RwwsjqU5xLHW80ALDQ1lLW2JqD76191QkMrOvdUASfRaZAoflsP3rizJdnAZAlmzQ49qlgQD/JmCrw6FA==
   dependencies:
     chalk "^4.1.2"
     debug "^4.3.2"
@@ -442,7 +442,7 @@
 
 "@pooltogether/v4-core@github://pooltogether/v4-core":
   version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-core.git#554d8d81f154a7d53d9d10f1f9d695c57292e83b"
+  resolved "https://codeload.github.com/pooltogether/v4-core/tar.gz/b4e9ad81a6ae1ebb83ed81e6316b467f6269170b"
   dependencies:
     "@openzeppelin/contracts" "^4.3.1"
     "@pooltogether/fixed-point" "1.0.0"
@@ -451,17 +451,40 @@
     "@pooltogether/yield-source-interface" "1.0.2"
     deploy-eip-1820 "1.0.0"
 
-"@pooltogether/v4-oracle-timelocks@github://pooltogether/v4-timelocks", "@pooltogether/v4-timelocks@github://pooltogether/v4-timelocks#master":
+"@pooltogether/v4-core@https://github.com/pooltogether/v4-core.git":
   version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-timelocks.git#cc2fb7c7a1230e3941e0cab03a5b516a731cafc7"
-
-"@pooltogether/v4-periphery@github://pooltogether/v4-periphery#master":
-  version "1.0.0-beta.1"
-  resolved "git+ssh://git@github.com/pooltogether/v4-periphery.git#f12d4ee17239ab163c267dba9b0038efe2ab8992"
+  uid b4e9ad81a6ae1ebb83ed81e6316b467f6269170b
+  resolved "https://github.com/pooltogether/v4-core.git#b4e9ad81a6ae1ebb83ed81e6316b467f6269170b"
   dependencies:
-    "@openzeppelin/contracts" "^4.3.2"
-    "@pooltogether/v4-core" "github://pooltogether/v4-core"
-    "@pooltogether/v4-oracle-timelocks" "github://pooltogether/v4-timelocks"
+    "@openzeppelin/contracts" "^4.3.1"
+    "@pooltogether/fixed-point" "1.0.0"
+    "@pooltogether/owner-manager-contracts" "1.1.0"
+    "@pooltogether/pooltogether-rng-contracts" "1.4.0"
+    "@pooltogether/yield-source-interface" "1.0.2"
+    deploy-eip-1820 "1.0.0"
+
+"@pooltogether/v4-periphery@github://pooltogether/v4-periphery":
+  version "1.0.0-beta.1"
+  resolved "https://codeload.github.com/pooltogether/v4-periphery/tar.gz/0543fc8718a3078553082dee1cc08f56d475d4de"
+  dependencies:
+    "@openzeppelin/contracts" "4.3.2"
+    "@pooltogether/v4-core" "https://github.com/pooltogether/v4-core.git"
+    "@pooltogether/v4-timelocks" "https://github.com/pooltogether/v4-timelocks.git"
+
+"@pooltogether/v4-timelocks@github://pooltogether/v4-timelocks":
+  version "1.0.0-beta.1"
+  uid f73bdc8e785059ae2bee7b13944e29fd61427dee
+  resolved "https://codeload.github.com/pooltogether/v4-timelocks/tar.gz/f73bdc8e785059ae2bee7b13944e29fd61427dee"
+  dependencies:
+    "@pooltogether/owner-manager-contracts" "1.1.0"
+    "@pooltogether/v4-core" "https://github.com/pooltogether/v4-core.git"
+
+"@pooltogether/v4-timelocks@https://github.com/pooltogether/v4-timelocks.git":
+  version "1.0.0-beta.1"
+  resolved "https://github.com/pooltogether/v4-timelocks.git#f73bdc8e785059ae2bee7b13944e29fd61427dee"
+  dependencies:
+    "@pooltogether/owner-manager-contracts" "1.1.0"
+    "@pooltogether/v4-core" "https://github.com/pooltogether/v4-core.git"
 
 "@pooltogether/yield-source-interface@1.0.2":
   version "1.0.2"
