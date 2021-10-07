@@ -13,41 +13,41 @@ const debug = require('debug')('tasks')
  task("getDraw", "Read Draw from DrawBuffer")
  .addParam('id')
  .setAction(async (args, {ethers}) => {
-    const drawHistory = await ethers.getContract('DrawBuffer')
+    const drawBuffer = await ethers.getContract('DrawBuffer')
     convertDrawToTable(await drawBuffer.getDraw(args.id), drawBuffer.address)
  });
 
 /**
- * @name DrawHistory.getNewestDraw()
- * @description Read newest Draws from DrawHistory
+ * @name DrawBuffer.getNewestDraw()
+ * @description Read newest Draws from DrawBuffer
  */
- task("getNewestDraw", "Read newest Draws from DrawHistory")
+ task("getNewestDraw", "Read newest Draws from DrawBuffer")
  .setAction(async (args, {ethers}) => {
-    const drawHistory = await ethers.getContract('DrawHistory')
-    convertDrawToTable(await drawHistory.getNewestDraw(), drawHistory.address)
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    convertDrawToTable(await drawBuffer.getNewestDraw(), drawBuffer.address)
  });
 
  /**
- * @name DrawHistory.getOldestDraw()
- * @description Read oldest Draws from DrawHistory
+ * @name DrawBuffer.getOldestDraw()
+ * @description Read oldest Draws from DrawBuffer
  */
-  task("getOldestDraw", "Read oldest Draws from DrawHistory")
+  task("getOldestDraw", "Read oldest Draws from DrawBuffer")
   .setAction(async (args, {ethers}) => {
-     const drawHistory = await ethers.getContract('DrawHistory')
-     convertDrawToTable(await drawHistory.getOldestDraw(), drawHistory.address)
+     const drawBuffer = await ethers.getContract('DrawBuffer')
+     convertDrawToTable(await drawBuffer.getOldestDraw(), drawBuffer.address)
   });
 
 /**
- * @name DrawHistory.getDraws()
- * @description Read list of Draws from DrawHistory
+ * @name DrawBuffer.getDraws()
+ * @description Read list of Draws from DrawBuffer
  */
- task("getDrawList", "Read list of Draws from DrawHistory")
+ task("getDrawList", "Read list of Draws from DrawBuffer")
  .addParam('ids')
  .setAction(async ({ids}, {ethers}) => {
-    const drawHistory = await ethers.getContract('DrawHistory')
+    const drawBuffer = await ethers.getContract('DrawBuffer')
     const list = ids.split(',')
-    const oldDraw = await drawHistory.getOldestDraw()
-    const newDraw = await drawHistory.getNewestDraw()
+    const oldDraw = await drawBuffer.getOldestDraw()
+    const newDraw = await drawBuffer.getNewestDraw()
     const expiredList = list.filter((id, idx) => { if(id < oldDraw.drawId || id > newDraw.drawId) return true} )
     if(expiredList.length > 0) {
       console.log(red(`Draw IDs expired: ${expiredList} `))
@@ -56,11 +56,11 @@ const debug = require('debug')('tasks')
       return;
     }
     try {
-      const drawList = await drawHistory.getDraws(list)
-      drawList.forEach(draw => convertDrawToTable(draw, drawHistory.address))
+      const drawList = await drawBuffer.getDraws(list)
+      drawList.forEach(draw => convertDrawToTable(draw, drawBuffer.address))
       return drawList;
     } catch (error) {
-      convertErrorToMsg(error, drawHistory)
+      convertErrorToMsg(error, drawBuffer)
     }
  });
 
@@ -68,26 +68,26 @@ const debug = require('debug')('tasks')
  * @name getLiveDraws()
  * @description Reads the curren draws range and reads list of Draws
  */
- task("getLiveDraws", "Read live DrawHistory draw range")
+ task("getLiveDraws", "Read live DrawBuffer draw range")
  .setAction(async (args, {ethers}) => {
-    const drawHistory = await ethers.getContract('DrawHistory')
-    const oldDraw = await drawHistory.getOldestDraw()
-    const newDraw = await drawHistory.getNewestDraw()
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    const oldDraw = await drawBuffer.getOldestDraw()
+    const newDraw = await drawBuffer.getNewestDraw()
     const listEnforced = range((newDraw.drawId - oldDraw.drawId), oldDraw.drawId) // Generate Draw.drawId list [1,2,4,5,6,7]
     try {
-      const drawList = await drawHistory.getDraws(listEnforced)
-      drawList.forEach(draw => convertDrawToTable(draw, drawHistory.address));
+      const drawList = await drawBuffer.getDraws(listEnforced)
+      drawList.forEach(draw => convertDrawToTable(draw, drawBuffer.address));
       return drawList;
     } catch (error) {
-      convertErrorToMsg(error, drawHistory)
+      convertErrorToMsg(error, drawBuffer)
     }
  });
 
  /**
- * @name DrawHistory.pushDraw()
- * @description Push Draw onto DrawHistory ring buffer
+ * @name DrawBuffer.pushDraw()
+ * @description Push Draw onto DrawBuffer ring buffer
   */
-  task("pushDraw", "Set Draws in DrawHistory")
+  task("pushDraw", "Set Draws in DrawBuffer")
   .addParam('id')
   .addParam('time')
   .addParam('wrn')
@@ -97,7 +97,7 @@ const debug = require('debug')('tasks')
     debug(user, wallet)
     const { id, time, wrn, startedAt } = args
     debug(id, time, wrn, startedAt)
-    const drawHistory = await (await ethers.getContract('DrawHistory').connect(wallet))
+    const drawBuffer = await (await ethers.getContract('DrawBuffer').connect(wallet))
     const drawBeacon = await ethers.getContract('DrawBeacon')
     const beaconPeriodSeconds = await drawBeacon.beaconPeriodSeconds();
     try {
@@ -108,19 +108,19 @@ const debug = require('debug')('tasks')
         beaconPeriodStartedAt: startedAt,
         beaconPeriodSeconds: beaconPeriodSeconds
       }
-      const tx = await drawHistory.pushDraw(newDraw);
+      const tx = await drawBuffer.pushDraw(newDraw);
       console.log(cyan(emoji.get('checkmark'), 'Draw Pushed'))
       return tx
     } catch (error) {
-      convertErrorToMsg(error, drawHistory)
+      convertErrorToMsg(error, drawBuffer)
     }
   });
 
  /**
- * @name DrawHistory.setDraw()
- * @description Set Draws in DrawHistory
+ * @name DrawBuffer.setDraw()
+ * @description Set Draws in DrawBuffer
   */
-  task("setDraw", "Set Draws in DrawHistory")
+  task("setDraw", "Set Draws in DrawBuffer")
   .addParam('id')
   .addParam('timestamp')
   .addParam('wrn')
@@ -129,9 +129,9 @@ const debug = require('debug')('tasks')
     debug(user, wallet)
     const { id, timestamp, winningRandomNumber} = args
     debug(id, timestamp, winningRandomNumber)
-    const drawHistory = await( await ethers.getContract('DrawHistory').connect(wallet))
+    const drawBuffer = await( await ethers.getContract('DrawBuffer').connect(wallet))
     try {
-      const drawCurrent = await drawHistory.getDraw(id)
+      const drawCurrent = await drawBuffer.getDraw(id)
       const newDraw = {
         drawId: id,
         timestamp: timestamp || drawCurrent.timestamp,
@@ -139,11 +139,11 @@ const debug = require('debug')('tasks')
         beaconPeriodStartedAt: drawCurrent.beaconPeriodStartedAt,
         beaconPeriodSeconds: drawCurrent.beaconPeriodSeconds,
       }
-      const tx = await drawHistory.setDraw(newDraw);
+      const tx = await drawBuffer.setDraw(newDraw);
       console.log(cyan(emoji.get('checkmark'), 'Draw Set'))
       return tx
     } catch (error) {
-      convertErrorToMsg(error, drawHistory)
+      convertErrorToMsg(error, drawBuffer)
     }
   });
 

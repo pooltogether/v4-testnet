@@ -15,6 +15,7 @@ To run fork scripts, deploy or perform any operation with a mainnet/testnet node
 ### Disbursement Address
 To `disburse` and `deposit` you will need to add a list of address(es) to DISBURSE_ADDRESSES.
 
+
 **Example**
 ```.sh
 export DISBURSE_ADDRESSES='0x0000000000000000000000000000000000000000,0x0000000000000000000000000000000000000001'
@@ -72,6 +73,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 `yarn task [TASK_NAME] --user 0x0000000000000000000000000000000000000000`
 
 ## Calculations
+
 
 - **winningPickIndices:** Calculates a user winning picks and prize tier (distribution index) results 
 

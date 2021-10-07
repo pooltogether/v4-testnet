@@ -1,7 +1,12 @@
-const chalk = require('chalk');
 const { dim, cyan, green } = require('../colors')
-const { PERIOD_IN_SECONDS } = require('../constants')
 const { deployContract } = require('../deployContract')
+
+const { 
+  DRAW_BUFFER_CARDINALITY,
+  PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
+  DRAW_CALCULATOR_TIMELOCK,
+  TOKEN_DECIMALS 
+} = require('../constants')
 
 module.exports = async (hardhat) => {
 
@@ -26,30 +31,27 @@ module.exports = async (hardhat) => {
 
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, [])
   const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer,mockYieldSourceResult.address])
-  const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket","TICK",18,yieldSourcePrizePoolResult.address])
+  const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket","TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])
   
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
-  const timelockDuration = PERIOD_IN_SECONDS * 0.5 // five mins
-
-  if (await yieldSourcePrizePool.ticket() != ticketResult.address) {
+  if (await yieldSourcePrizePool.getTicket() != ticketResult.address) {
     cyan('\nSetting ticket on prize pool...')
     const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
     await tx.wait(1)
     green(`\nSet ticket!`)
   }
 
-  const cardinality = 8
-  const drawHistoryResult = await deployContract(deploy, 'DrawHistory', deployer, [deployer, cardinality])
-  const prizeDistributionHistoryResult = await deployContract(deploy, 'PrizeDistributionHistory', deployer, [deployer,cardinality])
-  const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [deployer, ticketResult.address,drawHistoryResult.address,prizeDistributionHistoryResult.address])
-  const drawPrizeResult = await deployContract(deploy, 'DrawPrize', deployer, [deployer,ticketResult.address,drawCalculatorResult.address])
-  const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer,yieldSourcePrizePoolResult.address])
-  const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer,ticketResult.address])
+  const drawBufferResult = await deployContract(deploy, 'DrawBuffer', deployer, [deployer, DRAW_BUFFER_CARDINALITY])
+  const prizeDistributionBufferResult = await deployContract(deploy, 'PrizeDistributionBuffer', deployer, [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY])
+  const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [deployer, ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address])
+  const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer,ticketResult.address, drawCalculatorResult.address])
+  const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
+  const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
   
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
 
-  if (await yieldSourcePrizePool.prizeStrategy() != prizeSplitStrategyResult.address) {
+  if (await yieldSourcePrizePool.getPrizeStrategy() != prizeSplitStrategyResult.address) {
     cyan('\nSetting prize strategy on prize pool...')
     const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
     await tx.wait(1)
@@ -65,12 +67,12 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,drawPrizeResult.address,prizeSplitStrategyResult.address,reserveResult.address])
-  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer,drawCalculatorResult.address,timelockDuration])
-  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer,drawHistoryResult.address, prizeDistributionHistoryResult.address,drawCalculatorTimelockResult.address])
+  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,prizeDistributorResult.address,prizeSplitStrategyResult.address,reserveResult.address])
+  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer,drawCalculatorResult.address, DRAW_CALCULATOR_TIMELOCK])
+  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer,drawBufferResult.address, prizeDistributionBufferResult.address,drawCalculatorTimelockResult.address])
   const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   const reserve = await ethers.getContract('Reserve')
-  const drawHistory = await ethers.getContract('DrawHistory')
+  const drawHistory = await ethers.getContract('DrawBuffer')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
 
   const prizeFlush = await ethers.getContract('PrizeFlush')
@@ -100,7 +102,7 @@ module.exports = async (hardhat) => {
   }
 
   if (await drawHistory.manager() != l2TimelockTrigger.address) {
-    cyan(`\nSetting DrawHistory manager to ${l2TimelockTrigger.address}...`)
+    cyan(`\nSetting DrawBuffer manager to ${l2TimelockTrigger.address}...`)
     const tx = await drawHistory.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green('Done!')
@@ -113,9 +115,9 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+  const prizeDistributionHistory = await ethers.getContract('PrizeDistributionBuffer')
   if (await prizeDistributionHistory.manager() != l2TimelockTrigger.address) {
-    cyan(`\nSetting PrizeDistributionHistory manager to ${l2TimelockTrigger.address}...`)
+    cyan(`\nSetting PrizeDistributionBuffer manager to ${l2TimelockTrigger.address}...`)
     const tx =  await prizeDistributionHistory.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)

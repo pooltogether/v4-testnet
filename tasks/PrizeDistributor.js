@@ -1,30 +1,30 @@
-Wconst { ethers } = require('ethers');
+const { ethers } = require('ethers');
 const { cyan } = require('chalk');
 const { range } = require('./utils/range');
 const { getUserAndWallet } = require('./utils/getUserAndWallet');
 const { prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw-calculator-js');
 
 /**
- * @name DrawPrize.claim()
+ * @name PrizeDistributor.claim()
  */
  task("claim", "Claim prizes from PrizeDistributor")
  .addOptionalParam("user", "<address>")
  .addOptionalParam("wallet", "<address>")
  .setAction(async (args, {ethers}) => {
     const { user, wallet } = await getUserAndWallet(ethers, args)
-    const drawPrize = await (await ethers.getContract('DrawPrize')).connect(wallet)
-    const drawHistory = await ethers.getContract('DrawHistory')
+    const prizeDistributor = await (await ethers.getContract('PrizeDistributor')).connect(wallet)
+    const drawBuffer = await ethers.getContract('DrawBuffer')
     const drawCalculatorContract = await ethers.getContract('DrawCalculator')
-    const prizeDistributionHistory = await ethers.getContract('PrizeDistributionHistory')
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
     
     // READ Draw Range
-    const newDraw = await drawHistory.getNewestDraw()
-    const oldDraw = await drawHistory.getOldestDraw()
+    const newDraw = await drawBuffer.getNewestDraw()
+    const oldDraw = await drawBuffer.getOldestDraw()
     const list = range((newDraw.drawId - oldDraw.drawId), oldDraw.drawId) // Generate Draw.drawId list [1,2,4,5,6,7]
     
     // READ PrizeDistribution list
-    const drawList = await drawHistory.getDraws(list)
-    const prizeDistributionList = (await prizeDistributionHistory.getPrizeDistributions(list))
+    const drawList = await drawBuffer.getDraws(list)
+    const prizeDistributionList = (await prizeDistributionBuffer.getPrizeDistributions(list))
     
     // READ Normalized Balances
     const [balances] = await drawCalculatorContract.functions.getNormalizedBalancesForDrawIds(user, list) 
@@ -48,8 +48,8 @@ const { prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw
       })
     }
 
-    await drawPrize.claim(USER_CLAIM.userAddress, USER_CLAIM.drawIds, USER_CLAIM.encodedWinningPickIndices )
-    return console.log('DrawPrize claim complete...')
+    await prizeDistributor.claim(USER_CLAIM.userAddress, USER_CLAIM.drawIds, USER_CLAIM.encodedWinningPickIndices )
+    return console.log('PrizeDistributor claim complete...')
  });
 
 
