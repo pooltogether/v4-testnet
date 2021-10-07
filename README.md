@@ -13,7 +13,7 @@ cp .envrc.example .envrv
 To run fork scripts, deploy or perform any operation with a mainnet/testnet node you will need an Infura API key.
 
 ### Disbursement Address
-To `disburse` and `deposit` you will need to add a list of address(s) to DISBURSE_ADDRESSES.
+To `disburse` and `deposit` you will need to add a list of address(es) to DISBURSE_ADDRESSES.
 
 **Example**
 ```.sh
