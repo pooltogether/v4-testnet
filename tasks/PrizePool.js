@@ -1,30 +1,34 @@
-const debug = require('debug')('pt:check')
-const chalk = require('chalk')
+const { cyan } = require('chalk');
+const emoji = require('node-emoji');
+const debug = require('debug')('tasks')
+const { getUserAndWallet } = require('./utils/getUserAndWallet');
 
 task("deposit", "Deposits into the pool")
-  .addParam("signer", "The index of the signer to use", '0')
-  .addParam("amount", "The amount to deposit", '100')
-  .setAction(async (taskArgs, hre) => {
-      const { ethers } = hre
-      const signers = await ethers.getSigners()
-      const signer = signers[taskArgs.signer]
-      const amount = ethers.utils.parseEther(taskArgs.amount)
-      console.log(chalk.dim(`Depositing with signer ${signer.address}...`))
-    
-      const yieldSource = await ethers.getContract('MockYieldSource')
-      const token = await ethers.getContractAt('ERC20Mintable', await yieldSource.depositToken())
+.addOptionalParam("user", "<address>")
+.addOptionalParam("wallet", "<address>")
+.addParam("amount", "The amount to deposit", '0')
+.setAction(async (args, { ethers }) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    debug(user, wallet)
+  
+    const yieldSource = await ethers.getContract('MockYieldSource')
+    const prizePool = await ethers.getContract('YieldSourcePrizePool')
+    const token = await ethers.getContractAt('ERC20Mintable', await yieldSource.depositToken())
 
-      const balance = await token.balanceOf(signer.address)
-      if (!balance.gte(amount)) {
-        debug(`Insufficient balance; minting...`)
-        await token.mint(signer.address, amount)
-      }
+    const balance = await token.balanceOf(wallet.address)
+    if (!balance.gte(ethers.utils.parseEther(args.amount))) {
+      debug(`Insufficient balance; minting...`)
+      const txMint = await token.mint(wallet.address, ethers.utils.parseEther(args.amount))
+      await txMint.wait()
+    }
 
-      const prizePool = await ethers.getContract('YieldSourcePrizePool')
-      debug(`Approving...`)
-      await token.connect(signer).approve(prizePool.address, amount)
+    debug(`Approving...`)
+    const txApprove = await token.connect(wallet).approve(prizePool.address, ethers.utils.parseEther(args.amount))
+    console.log(cyan(emoji.find('🕰️').emoji, ` Approving Deposit to PrizePool`))
+    await txApprove.wait()
 
-      debug(`Depositing...`)
-      const ticket = await ethers.getContract('Ticket')
-      await prizePool.connect(signer).depositTo(signer.address, amount, ticket.address)
-    });
+    debug(`Depositing...`)
+    await prizePool.connect(wallet).depositTo(wallet.address, ethers.utils.parseEther(args.amount))
+
+    console.log(cyan(emoji.find('✅').emoji, `Deposited ${args.amount} tokens and received ${args.amount} tickets`))
+  });

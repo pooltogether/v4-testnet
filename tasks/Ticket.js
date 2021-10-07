@@ -1,21 +1,19 @@
 const { DateTime } = require('luxon');
 const { green, cyan, yellow } = require('chalk');
-const { runDrawCalculator, prepareClaimForUserFromDrawResult } = require('@pooltogether/draw-calculator-js');
 const { ethers, utils } = require('ethers');
-const { convertErrorToMsg } = require('./utils/messages');
-
+const { getUserAndWallet } = require('./utils/getUserAndWallet');
+const { convertErrorToMsg } = require('./utils/convertErrorToMsg');
+const { contractConnectWallet } = require('./utils/contractConnectWallet');
 
 /**
  * @name Ticket.balanceOf()
  */
  task("balanceOf", "")
- .addOptionalParam("wallet", "<number>")
- .setAction(async (args, hre) => {
-    const { ethers } = hre
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
+ .addOptionalParam("user", "<address>")
+ .addOptionalParam("wallet", "<address>")
+ .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     const balanceOf = await ticket.balanceOf(user)
     convertBalanceOfToTable(user, balanceOf)
     return balanceOf
@@ -25,13 +23,11 @@ const { convertErrorToMsg } = require('./utils/messages');
  * @name Ticket.getAccountDetails()
  */
  task("getAccountDetails", "")
- .addOptionalParam("wallet", "<number>")
- .setAction(async (args, hre) => {
-    const { ethers } = hre
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
+ .addOptionalParam("user", "<address>")
+ .addOptionalParam("wallet", "<address>")
+ .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     const getAccountDetails = await ticket.getAccountDetails(user)
     convertUserToTable(user, getAccountDetails, ticket.address);
     return getAccountDetails;
@@ -43,15 +39,14 @@ const { convertErrorToMsg } = require('./utils/messages');
   task("getAverageBalancesBetween", "")
   .addParam("start", "<number>[]")
   .addParam("end", "<number>[]")
-  .addOptionalParam("wallet", "<number>")
+  .addOptionalParam("user", "<address>")
+  .addOptionalParam("wallet", "<address>")
   .setAction(async (args, {ethers}) => {
+    const { user, wallet } = await getUserAndWallet(ethers, args)
     const { start, end } = args
-    const { getSigners } = ethers
-    const [ wallet ] = await getSigners();
-    const ticket = await ethers.getContract('Ticket')
-    const user = args.wallet || wallet.address // Input addres or default hardhat wallet
     const rangeStart = start.split(',')
     const rangeEnd = end.split(',')
+    const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
     try {   
       const getAverageBalancesBetween = await ticket.getAverageBalancesBetween(user,rangeStart,rangeEnd)
       getAverageBalancesBetween.forEach((balance, idx) =>  convertBalanceToTable(user, balance, rangeStart[idx], rangeEnd[idx]))
@@ -61,7 +56,6 @@ const { convertErrorToMsg } = require('./utils/messages');
     }
   });
 
-
 /**
  * @name Ticket.transfer()
  */
@@ -70,11 +64,15 @@ task("transfer", "")
 .addParam("amount", "<number>[]")
 .addOptionalParam("wallet", "<number>")
 .setAction(async (args, {ethers}) => {
-  const { getSigners } = ethers
-  const wallet = (await getSigners())[args.wallet || 0]
-  const ticket = await (await ethers.getContract('Ticket')).connect(wallet)
-  const bnAmount = ethers.utils.parseUnits(args.amount, await ticket.decimals())
-  const tx = await ticket.transfer(args.to, bnAmount)
+  const { wallet } = await getUserAndWallet(ethers, args)
+  const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
+  const amount = ethers.utils.parseUnits(args.amount, await ticket.decimals())
+  try {
+    const tx = await ticket.transfer(args.to, amount)
+    console.log(tx)
+  } catch (error) {
+    convertErrorToMsg(error, ticket)
+  }
 });
 
 /**
@@ -84,11 +82,14 @@ task("delegate", "")
 .addParam("to", "<string>")
 .addOptionalParam("wallet", "<number>")
 .setAction(async (args, {ethers}) => {
-  const { getSigners } = ethers
-  const wallet = (await getSigners())[args.wallet || 0]
-  const ticket = await (await ethers.getContract('Ticket')).connect(wallet)
-  const tx = await ticket.delegate(args.to)
-  console.log(tx)
+  const { wallet } = await getUserAndWallet(ethers, args)
+  const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
+  try {
+    const tx = await ticket.delegate(args.to)
+    console.log(tx)
+  } catch (error) {
+    convertErrorToMsg(error, ticket)
+  }
 });
 
 

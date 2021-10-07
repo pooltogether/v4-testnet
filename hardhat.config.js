@@ -1,14 +1,16 @@
 const networks = require('./hardhat.network')
-require('./tasks/calculations')
-require('./tasks/administrative')
-require('./tasks/DrawHistory')
-require('./tasks/DrawPrizes')
-require('./tasks/PrizeDistributionHistory')
-require('./tasks/PrizePool')
-require('./tasks/Ticket')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
 require('hardhat-deploy-ethers')
+
+// Tasks
+require('./tasks/calculations')
+require('./tasks/administrative')
+require('./tasks/DrawBuffer')
+require('./tasks/PrizeDistributor')
+require('./tasks/PrizeDistributionBuffer')
+require('./tasks/PrizePool')
+require('./tasks/Ticket')
 
 const optimizerEnabled = true
 
