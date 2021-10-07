@@ -6,7 +6,7 @@ require('hardhat-deploy-ethers')
 // Tasks
 require('./tasks/calculations')
 require('./tasks/administrative')
-require('./tasks/DrawHistory')
+require('./tasks/DrawBuffer')
 require('./tasks/DrawPrize')
 require('./tasks/PrizeDistributionHistory')
 require('./tasks/PrizePool')
