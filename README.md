@@ -93,7 +93,7 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 - **getPrizeDistribution:** Read target prize distribtion parameters
 - **getOldestPrizeDistribution:** Read oldest prize distribtion parameters
 - **getNewestPrizeDistribution:** Read newest prize distribtion parameters 
-- **getLivePrizeDistributionList:** Read all prize distribution history between oldest and newest
+- **getLivePrizeDistributionList:** Read all prize distribution buffer between oldest and newest
 
 ## PrizePool
 
