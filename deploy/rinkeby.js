@@ -51,10 +51,12 @@ module.exports = async (hardhat) => {
     getNamedAccounts
   } = hardhat
   const { deploy } = deployments;
-  let { deployer, manager } = await getNamedAccounts();
+  let { deployer, manager, owner } = await getNamedAccounts();
 
   const chainId = parseInt(await getChainId(), 10)
   const isTestEnvironment = chainId === 31337 || chainId === 1337;
+  console.log(`running on chainId ${chainId} `)
+  
 
   if (process.env.DEPLOY != 'rinkeby' && process.env.DEPLOY != 'goerli') {
     dim(`Ignoring rinkeby and goerli...`)
@@ -83,7 +85,8 @@ module.exports = async (hardhat) => {
   cyan('\nDeploying MockYieldSource...')
   const mockYieldSourceResult = await deploy('MockYieldSource', {
     from: deployer,
-    args: ['Token', 'TOK', TOKEN_DECIMALS]
+    args: ['Token', 'TOK', TOKEN_DECIMALS],
+    skipIfAlreadyDeployed: true
   })
   displayResult('MockYieldSource', mockYieldSourceResult)
   
@@ -93,7 +96,8 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       mockYieldSourceResult.address
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('YieldSourcePrizePool', yieldSourcePrizePoolResult)
 
@@ -109,7 +113,8 @@ module.exports = async (hardhat) => {
       "TICK",
       TOKEN_DECIMALS,
       yieldSourcePrizePoolResult.address
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('Ticket', ticketResult)
 
@@ -149,7 +154,8 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       DRAW_BUFFER_CARDINALITY
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('DrawBuffer', drawBufferResult)
 
@@ -184,7 +190,8 @@ module.exports = async (hardhat) => {
     args: [
       deployer,
       PRIZE_DISTRIBUTION_BUFFER_CARDINALITY
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('PrizeDistributionBuffer', prizeDistributionBufferResult)
   
@@ -196,7 +203,8 @@ module.exports = async (hardhat) => {
       ticketResult.address,
       drawBufferResult.address,
       prizeDistributionBufferResult.address
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('DrawCalculator', drawCalculatorResult)
 
@@ -207,7 +215,8 @@ module.exports = async (hardhat) => {
       deployer,
       ticketResult.address,
       drawCalculatorResult.address
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('PrizeDistributor', prizeDistributorResult)
 
@@ -243,7 +252,8 @@ module.exports = async (hardhat) => {
       deployer,
       drawCalculatorResult.address,
       DRAW_CALCULATOR_TIMELOCK
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('DrawCalculatorTimelock', drawCalculatorTimelockResult)
 
@@ -254,7 +264,8 @@ module.exports = async (hardhat) => {
       deployer,
       prizeDistributionBufferResult.address,
       drawCalculatorTimelockResult.address
-    ]
+    ],
+    skipIfAlreadyDeployed: true
   })
   displayResult('L1TimelockTrigger', L1TimelockTriggerResult)
 
@@ -287,4 +298,17 @@ module.exports = async (hardhat) => {
     await tx.wait(1)
     green('Done!')
   }
+
+  // Phase 4 ---------------------------------
+  cyan('\nDeploying PrizeTierHistory...')
+  const prizeTierHistoryResult = await deploy('PrizeTierHistory', {
+    from: deployer,
+    args: [
+      owner,
+    ],
+    skipIfAlreadyDeployed: true
+  })
+  displayResult('PrizeTierHistory', prizeTierHistoryResult)
+
+
 }

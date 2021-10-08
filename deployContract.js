@@ -4,7 +4,8 @@ async function deployContract(deploy, contract, deployer, args) {
   cyan(`\nDeploying ${contract}...`)
   const result = await deploy(contract, {
     from: deployer,
-    args: args 
+    args: args,
+    skipIfAlreadyDeployed: true,
   })
   displayResult(`${contract}`, result)
 

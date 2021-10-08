@@ -37,7 +37,8 @@ module.exports = {
       default: 0
     },
     owner: {
-      default: 0
+      default: 0,
+      rinkeby: "0x72c9aA4c753fc36cbF3d1fF6fEc0bC44ad41D7f2"
     },
     manager: {
       default: 0,
@@ -77,7 +78,11 @@ module.exports = {
       "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",
       "@pooltogether/v4-timelocks/contracts/DrawCalculatorTimelock.sol",
       // Periphery
-      "@pooltogether/v4-periphery/contracts/PrizeFlush.sol"
+      "@pooltogether/v4-periphery/contracts/PrizeFlush.sol",
+      "@pooltogether/v4-periphery/contracts/PrizeTierHIstory.sol",
+      // mock yield source
+      "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol"
+
     ]
   }
 };
