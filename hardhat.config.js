@@ -2,6 +2,7 @@ const networks = require('./hardhat.network')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
 require('hardhat-deploy-ethers')
+require('@pooltogether/hardhat-deploy-markdown-export')
 
 // Tasks
 require('./tasks/calculations')
