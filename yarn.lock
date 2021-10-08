@@ -453,7 +453,6 @@
 
 "@pooltogether/v4-core@https://github.com/pooltogether/v4-core.git":
   version "1.0.0-beta.1"
-  uid "8f6c2d1d1ffc91ebd7f23b97da6e6dd1bc4b923f"
   resolved "https://github.com/pooltogether/v4-core.git#8f6c2d1d1ffc91ebd7f23b97da6e6dd1bc4b923f"
   dependencies:
     "@openzeppelin/contracts" "^4.3.1"
@@ -491,9 +490,9 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/yield-source-interface/-/yield-source-interface-1.0.2.tgz#59630684e0e55310577e9bf07fd778b60676c8ec"
   integrity sha512-dt/lkK+0erPHi9FpVaYLA2+PiWJb7sODB/2J/LyrENtAe2Miob03005ijLY3zHb4NtQUEGDDPM0uX51jniex7A==
 
-"@pooltogether/yield-source-interface@github://pooltogether/yield-source-interface#pool-1747-mockyieldsource-add-decimals-setter-for":
-  version "1.2.0"
-  resolved "https://codeload.github.com/pooltogether/yield-source-interface/tar.gz/d6bf251cbe2a62486ee54fe86845e1d5ff31daa5"
+"@pooltogether/yield-source-interface@github://pooltogether/yield-source-interface":
+  version "1.3.0"
+  resolved "https://codeload.github.com/pooltogether/yield-source-interface/tar.gz/27a2118c2f7265786284684929346a77f5cab9b6"
 
 "@sentry/core@5.30.0":
   version "5.30.0"
