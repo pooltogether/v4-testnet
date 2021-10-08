@@ -31,7 +31,7 @@
     "@pooltogether/v4-core": "github://pooltogether/v4-core",
     "@pooltogether/v4-periphery": "github://pooltogether/v4-periphery",
     "@pooltogether/v4-timelocks": "github://pooltogether/v4-timelocks",
-    "@pooltogether/yield-source-interface": "^1.1.0",
+    "@pooltogether/yield-source-interface": "github://pooltogether/yield-source-interface",
     "find": "^0.3.0",
     "glob": "^7.1.7"
   },
