@@ -1,5 +1,6 @@
 const chalk = require('chalk')
 const hardhat = require("hardhat")
+const { TOKEN_DECIMALS } = require('../constants')
 const { ethers } = hardhat
 
 const toWei = ethers.utils.parseEther
@@ -14,7 +15,7 @@ async function run() {
 
   const signers = await ethers.getSigners()
 
-  const amount = toWei('10000000')
+  const amount = ethers.utils.parseUnits('10000000', TOKEN_DECIMALS)
 
   console.log(chalk.dim(`Minting to ${signers[0].address}...`))
   await token.mint(signers[0].address, amount)

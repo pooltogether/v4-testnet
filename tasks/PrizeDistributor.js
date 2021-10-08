@@ -7,7 +7,7 @@ const { prepareClaims, batchCalculateDrawResults } = require('@pooltogether/draw
 /**
  * @name PrizeDistributor.claim()
  */
- task("claim", "Claim prizes from PrizeDistributor")
+ task("claim", "Claim prizes from DrawPrizs")
  .addOptionalParam("user", "<address>")
  .addOptionalParam("wallet", "<address>")
  .setAction(async (args, {ethers}) => {
