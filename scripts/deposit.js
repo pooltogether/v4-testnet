@@ -3,15 +3,11 @@ const hardhat = require("hardhat")
 const { TOKEN_DECIMALS } = require('../constants')
 const { ethers } = hardhat
 
-const toWei = ethers.utils.parseEther
-
 async function run() {
 
   const yieldSource = await ethers.getContract('MockYieldSource')
-  const token = await ethers.getContractAt('ERC20Mintable', (await yieldSource.depositToken()))
-  const ticket = await ethers.getContract('Ticket')
+  const token = await ethers.getContractAt('@pooltogether/v4-core/contracts/test/ERC20Mintable.sol:ERC20Mintable', (await yieldSource.depositToken()))
   const prizePool = await ethers.getContract('YieldSourcePrizePool')
-  const prizeDistributors = await ethers.getContract('PrizeDistributor')
 
   const signers = await ethers.getSigners()
 

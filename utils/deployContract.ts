@@ -1,6 +1,6 @@
 const { cyan, displayResult } = require('./colors')
 
-async function deployContract(deploy, contract, deployer, args) {
+export async function deployContract(deploy: Function, contract: string, deployer: string, args: Array<any>) {
   cyan(`\nDeploying ${contract}...`)
   const result = await deploy(contract, {
     from: deployer,
@@ -12,6 +12,4 @@ async function deployContract(deploy, contract, deployer, args) {
   return result
 }
 
-module.exports = {
-  deployContract
-}
+export default deployContract

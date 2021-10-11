@@ -1,30 +1,32 @@
+import { Contract } from "@ethersproject/contracts";
+
 const chalk = require('chalk');
 
-function dim() {
+export function dim(msg: any) {
   if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.dim.call(chalk, ...arguments));
+    console.log(chalk.dim(msg));
   }
 }
 
-function cyan() {
+export function cyan(msg: any) {
   if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.cyan.call(chalk, ...arguments));
+    console.log(chalk.cyan(msg));
   }
 }
 
-function yellow() {
+export function yellow(msg: any) {
   if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.yellow.call(chalk, ...arguments));
+    console.log(chalk.yellow(msg));
   }
 }
 
-function green() {
+export function green(msg: any) {
   if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.green.call(chalk, ...arguments));
+    console.log(chalk.green(msg));
   }
 }
 
-function displayResult(name, result) {
+export function displayResult(name: string, result: Contract) {
   if (!result.newlyDeployed) {
     yellow(`Re-used existing ${name} at ${result.address}`);
   } else {

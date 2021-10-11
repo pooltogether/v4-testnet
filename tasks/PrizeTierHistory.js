@@ -9,7 +9,7 @@ const { contractConnectWallet } = require('./utils/contractConnectWallet');
  .addOptionalParam("user", "<address>")
  .addOptionalParam("wallet", "<address>")
  .setAction(async (args, {ethers}) => {
-    const { user, wallet } = await getUserAndWallet(ethers, args)
+    const { wallet } = await getUserAndWallet(ethers, args)
     const prizeTierHistory = await contractConnectWallet(ethers, 'PrizeTierHistory', wallet)
     const prizeTier = {
       drawId: 1,

@@ -1,3 +1,7 @@
+
+import { HardhatUserConfig } from 'hardhat/config';
+import { DeployFunction } from 'hardhat-deploy/types';
+
 const networks = require('./hardhat.network')
 require('hardhat-dependency-compiler')
 require('hardhat-deploy')
@@ -16,7 +20,13 @@ require('./tasks/PrizeTierHistory')
 
 const optimizerEnabled = true
 
-module.exports = {
+interface HardhatUserConfigExtended extends HardhatUserConfig {
+  namedAccounts: any;
+  external: any;
+  dependencyCompiler: any;
+}
+
+const config: HardhatUserConfigExtended = {
   networks,
   defaultNetwork: "rinkeby",
   solidity: {
@@ -87,3 +97,5 @@ module.exports = {
     ]
   }
 };
+
+export default config;
