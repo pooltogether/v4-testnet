@@ -12,6 +12,7 @@ require('./tasks/PrizeDistributor')
 require('./tasks/PrizeDistributionBuffer')
 require('./tasks/PrizePool')
 require('./tasks/Ticket')
+require('./tasks/PrizeTierHistory')
 
 const optimizerEnabled = true
 

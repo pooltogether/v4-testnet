@@ -304,7 +304,7 @@ module.exports = async (hardhat) => {
   const prizeTierHistoryResult = await deploy('PrizeTierHistory', {
     from: deployer,
     args: [
-      owner,
+      deployer,
     ],
     skipIfAlreadyDeployed: true
   })

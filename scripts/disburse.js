@@ -9,7 +9,7 @@ const toWei = ethers.utils.parseEther
 async function run() {
 
   const yieldSource = await ethers.getContract('MockYieldSource')
-  const token = await ethers.getContractAt('ERC20Mintable', (await yieldSource.depositToken()))
+  const token = await ethers.getContractAt('@pooltogether/v4-core/contracts/test/ERC20Mintable.sol:ERC20Mintable', (await yieldSource.depositToken()))
 
   const signers = await ethers.getSigners()
 
