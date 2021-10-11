@@ -75,15 +75,15 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 ## Calculations
 
 
-- **winningPickIndices:** Calculates a user winning picks and prize tier (distribution index) results 
+- **winningPickIndices:** Calculates a user winning picks and prize tier (distribution index) results
 
 ## PrizeDistributor
 
-- **claim:** Claim winning prizes and receive tickets 
+- **claim:** Claim winning prizes and receive tickets
 
 ## DrawBuffer
 
-- **getDraws:** Read target draw buffer parameters 
+- **getDraws:** Read target draw buffer parameters
 - **getOldestDraw:** Read oldest draw buffer parameters
 - **getNewestDraw:** Read newest draw buffer parameters
 - **getLiveDraws:** Read all draw buffer parameters between oldest and newest
@@ -94,13 +94,17 @@ Interact with the V4 testnet deployed contracts through hardhat tasks.
 
 - **getPrizeDistribution:** Read target prize distribtion parameters
 - **getOldestPrizeDistribution:** Read oldest prize distribtion parameters
-- **getNewestPrizeDistribution:** Read newest prize distribtion parameters 
+- **getNewestPrizeDistribution:** Read newest prize distribtion parameters
 - **getLivePrizeDistributionList:** Read all prize distribution buffer between oldest and newest
 
 ## PrizePool
 
  - **deposit:** Deposit tokens and mint tickets
- 
+
+## PrizeTierHistory
+
+ - **setPrizeTier:** Push prize tier settings to PrizeTierHistory
+
 ## Ticket
 
  - **balanceOf:** Read balance of user address
