@@ -48,7 +48,6 @@ module.exports = async (hardhat) => {
   const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer,ticketResult.address, drawCalculatorResult.address])
   const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
   const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
-  
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
 
   if (await yieldSourcePrizePool.getPrizeStrategy() != prizeSplitStrategyResult.address) {
