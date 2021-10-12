@@ -65,6 +65,6 @@
     "artifacts",
     "deployments/mumbai",
     "deployments/rinkeby",
-    "testnets.json"
+    "testnet.json"
   ]
 }
