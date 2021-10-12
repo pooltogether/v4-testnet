@@ -1,15 +1,13 @@
 const chalk = require('chalk')
 const hardhat = require("hardhat")
-const { TOKEN_DECIMALS } = require('../constants')
 
 const { ethers } = hardhat
-
-const toWei = ethers.utils.parseEther
 
 async function run() {
 
   const yieldSource = await ethers.getContract('MockYieldSource')
   const token = await ethers.getContractAt('@pooltogether/v4-core/contracts/test/ERC20Mintable.sol:ERC20Mintable', (await yieldSource.depositToken()))
+  const decimals = await token.decimals()
 
   const signers = await ethers.getSigners()
 
@@ -24,7 +22,7 @@ async function run() {
 
   for (let index = 0; index < mintTokenTo.length; index++) {
     console.log(chalk.dim(`Minting to ${mintTokenTo[index]}...`))
-    await token.mint(mintTokenTo[index], ethers.utils.parseUnits(10_000, TOKEN_DECIMALS))
+    await token.mint(mintTokenTo[index], ethers.utils.parseUnits('10000', decimals))
   }
 }
 

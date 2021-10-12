@@ -14,21 +14,22 @@ task("deposit", "Deposits into the pool")
     const yieldSource = await ethers.getContract('MockYieldSource')
     const prizePool = await ethers.getContract('YieldSourcePrizePool')
     const token = await ethers.getContractAt('ERC20Mintable', await yieldSource.depositToken())
+    const decimals = await token.decimals()
 
     const balance = await token.balanceOf(wallet.address)
-    if (!balance.gte(ethers.utils.parseEther(args.amount))) {
+    if (!balance.gte(ethers.utils.parseUnit(args.amount, decimals))) {
       debug(`Insufficient balance; minting...`)
-      const txMint = await token.mint(wallet.address, ethers.utils.parseEther(args.amount))
+      const txMint = await token.mint(wallet.address, ethers.utils.parseUnit(args.amount, decimals))
       await txMint.wait()
     }
 
     debug(`Approving...`)
-    const txApprove = await token.connect(wallet).approve(prizePool.address, ethers.utils.parseEther(args.amount))
+    const txApprove = await token.connect(wallet).approve(prizePool.address, ethers.utils.parseUnit(args.amount, decimals))
     console.log(cyan(emoji.find('🕰️').emoji, ` Approving Deposit to PrizePool`))
     await txApprove.wait()
 
     debug(`Depositing...`)
-    await prizePool.connect(wallet).depositTo(wallet.address, ethers.utils.parseEther(args.amount))
+    await prizePool.connect(wallet).depositTo(wallet.address, ethers.utils.parseUnit(args.amount, decimals))
 
     console.log(cyan(emoji.find('✅').emoji, `Deposited ${args.amount} tokens and received ${args.amount} tickets`))
   });

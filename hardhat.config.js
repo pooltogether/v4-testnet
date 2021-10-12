@@ -80,7 +80,7 @@ module.exports = {
       "@pooltogether/v4-timelocks/contracts/DrawCalculatorTimelock.sol",
       // Periphery
       "@pooltogether/v4-periphery/contracts/PrizeFlush.sol",
-      "@pooltogether/v4-periphery/contracts/PrizeTierHIstory.sol",
+      "@pooltogether/v4-periphery/contracts/PrizeTierHistory.sol",
       // mock yield source
       "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol"
 

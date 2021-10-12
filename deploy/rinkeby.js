@@ -269,7 +269,6 @@ module.exports = async (hardhat) => {
   })
   displayResult('L1TimelockTrigger', L1TimelockTriggerResult)
 
-
   /* ========================================= */
   // Phase 3 ---------------------------------
   // Set the manager(s) of the periphery smart contracts.
@@ -309,6 +308,5 @@ module.exports = async (hardhat) => {
     skipIfAlreadyDeployed: true
   })
   displayResult('PrizeTierHistory', prizeTierHistoryResult)
-
 
 }
