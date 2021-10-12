@@ -7,10 +7,10 @@ const { mapIdToObject } = require('./utils/mapIdToObject');
  */
 task("getPrizeDistribution", "Read single prize distribution parameters")
 .addParam("id", "")
-.setAction(async ({id}, { ethers }) => {
-    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
-    const {drawId, prizeDistribution} = await prizeDistributionBuffer.getPrizeDistribution(id)
-    convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionBuffer.address )
+.setAction(async ({ id }, { ethers }) => {
+    const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer');
+    const prizeDistribution = await prizeDistributionBuffer.getPrizeDistribution(id);
+    convertPrizeDistributionToTable(id, prizeDistribution, prizeDistributionBuffer.address);
 });
 
 /**
@@ -22,7 +22,7 @@ task("getPrizeDistribution", "Read single prize distribution parameters")
      const {drawId, prizeDistribution}  = await prizeDistributionBuffer.getOldestPrizeDistribution()
      convertPrizeDistributionToTable(drawId, prizeDistribution, prizeDistributionBuffer.address)
    });
- 
+
  /**
   * @name getNewestPrizeDistribution
   */
@@ -43,10 +43,10 @@ task("getPrizeDistributionList", "Read list of prize distribution parameters")
     const range = drawIds.split(',')
     prizeDistributionList = await prizeDist.getPrizeDistributions(range)
     mapIdToObject(range, prizeDistributionList)
-        .forEach(prizeDistributionWithId => 
+        .forEach(prizeDistributionWithId =>
             convertPrizeDistributionToTable(
-                prizeDistributionWithId.drawId, 
-                prizeDistributionWithId.prizeDistribution, 
+                prizeDistributionWithId.drawId,
+                prizeDistributionWithId.prizeDistribution,
                 prizeDist.address
             ))
 });
@@ -64,10 +64,10 @@ task("getPrizeDistributionList", "Read list of prize distribution parameters")
     mapIdToObject(
             list,
             prizeDistributionList
-        ).forEach(prizeDistributionWithId => 
+        ).forEach(prizeDistributionWithId =>
             convertPrizeDistributionToTable(
-                prizeDistributionWithId.drawId, 
-                prizeDistributionWithId.prizeDistribution, 
+                prizeDistributionWithId.drawId,
+                prizeDistributionWithId.prizeDistribution,
                 prizeDistributionBuffer.address
             ))
     console.log(`Total PrizeDistribution(s): ${prizeDistributionList.length}`)
