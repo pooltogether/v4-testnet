@@ -53,7 +53,7 @@ networkDeploymentPaths.forEach((networkDeploymentPath) => {
 });
 
 fs.writeFile(
-  `${__dirname}/../testnets.json`,
+  `${__dirname}/../testnet.json`,
   JSON.stringify(contractList),
   (err) => {
     if (err) {

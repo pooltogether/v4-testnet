@@ -15,14 +15,16 @@ async function run() {
   const amount = ethers.utils.parseUnits('100', decimals)
 
   console.log(chalk.dim(`Minting to ${signers[0].address}...`))
-  await token.mint(signers[0].address, amount)
+  const mintTx = await token.mint(signers[0].address, amount)
+  await mintTx.wait(1)
 
   console.log(chalk.dim(`Approving prize spend...`))
   const tx = await token.approve(prizePool.address, amount)
   await tx.wait(1)
 
   console.log(chalk.dim(`Depositing for myself...`))
-  await prizePool.depositTo(signers[0].address, amount)
+  const depositTx = await prizePool.depositTo(signers[0].address, amount)
+  await depositTx.wait(1)
 
 }
 
