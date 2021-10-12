@@ -5,7 +5,7 @@ const { ethers } = hardhat
 async function run() {
 
   const yieldSource = await ethers.getContract('MockYieldSource')
-  const token = await ethers.getContractAt('ERC20Mintable', (await yieldSource.depositToken()))
+  const token = await ethers.getContractAt('@pooltogether/yield-source-interface/contracts/test/ERC20Mintable.sol:ERC20Mintable', (await yieldSource.depositToken()))
   const ticket = await ethers.getContract('Ticket')
   const prizePool = await ethers.getContract('YieldSourcePrizePool')
   const prizeDistributor = await ethers.getContract('PrizeDistributor')
