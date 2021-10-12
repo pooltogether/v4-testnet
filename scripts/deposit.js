@@ -5,14 +5,14 @@ const { ethers } = hardhat
 async function run() {
 
   const yieldSource = await ethers.getContract('MockYieldSource')
-  const token = await ethers.getContractAt('ERC20Mintable', (await yieldSource.depositToken()))
+  const token = await ethers.getContractAt('@pooltogether/yield-source-interface/contracts/test/ERC20Mintable.sol:ERC20Mintable', (await yieldSource.depositToken()))
   const prizePool = await ethers.getContract('YieldSourcePrizePool')
 
   const signers = await ethers.getSigners()
 
-  const decimals = await ticket.decimals()
+  const decimals = await token.decimals()
 
-  const amount = ethers.utils.parseUnits('10000', decimals)
+  const amount = ethers.utils.parseUnits('100', decimals)
 
   console.log(chalk.dim(`Minting to ${signers[0].address}...`))
   await token.mint(signers[0].address, amount)
