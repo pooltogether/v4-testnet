@@ -24,7 +24,7 @@ async function run() {
 
   for (let index = 0; index < mintTokenTo.length; index++) {
     console.log(chalk.dim(`Minting to ${mintTokenTo[index]}...`))
-    await token.mint(mintTokenTo[index], ethers.utils.parseUnits('100000000', TOKEN_DECIMALS))
+    await token.mint(mintTokenTo[index], ethers.utils.parseUnits(10_000, TOKEN_DECIMALS))
   }
 }
 
