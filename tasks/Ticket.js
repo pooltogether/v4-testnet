@@ -56,6 +56,14 @@ const { contractConnectWallet } = require('./utils/contractConnectWallet');
     }
   });
 
+task('totalSupply')
+.setAction(async (args, {ethers}) => {
+  const { wallet } = await getUserAndWallet(ethers, args)
+  const ticket = await contractConnectWallet(ethers, 'Ticket', wallet)
+  const totalSupply = ethers.utils.formatUnits((await ticket.totalSupply()).toString(), await ticket.decimals())
+  console.log(`Total supply: ${totalSupply} ${await ticket.symbol()}`)
+})
+
 /**
  * @name Ticket.transfer()
  */
