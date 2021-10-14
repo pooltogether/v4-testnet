@@ -565,10 +565,10 @@
     "@pooltogether/yield-source-interface" "1.3.0"
     deploy-eip-1820 "1.0.0"
 
-"@pooltogether/v4-periphery@1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@pooltogether/v4-periphery/-/v4-periphery-1.0.0-beta.6.tgz#7b3d8ada7f1f0fb64561a23b513060972bdf90d6"
-  integrity sha512-ZxyJ8d7fro6YrVBcU9v68+1EWeVW59R8GRRS4GRbEW/d6+rnpU78/y3rDfIFM0SdqR8hj+y4qg7o2tUSyqd4WQ==
+"@pooltogether/v4-periphery@1.0.0-beta.7":
+  version "1.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@pooltogether/v4-periphery/-/v4-periphery-1.0.0-beta.7.tgz#d9d10677b457857109d362b0a88eac7aa24a82ca"
+  integrity sha512-GJKKfQyWLo3pV0A5bK4t4x5f7myokX1XBM1F/5FhzNVbuK/LHmkPL0GBC+30VXj0ff2Hq0lk14l+FFqIFQZZgQ==
 
 "@pooltogether/v4-timelocks@1.0.0-beta.4":
   version "1.0.0-beta.4"

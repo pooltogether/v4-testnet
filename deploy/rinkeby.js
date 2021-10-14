@@ -5,6 +5,7 @@ const {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   BEACON_PERIOD_SECONDS,
+  END_TIMESTAMP_OFFSET,
   VALIDITY_DURATION,
   TOKEN_DECIMALS 
 } = require('../constants')
@@ -312,6 +313,7 @@ module.exports = async (hardhat) => {
       drawId: 1,
       bitRangeSize: 2,
       maxPicksPerUser: 2,
+      endTimestampOffset: END_TIMESTAMP_OFFSET,
       prize: '13630000000',
       tiers: ['183418928', 0, 0, '315480557', 0, '501100513', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       validityDuration: VALIDITY_DURATION
