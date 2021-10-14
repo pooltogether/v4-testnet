@@ -515,7 +515,12 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.50.0.tgz#29c6419e8379d496ab6d0426eadf3c4d100cd186"
   integrity sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==
 
-"@openzeppelin/contracts@4.3.2", "@openzeppelin/contracts@^4.3.1":
+"@openzeppelin/contracts@4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.1.tgz#c01f791ce6c9d3989ac1a643267501dbe336b9e3"
+  integrity sha512-QjgbPPlmDK2clK1hzjw2ROfY8KA5q+PfhDUUxZFEBCZP9fi6d5FuNoh/Uq0oCTMEKPmue69vhX2jcl0N/tFKGw==
+
+"@openzeppelin/contracts@4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
   integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
@@ -548,12 +553,12 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.4.0.tgz#310b9667a1123cfcce718aa6d8eba7c434a53c75"
   integrity sha512-dNgDpDsCMxUxaz8u6OfpjSBtMOdcp8QkLC3cwJ6E++4ux0qY2ON+ZqJEHIC3q4ZVJ4Xf6FikMJF0a8SVNtl8Zw==
 
-"@pooltogether/v4-core@1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/v4-core/-/v4-core-1.0.0-beta.3.tgz#134bf0812a1f49920064145ca5c34c41d8182281"
-  integrity sha512-WXy1UXYr+V3SYzuXCRJxmKF0zh5y54KEw6Z+MlBuuFwCIRENr19c5tuWQjJRzjk/Vwpl0lJLn1nST3X1o9XGHw==
+"@pooltogether/v4-core@1.0.0-beta.5":
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@pooltogether/v4-core/-/v4-core-1.0.0-beta.5.tgz#6bfe145d8c81fb85a65e1bb8496ecef0313114ed"
+  integrity sha512-dR1JqkFuu5uHymoA1eKzQpViYiInEZLWcLfgYZG3ZnTGMpuyW7PgWCiGFTZkoLb4DgQQS5Og4V3e6E5I0LH+NA==
   dependencies:
-    "@openzeppelin/contracts" "^4.3.1"
+    "@openzeppelin/contracts" "4.3.1"
     "@pooltogether/fixed-point" "1.0.0"
     "@pooltogether/owner-manager-contracts" "1.1.0"
     "@pooltogether/pooltogether-rng-contracts" "1.4.0"
