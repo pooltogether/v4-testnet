@@ -314,9 +314,9 @@ module.exports = async (hardhat) => {
       bitRangeSize: 2,
       maxPicksPerUser: 2,
       endTimestampOffset: END_TIMESTAMP_OFFSET,
-      prize: '13630000000',
-      tiers: ['183418928', 0, 0, '315480557', 0, '501100513', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      validityDuration: VALIDITY_DURATION
+      prize: '14980000000',
+      tiers: ['166889185', 0, 0, '320427236', 0, '512683578', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      expiryDuration: VALIDITY_DURATION
     })
     await pushTx.wait(1)
     green(`Prize tiers for draw 1 set!`)
