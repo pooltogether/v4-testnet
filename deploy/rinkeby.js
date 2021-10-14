@@ -65,6 +65,14 @@ module.exports = async (hardhat) => {
     dim(`Deploying rinkeby or goerli...`)
   }
 
+  await deploy(
+    'EIP2612PermitAndDeposit',
+    {
+      from: deployer,
+      skipIfAlreadyDeployed: true
+    }
+  )
+
   /* ========================================= */
   // Phase 0 ---------------------------------
   // Test Contracts to easily test full functionality.

@@ -28,6 +28,8 @@ module.exports = async (hardhat) => {
     dim(`Deploying mumbai...`)
   }
 
+  await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
+
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', TOKEN_DECIMALS])
   const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer,mockYieldSourceResult.address])
   const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket","TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])

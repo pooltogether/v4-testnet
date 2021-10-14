@@ -74,6 +74,7 @@ module.exports = {
       "@pooltogether/v4-core/contracts/Reserve.sol",
       "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
       "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol",
+      "@pooltogether/v4-core/contracts/permit/EIP2612PermitAndDeposit.sol",
       // Timelock
       "@pooltogether/v4-timelocks/contracts/L1TimelockTrigger.sol",
       "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",
