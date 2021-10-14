@@ -4,7 +4,6 @@ const { deployContract } = require('../deployContract')
 const { 
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
-  DRAW_CALCULATOR_TIMELOCK,
   TOKEN_DECIMALS 
 } = require('../constants')
 
@@ -44,7 +43,7 @@ module.exports = async (hardhat) => {
 
   const drawBufferResult = await deployContract(deploy, 'DrawBuffer', deployer, [deployer, DRAW_BUFFER_CARDINALITY])
   const prizeDistributionBufferResult = await deployContract(deploy, 'PrizeDistributionBuffer', deployer, [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY])
-  const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [deployer, ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address])
+  const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address])
   const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer,ticketResult.address, drawCalculatorResult.address])
   const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
   const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
@@ -67,7 +66,7 @@ module.exports = async (hardhat) => {
   }
 
   const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,prizeDistributorResult.address,prizeSplitStrategyResult.address,reserveResult.address])
-  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer,drawCalculatorResult.address, DRAW_CALCULATOR_TIMELOCK])
+  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer,drawCalculatorResult.address])
   await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer,drawBufferResult.address, prizeDistributionBufferResult.address,drawCalculatorTimelockResult.address])
   const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   const reserve = await ethers.getContract('Reserve')

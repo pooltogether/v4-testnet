@@ -1,10 +1,11 @@
 const chalk = require('chalk');
+const { transferOwnership } = require('../src/transferOwnership')
 
 const { 
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   BEACON_PERIOD_SECONDS,
-  DRAW_CALCULATOR_TIMELOCK,
+  VALIDITY_DURATION,
   TOKEN_DECIMALS 
 } = require('../constants')
 
@@ -55,8 +56,6 @@ module.exports = async (hardhat) => {
 
   const chainId = parseInt(await getChainId(), 10)
   const isTestEnvironment = chainId === 31337 || chainId === 1337;
-  console.log(`running on chainId ${chainId} `)
-  
 
   if (process.env.DEPLOY != 'rinkeby' && process.env.DEPLOY != 'goerli') {
     dim(`Ignoring rinkeby and goerli...`)
@@ -199,7 +198,6 @@ module.exports = async (hardhat) => {
   const drawCalculatorResult = await deploy('DrawCalculator', {
     from: deployer,
     args: [
-      deployer,
       ticketResult.address,
       drawBufferResult.address,
       prizeDistributionBufferResult.address
@@ -244,14 +242,12 @@ module.exports = async (hardhat) => {
   // Setup the Timelock contracts
   /* ========================================= */
   
-  
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {
     from: deployer,
     args: [
       deployer,
-      drawCalculatorResult.address,
-      DRAW_CALCULATOR_TIMELOCK
+      drawCalculatorResult.address
     ],
     skipIfAlreadyDeployed: true
   })
@@ -308,5 +304,21 @@ module.exports = async (hardhat) => {
     skipIfAlreadyDeployed: true
   })
   displayResult('PrizeTierHistory', prizeTierHistoryResult)
+
+  const prizeTierHistory = await ethers.getContract('PrizeTierHistory')
+  if (await prizeTierHistory.count() == 0) {
+    cyan(`\nSetting draw 1 prize tier history...`)
+    const pushTx = await prizeTierHistory.push({
+      drawId: 1,
+      bitRangeSize: 2,
+      maxPicksPerUser: 2,
+      prize: '13630000000',
+      tiers: ['183418928', 0, 0, '315480557', 0, '501100513', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      validityDuration: VALIDITY_DURATION
+    })
+    await pushTx.wait(1)
+    green(`Prize tiers for draw 1 set!`)
+  }
+  await transferOwnership('PrizeTierHistory', prizeTierHistory, owner)
 
 }
