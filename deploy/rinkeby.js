@@ -4,9 +4,11 @@ const { transferOwnership } = require('../src/transferOwnership')
 const { 
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
+  BEACON_START_TIME,
   BEACON_PERIOD_SECONDS,
   END_TIMESTAMP_OFFSET,
-  VALIDITY_DURATION,
+  RNG_TIMEOUT_SECONDS,
+  EXPIRY_DURATION,
   TOKEN_DECIMALS 
 } = require('../constants')
 
@@ -177,7 +179,7 @@ module.exports = async (hardhat) => {
       1, // Starting DrawID
       parseInt('' + new Date().getTime() / 1000),
       BEACON_PERIOD_SECONDS,
-      60 * 60 * 6 // RNG timeout = 6 hours
+      RNG_TIMEOUT_SECONDS
     ],
     skipIfAlreadyDeployed: true
   })
@@ -324,7 +326,7 @@ module.exports = async (hardhat) => {
       endTimestampOffset: END_TIMESTAMP_OFFSET,
       prize: '14980000000',
       tiers: ['166889185', 0, 0, '320427236', 0, '512683578', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      expiryDuration: VALIDITY_DURATION
+      expiryDuration: EXPIRY_DURATION
     })
     await pushTx.wait(1)
     green(`Prize tiers for draw 1 set!`)
