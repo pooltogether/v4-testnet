@@ -16,6 +16,7 @@
     "verify-rinkeby": "hardhat --network rinkeby etherscan-verify --api-key $ETHERSCAN_API_KEY",
     "deploy-mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy-rinkeby": "DEPLOY=rinkeby hardhat deploy --network rinkeby",
+    "deploy-fuji": "DEPLOY=fuji hardhat deploy --network avalancheFuji",
     "deploy-goerli": "DEPLOY=goerli hardhat deploy --network goerli",
     "disburse": "hardhat run ./scripts/disburse.js --network ",
     "deposit": "hardhat run ./scripts/deposit.js --network ",

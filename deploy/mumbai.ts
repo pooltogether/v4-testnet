@@ -1,4 +1,3 @@
-
 import { green, cyan, dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import {
@@ -25,7 +24,6 @@ const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', TOKEN_DECIMALS])
   const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer, mockYieldSourceResult.address])
   const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket", "TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])
-
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
   if (await yieldSourcePrizePool.getTicket() != ticketResult.address) {
@@ -62,6 +60,7 @@ const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
   const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address])
   const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer, drawCalculatorResult.address])
   await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer, drawBufferResult.address, prizeDistributionBufferResult.address, drawCalculatorTimelockResult.address])
+
   const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   const reserve = await ethers.getContract('Reserve')
   const drawBuffer = await ethers.getContract('DrawBuffer')

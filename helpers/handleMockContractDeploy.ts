@@ -1,4 +1,3 @@
-import { Signer } from "@ethersproject/abstract-signer";
 import { deployContract } from './deployContract'
 
 interface handleMockContractDeployConfig {
