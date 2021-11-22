@@ -1,6 +1,6 @@
 import { Signer } from "@ethersproject/abstract-signer";
 
-export async function handlePrizePoolCoreDeploy(deployer: string) {
+export async function handlePrizePoolCoreDeploy(deploy: Function, deployer: string) {
 
 }
 

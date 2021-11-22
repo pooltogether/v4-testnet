@@ -9,18 +9,9 @@ import {
 import { deployContract } from '../helpers/deployContract';
 
 const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
-
-  const {
-    ethers,
-    deployments,
-    getNamedAccounts
-  } = hardhat
-
+  const { ethers, deployments, getNamedAccounts } = hardhat
+  const { deployer, manager } = await getNamedAccounts();
   const { deploy } = deployments;
-  const {
-    deployer,
-    manager
-  } = await getNamedAccounts();
 
   if (process.env.DEPLOY != 'mumbai') {
     dim(`Ignoring mumbai...`)

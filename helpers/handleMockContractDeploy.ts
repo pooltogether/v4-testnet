@@ -5,7 +5,7 @@ interface handleMockContractDeployConfig {
   decimals: number | string,
 }
 
-export async function handleMockContractDeploy(deploy: Function, deployer: string, config: handleMockContractDeployConfig) {
+export async function handleMockContractDeploy(deploy: Function, deployer: string, config: handleMockContractDeployConfig = { decimals: 18 }) {
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', config.decimals])
   const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer, mockYieldSourceResult.address])
 

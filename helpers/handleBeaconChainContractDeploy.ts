@@ -1,6 +1,6 @@
 import { Signer } from "@ethersproject/abstract-signer";
 
-export async function handleBeaconChainContractDeploy(deployer: string) {
+export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string) {
 
 }
 
