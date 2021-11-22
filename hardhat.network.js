@@ -36,6 +36,24 @@ if (alchemyUrl && process.env.FORK_ENABLED && mnemonic) {
   };
 }
 
+if(!!avalanche) {
+  networks.avalanche = {
+    chainId: 43115,
+    url: 'https://api.avax.network/ext/bc/C/rpc',
+    accounts: {
+      mnemonic,
+    },
+  }
+  
+  networks.avalancheFuji = {
+    chainId: 43113,
+    url: 'https://api.avax-test.network/ext/bc/C/rpc',
+    accounts: {
+      mnemonic,
+    },
+  }
+}
+
 if (mnemonic) {
   networks.xdai = {
     chainId: 100,
