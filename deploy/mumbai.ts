@@ -1,13 +1,14 @@
-const { dim, cyan, green } = require('../colors')
-const { deployContract } = require('../deployContract')
 
-const { 
+import { green, cyan, dim } from 'chalk';
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
-  TOKEN_DECIMALS 
-} = require('../constants')
+  TOKEN_DECIMALS
+} from '../helpers/constants'
+import { deployContract } from '../helpers/deployContract';
 
-module.exports = async (hardhat) => {
+const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
 
   const {
     ethers,
@@ -20,7 +21,7 @@ module.exports = async (hardhat) => {
     deployer,
     manager
   } = await getNamedAccounts();
-  
+
   if (process.env.DEPLOY != 'mumbai') {
     dim(`Ignoring mumbai...`)
     return
@@ -31,9 +32,9 @@ module.exports = async (hardhat) => {
   await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
 
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', TOKEN_DECIMALS])
-  const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer,mockYieldSourceResult.address])
-  const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket","TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])
-  
+  const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer, mockYieldSourceResult.address])
+  const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket", "TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])
+
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
 
   if (await yieldSourcePrizePool.getTicket() != ticketResult.address) {
@@ -46,7 +47,7 @@ module.exports = async (hardhat) => {
   const drawBufferResult = await deployContract(deploy, 'DrawBuffer', deployer, [deployer, DRAW_BUFFER_CARDINALITY])
   const prizeDistributionBufferResult = await deployContract(deploy, 'PrizeDistributionBuffer', deployer, [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY])
   const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address])
-  const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer,ticketResult.address, drawCalculatorResult.address])
+  const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer, ticketResult.address, drawCalculatorResult.address])
   const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
   const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
@@ -67,9 +68,9 @@ module.exports = async (hardhat) => {
     green('Done!')
   }
 
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,prizeDistributorResult.address,prizeSplitStrategyResult.address,reserveResult.address])
-  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer,drawCalculatorResult.address])
-  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer,drawBufferResult.address, prizeDistributionBufferResult.address,drawCalculatorTimelockResult.address])
+  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address])
+  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer, drawCalculatorResult.address])
+  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer, drawBufferResult.address, prizeDistributionBufferResult.address, drawCalculatorTimelockResult.address])
   const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
   const reserve = await ethers.getContract('Reserve')
   const drawBuffer = await ethers.getContract('DrawBuffer')
@@ -89,7 +90,7 @@ module.exports = async (hardhat) => {
     await tx.wait(1)
     green(`Set reserve manager!`)
   }
-  
+
   /* ========================================= */
   // Phase 3 ---------------------------------
   // Set the manager(s) of the periphery smart contracts.
@@ -107,7 +108,7 @@ module.exports = async (hardhat) => {
     await tx.wait(1)
     green('Done!')
   }
-  
+
   if (await drawCalculatorTimelock.manager() != l2TimelockTrigger.address) {
     cyan(`\nSetting DrawCalculatorTimelock manager to ${l2TimelockTrigger.address}...`)
     const tx = await drawCalculatorTimelock.setManager(l2TimelockTrigger.address)
@@ -118,9 +119,11 @@ module.exports = async (hardhat) => {
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
   if (await prizeDistributionBuffer.manager() != l2TimelockTrigger.address) {
     cyan(`\nSetting PrizeDistributionBuffer manager to ${l2TimelockTrigger.address}...`)
-    const tx =  await prizeDistributionBuffer.setManager(l2TimelockTrigger.address)
+    const tx = await prizeDistributionBuffer.setManager(l2TimelockTrigger.address)
     await tx.wait(1)
     green(`Done!`)
   }
 
 }
+
+export default deploy

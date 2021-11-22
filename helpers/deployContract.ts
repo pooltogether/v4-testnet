@@ -2,7 +2,7 @@ import { Signer } from "@ethersproject/abstract-signer"
 
 const { cyan, displayResult } = require('./colors')
 
-export async function deployContract(deploy: Function, contract: string, deployer: Signer, args: any[]) {
+export async function deployContract(deploy: Function, contract: string, deployer: string, args: any[]) {
   cyan(`\nDeploying ${contract}...`)
   const result = await deploy(contract, {
     from: deployer,

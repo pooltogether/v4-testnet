@@ -1,3 +1,4 @@
+// @ts-nocheck
 const chalk = require('chalk');
 
 function dim() {

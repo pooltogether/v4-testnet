@@ -1,44 +1,19 @@
-const chalk = require('chalk');
-const { transferOwnership } = require('../src/transferOwnership')
-
-const { 
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { green, cyan, dim, yellow } from 'chalk';
+import { transferOwnership } from '../helpers/transferOwnership'
+import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
-  BEACON_START_TIME,
   BEACON_PERIOD_SECONDS,
   END_TIMESTAMP_OFFSET,
   RNG_TIMEOUT_SECONDS,
   EXPIRY_DURATION,
-  TOKEN_DECIMALS 
-} = require('../constants')
+  TOKEN_DECIMALS
+} from '../helpers/constants'
 
-const { deployContract } = require('../deployContract')
+import { deployContract } from '../helpers/deployContract'
 
-function dim() {
-  if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.dim.call(chalk, ...arguments));
-  }
-}
-
-function cyan() {
-  if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.cyan.call(chalk, ...arguments));
-  }
-}
-
-function yellow() {
-  if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.yellow.call(chalk, ...arguments));
-  }
-}
-
-function green() {
-  if (!process.env.HIDE_DEPLOY_LOG) {
-    console.log(chalk.green.call(chalk, ...arguments));
-  }
-}
-
-function displayResult(name, result) {
+function displayResult(name: any, result: any) {
   if (!result.newlyDeployed) {
     yellow(`Re-used existing ${name} at ${result.address}`);
   } else {
@@ -46,7 +21,7 @@ function displayResult(name, result) {
   }
 }
 
-module.exports = async (hardhat) => {
+const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
 
   const {
     ethers,
@@ -99,7 +74,7 @@ module.exports = async (hardhat) => {
     skipIfAlreadyDeployed: true
   })
   displayResult('MockYieldSource', mockYieldSourceResult)
-  
+
   cyan('\nDeploying YieldSourcePrizePool...')
   const yieldSourcePrizePoolResult = await deploy('YieldSourcePrizePool', {
     from: deployer,
@@ -137,9 +112,9 @@ module.exports = async (hardhat) => {
     green(`\nSet ticket!`)
   }
 
-  const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer,yieldSourcePrizePoolResult.address])
-  const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer,ticketResult.address])
-    
+  const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
+  const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
+
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
 
   if (await yieldSourcePrizePool.getPrizeStrategy() != prizeSplitStrategyResult.address) {
@@ -204,7 +179,7 @@ module.exports = async (hardhat) => {
     skipIfAlreadyDeployed: true
   })
   displayResult('PrizeDistributionBuffer', prizeDistributionBufferResult)
-  
+
   cyan('\nDeploying DrawCalculator...')
   const drawCalculatorResult = await deploy('DrawCalculator', {
     from: deployer,
@@ -229,7 +204,7 @@ module.exports = async (hardhat) => {
   })
   displayResult('PrizeDistributor', prizeDistributorResult)
 
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer,prizeDistributorResult.address,prizeSplitStrategyResult.address,reserveResult.address])
+  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address])
 
   const prizeFlush = await ethers.getContract('PrizeFlush')
   if (await prizeFlush.manager() != manager) {
@@ -252,7 +227,7 @@ module.exports = async (hardhat) => {
   // Phase 2 ---------------------------------
   // Setup the Timelock contracts
   /* ========================================= */
-  
+
   cyan('\nDeploying DrawCalculatorTimelock...')
   const drawCalculatorTimelockResult = await deploy('DrawCalculatorTimelock', {
     from: deployer,
@@ -334,3 +309,5 @@ module.exports = async (hardhat) => {
   await transferOwnership('PrizeTierHistory', prizeTierHistory, owner)
 
 }
+
+export default deploy

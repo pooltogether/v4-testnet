@@ -1,6 +1,6 @@
 import { Signer } from "@ethersproject/abstract-signer";
 
-export async function configureReceiverChainDeployment(deployer: Signer) {
+export async function configureReceiverChainDeployment(deployer: string) {
 
 }
 

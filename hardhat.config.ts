@@ -1,22 +1,21 @@
-const networks = require('./hardhat.network')
-require('hardhat-dependency-compiler')
-require('hardhat-deploy')
-require('hardhat-deploy-ethers')
-require('@pooltogether/hardhat-deploy-markdown-export')
-
-// Tasks
-require('./tasks/calculations')
-require('./tasks/administrative')
-require('./tasks/DrawBuffer')
-require('./tasks/PrizeDistributor')
-require('./tasks/PrizeDistributionBuffer')
-require('./tasks/PrizePool')
-require('./tasks/Ticket')
-require('./tasks/PrizeTierHistory')
+import { HardhatUserConfig } from 'hardhat/config';
+import networks from './hardhat.network';
+import 'hardhat-dependency-compiler';
+import 'hardhat-deploy';
+import 'hardhat-deploy-ethers';
+import '@pooltogether/hardhat-deploy-markdown-export';
+import './tasks/calculations';
+import './tasks/administrative';
+import './tasks/DrawBuffer';
+import './tasks/PrizeDistributor';
+import './tasks/PrizeDistributionBuffer';
+import './tasks/PrizePool';
+import './tasks/Ticket';
+import './tasks/PrizeTierHistory';
 
 const optimizerEnabled = true
 
-module.exports = {
+const config: HardhatUserConfig = {
   networks,
   defaultNetwork: "rinkeby",
   solidity: {
@@ -88,3 +87,5 @@ module.exports = {
     ]
   }
 };
+
+export default config;
