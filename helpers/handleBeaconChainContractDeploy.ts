@@ -1,14 +1,14 @@
 import { deployContract } from './deployContract'
 
-interface handleBeaconChainContractDeployConfig {
+export interface handleBeaconChainContractDeployConfig {
   rngService: string;
   drawBuffer: string;
   drawCalculator: string;
   prizeDistributionBuffer: string;
   startingDrawId: string;
-  startTimestamp: string;
-  beaconPeriodSeconds: string;
-  rngTimeoutSeconds: string;
+  startTimestamp: number;
+  beaconPeriodSeconds: number;
+  rngTimeoutSeconds: number;
 }
 
 export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string, config: handleBeaconChainContractDeployConfig) {

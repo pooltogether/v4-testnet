@@ -5,10 +5,12 @@ interface handleMockContractDeployConfig {
 }
 
 export async function handleMockContractDeploy(deploy: Function, deployer: string, config: handleMockContractDeployConfig = { decimals: 18 }) {
+  const rngServiceResult = await deployContract(deploy, 'RNGServiceStub', deployer, [])
   const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', config.decimals])
   const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer, mockYieldSourceResult.address])
 
   return {
+    rngService: rngServiceResult,
     mockYieldSource: mockYieldSourceResult,
     yieldSourcePrizePool: yieldSourcePrizePoolResult,
   }
