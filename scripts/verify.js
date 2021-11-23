@@ -67,6 +67,11 @@ function isPolygon() {
   return /polygon/.test(network) || /matic/.test(network) || /mumbai/.test(network)
 }
 
+function isAvalancheFuji() {
+  const network = hardhat.network.name
+  return /avalanche/.test(network) || /fuji/.test(network) || /avalancheFuji/.test(network)
+}
+
 
 function getHardhatConfigFile(network){
   let config 
@@ -74,8 +79,12 @@ function getHardhatConfigFile(network){
     config = '--config hardhat.config.bsc.js'
   }
   else if(isPolygon()){
-      console.log("polygonScan")
+    console.log("polygonScan")
     config ='--config hardhat.config.polygon.js'
+  }
+  else if(isAvalancheFuji()){
+    console.log("snowtrace")
+    config ='--config hardhat.config.avalanche.js'
   }
   else {
     config = ''
@@ -151,10 +160,7 @@ async function run() {
   }
 
   info(`Done top-level contracts`)
-
   info(`Verifying proxy factory instances...`)
-
-  // await verifyProxyFactoryInstance('CompoundPrizePoolProxyFactory')
 
   success('Done!')
 }

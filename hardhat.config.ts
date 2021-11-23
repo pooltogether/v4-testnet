@@ -3,6 +3,7 @@ import networks from './hardhat.network';
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
+import "@nomiclabs/hardhat-etherscan";
 import '@pooltogether/hardhat-deploy-markdown-export';
 import './tasks/calculations';
 import './tasks/administrative';
@@ -18,6 +19,9 @@ const optimizerEnabled = true
 const config: HardhatUserConfig = {
   networks,
   defaultNetwork: "rinkeby",
+  etherscan: {
+    apiKey: process.env.SNOWTRACE_API_KEY,
+  },
   solidity: {
     compilers: [
       {

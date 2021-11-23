@@ -1,9 +1,7 @@
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import configureReceiverChainDeployment from '../helpers/configureReceiverChainDeployment';
 import { configureBeaconChainDeployment } from '../helpers/configureBeaconChainDeployment'
-import { handleMockContractDeploy, handlePrizePoolCoreDeploy, handlePrizePoolCoreDeployConfig, handleReceiverChainContractDeploy, handlePeripheryContractDeploy } from '../helpers'
-import { handleReceiverChainContractDeployConfig } from '../helpers/handleReceiverChainContractDeploy'
+import { handleMockContractDeploy, handlePrizePoolCoreDeploy, handlePrizePoolCoreDeployConfig, handlePeripheryContractDeploy } from '../helpers'
 import { handlePeripheryContractDeployConfig } from '../helpers/handlePeripheryContractDeploy'
 import { handleBeaconChainContractDeployConfig, handleBeaconChainContractDeploy } from '../helpers/handleBeaconChainContractDeploy'
 import {
