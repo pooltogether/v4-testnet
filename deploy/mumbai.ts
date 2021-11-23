@@ -1,119 +1,54 @@
-import { green, cyan, dim } from 'chalk';
+import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import configureReceiverChainDeployment from '../helpers/configureReceiverChainDeployment';
+import { handleMockContractDeploy, handlePrizePoolCoreDeploy, handlePrizePoolCoreDeployConfig, handleReceiverChainContractDeploy, handlePeripheryContractDeploy } from '../helpers'
+import { handleReceiverChainContractDeployConfig } from '../helpers/handleReceiverChainContractDeploy'
+import { handlePeripheryContractDeployConfig } from '../helpers/handlePeripheryContractDeploy'
 import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   TOKEN_DECIMALS
 } from '../helpers/constants'
-import { deployContract } from '../helpers/deployContract';
-
-const deploy = async (hardhat: HardhatRuntimeEnvironment) => {
+const deployMumbaiContracts = async (hardhat: HardhatRuntimeEnvironment) => {
   const { ethers, deployments, getNamedAccounts } = hardhat
   const { deployer, manager } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  if (process.env.DEPLOY != 'mumbai') {
-    dim(`Ignoring mumbai...`)
-    return
-  } else {
-    dim(`Deploying mumbai...`)
+  if (process.env.DEPLOY === 'mumbai') {
+    dim(`Deploying to Ethereum Rinkeby testnet`)
+  } else { return }
+
+  const { yieldSourcePrizePool } = await handleMockContractDeploy(deploy, deployer)
+  const coreConfig: handlePrizePoolCoreDeployConfig = {
+    decimals: TOKEN_DECIMALS,
+    yieldSourcePrizePool: yieldSourcePrizePool.address,
+    drawDufferCardinality: DRAW_BUFFER_CARDINALITY,
+    prizeDistributionBufferCardinality: PRIZE_DISTRIBUTION_BUFFER_CARDINALITY
   }
 
-  await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
+  const {
+    drawBufferResult,
+    prizeDistributionBufferResult,
+    drawCalculatorResult,
+    prizeDistributorResult,
+    reserveResult,
+    prizeSplitStrategyResult,
+  } = await handlePrizePoolCoreDeploy(deploy, deployer, ethers, coreConfig)
 
-  const mockYieldSourceResult = await deployContract(deploy, 'MockYieldSource', deployer, ['Token', 'TOK', TOKEN_DECIMALS])
-  const yieldSourcePrizePoolResult = await deployContract(deploy, 'YieldSourcePrizePool', deployer, [deployer, mockYieldSourceResult.address])
-  const ticketResult = await deployContract(deploy, 'Ticket', deployer, ["Ticket", "TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address])
-  const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
-
-  if (await yieldSourcePrizePool.getTicket() != ticketResult.address) {
-    cyan('\nSetting ticket on prize pool...')
-    const tx = await yieldSourcePrizePool.setTicket(ticketResult.address)
-    await tx.wait(1)
-    green(`\nSet ticket!`)
+  const receiverChainConfig: handleReceiverChainContractDeployConfig = {
+    drawCalculator: drawCalculatorResult.address,
+    drawBuffer: drawBufferResult.address,
+    prizeDistributionBuffer: prizeDistributionBufferResult.address
   }
 
-  const drawBufferResult = await deployContract(deploy, 'DrawBuffer', deployer, [deployer, DRAW_BUFFER_CARDINALITY])
-  const prizeDistributionBufferResult = await deployContract(deploy, 'PrizeDistributionBuffer', deployer, [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY])
-  const drawCalculatorResult = await deployContract(deploy, 'DrawCalculator', deployer, [ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address])
-  const prizeDistributorResult = await deployContract(deploy, 'PrizeDistributor', deployer, [deployer, ticketResult.address, drawCalculatorResult.address])
-  const prizeSplitStrategyResult = await deployContract(deploy, 'PrizeSplitStrategy', deployer, [deployer, yieldSourcePrizePoolResult.address])
-  const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
-  const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
-
-  if (await yieldSourcePrizePool.getPrizeStrategy() != prizeSplitStrategyResult.address) {
-    cyan('\nSetting prize strategy on prize pool...')
-    const tx = await yieldSourcePrizePool.setPrizeStrategy(prizeSplitStrategyResult.address)
-    await tx.wait(1)
-    green(`Set prize strategy!`)
+  await handleReceiverChainContractDeploy(deploy, deployer, receiverChainConfig)
+  const configPeriphery: handlePeripheryContractDeployConfig = {
+    prizeDistributor: prizeDistributorResult.address,
+    prizeSplitStrategy: prizeSplitStrategyResult.address,
+    reserve: reserveResult.address
   }
-
-  if ((await prizeSplitStrategy.getPrizeSplits()).length == 0) {
-    cyan('\n adding split...')
-    const tx = await prizeSplitStrategy.setPrizeSplits([
-      { target: reserveResult.address, percentage: 1000 }
-    ])
-    await tx.wait(1)
-    green('Done!')
-  }
-
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address])
-  const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer, drawCalculatorResult.address])
-  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer, drawBufferResult.address, prizeDistributionBufferResult.address, drawCalculatorTimelockResult.address])
-
-  const l2TimelockTrigger = await ethers.getContract('L2TimelockTrigger')
-  const reserve = await ethers.getContract('Reserve')
-  const drawBuffer = await ethers.getContract('DrawBuffer')
-  const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
-
-  const prizeFlush = await ethers.getContract('PrizeFlush')
-  if (await prizeFlush.manager() != manager) {
-    cyan('\nSetting manager on prizeFlush...')
-    const tx = await prizeFlush.setManager(manager)
-    await tx.wait(1)
-    green(`Set prizeFlush manager!`)
-  }
-
-  if (await reserve.manager() != prizeFlushResult.address) {
-    cyan('\nSetting manager on reserve...')
-    const tx = await reserve.setManager(prizeFlushResult.address)
-    await tx.wait(1)
-    green(`Set reserve manager!`)
-  }
-
-  /* ========================================= */
-  // Phase 3 ---------------------------------
-  // Set the manager(s) of the periphery smart contracts.
-  /* ========================================= */
-  if (await l2TimelockTrigger.manager() != manager) {
-    cyan(`\nSetting L2TimelockTrigger manager to ${manager}...`)
-    const tx = await l2TimelockTrigger.setManager(manager)
-    await tx.wait(1)
-    green('\nDone!')
-  }
-
-  if (await drawBuffer.manager() != l2TimelockTrigger.address) {
-    cyan(`\nSetting DrawBuffer manager to ${l2TimelockTrigger.address}...`)
-    const tx = await drawBuffer.setManager(l2TimelockTrigger.address)
-    await tx.wait(1)
-    green('Done!')
-  }
-
-  if (await drawCalculatorTimelock.manager() != l2TimelockTrigger.address) {
-    cyan(`\nSetting DrawCalculatorTimelock manager to ${l2TimelockTrigger.address}...`)
-    const tx = await drawCalculatorTimelock.setManager(l2TimelockTrigger.address)
-    await tx.wait(1)
-    green('Done!')
-  }
-
-  const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
-  if (await prizeDistributionBuffer.manager() != l2TimelockTrigger.address) {
-    cyan(`\nSetting PrizeDistributionBuffer manager to ${l2TimelockTrigger.address}...`)
-    const tx = await prizeDistributionBuffer.setManager(l2TimelockTrigger.address)
-    await tx.wait(1)
-    green(`Done!`)
-  }
-
+  await handlePeripheryContractDeploy(deploy, deployer, configPeriphery)
+  await configureReceiverChainDeployment(ethers, manager)
 }
 
-export default deploy
+export default deployMumbaiContracts;
