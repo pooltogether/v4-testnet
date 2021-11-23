@@ -15,7 +15,7 @@ const deployMumbaiContracts = async (hardhat: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments;
 
   if (process.env.DEPLOY === 'mumbai') {
-    dim(`Deploying to Ethereum Rinkeby testnet`)
+    dim(`Deploying to Polygon Mumbai testnet`)
   } else { return }
 
   const { yieldSourcePrizePool } = await handleMockContractDeploy(deploy, deployer)
