@@ -11,10 +11,13 @@ export async function handlePeripheryContractDeploy(deploy: Function, deployer: 
   prizeSplitStrategy: '',
   reserve: ''
 }) {
+
+  const EIP2612PermitAndDepositResult = await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
   const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, config.prizeDistributor, config.prizeSplitStrategy, config.reserve])
 
   return {
     prizeFlushResult: prizeFlushResult,
+    EIP2612PermitAndDeposit: EIP2612PermitAndDepositResult
   }
 }
 
