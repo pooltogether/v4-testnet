@@ -7,6 +7,12 @@ export INFURA_API_KEY=''
 # Used for verifying contracts on Etherscan
 export ETHERSCAN_API_KEY=''
 
+# Used for verifying contracts on Polygonscan
+export POLYGONSCAN_API_KEY=''
+
+# Used for verifying contracts on Snowtrace
+export SNOWTRACE_API_KEY=''
+
 # Required for forking
 export ALCHEMY_URL=''
 export FORK_ENABLED=''

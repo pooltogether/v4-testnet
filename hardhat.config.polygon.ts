@@ -1,7 +1,7 @@
-const config = require('./hardhat.config')
+import config from './hardhat.config'
 
 config.etherscan = {
   apiKey: process.env.POLYGONSCAN_API_KEY
 }
 
-module.exports = config
+export default config;

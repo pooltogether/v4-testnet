@@ -18,7 +18,7 @@ const deployFujiContracts = async (hardhat: HardhatRuntimeEnvironment) => {
     dim(`Deploying to Avalanche Fuji testnet`)
   } else { return }
 
-  const { yieldSourcePrizePool, mockYieldSource } = await handleMockContractDeploy(deploy, deployer)
+  const { yieldSourcePrizePool } = await handleMockContractDeploy(deploy, deployer)
   const coreConfig: handlePrizePoolCoreDeployConfig = {
     decimals: TOKEN_DECIMALS,
     yieldSourcePrizePool: yieldSourcePrizePool.address,
@@ -32,10 +32,7 @@ const deployFujiContracts = async (hardhat: HardhatRuntimeEnvironment) => {
     drawCalculatorResult,
     prizeDistributorResult,
     reserveResult,
-    ticketResult,
     prizeSplitStrategyResult,
-    prizeSplitStrategy,
-    drawCalculatorTimelockResult
   } = await handlePrizePoolCoreDeploy(deploy, deployer, ethers, coreConfig)
 
   const receiverChainConfig: handleReceiverChainContractDeployConfig = {
