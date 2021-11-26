@@ -1,8 +1,10 @@
 import config from './hardhat.config'
+import depenendencies from './hardhat.config.dependencies'
 
-// @ts-ignore
-config.snowtrace = {
+config.etherscan = {
   apiKey: process.env.SNOWTRACE_API_KEY
 }
+config.dependencyCompiler = depenendencies.dependencyCompiler
+config.external = depenendencies.external
 
 export default config;

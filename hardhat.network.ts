@@ -39,7 +39,7 @@ if (alchemyUrl && process.env.FORK_ENABLED && mnemonic) {
 }
 
 if (!!avalanche) {
-  networks.avalanche = {
+  networks.avalancheMainnet = {
     chainId: 43115,
     gas: 12000000,
     url: 'https://api.avax.network/ext/bc/C/rpc',
