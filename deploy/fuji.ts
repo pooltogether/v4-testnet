@@ -33,10 +33,11 @@ const deployFujiContracts = async (hardhat: HardhatRuntimeEnvironment) => {
     prizeDistributorResult,
     reserveResult,
     prizeSplitStrategyResult,
+    drawCalculatorTimelockResult
   } = await handlePrizePoolCoreDeploy(deploy, deployer, ethers, coreConfig)
 
   const receiverChainConfig: handleReceiverChainContractDeployConfig = {
-    drawCalculator: drawCalculatorResult.address,
+    drawCalculator: drawCalculatorTimelockResult.address,
     drawBuffer: drawBufferResult.address,
     prizeDistributionBuffer: prizeDistributionBufferResult.address
   }
