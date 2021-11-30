@@ -1,6 +1,6 @@
 import { cyan, green } from "chalk"
 
-export async function configureCoreDeployment(ethers: any, manager: string) {
+export async function configureCoreDeployment(ethers: any, manager: string, includeDrawBuffer: boolean) {
   const drawAndPrizeDistributionTimelock = await ethers.getContract('DrawAndPrizeDistributionTimelock')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
@@ -9,8 +9,9 @@ export async function configureCoreDeployment(ethers: any, manager: string) {
   /**
    * Management Hierarchy
    * --------------------
-   * Defender Autotask                    (Manager => EOA)
+   * Defender Autotask                    (EOA)
    * DrawAndPrizeDistributionTimelock     (Manager => Defender Autotask)
+   *   DrawBuffer (Optional)              (Manager => DrawAndPrizeDistributionTimelock)
    *   DrawCalculatorTimelock             (Manager => DrawAndPrizeDistributionTimelock)
    *   PrizeDistributionFactory           (Manager => DrawAndPrizeDistributionTimelock)
    *     PrizeDistributionBuffer          (Manager => PrizeDistributionFactory)
@@ -24,6 +25,22 @@ export async function configureCoreDeployment(ethers: any, manager: string) {
     const tx = await drawAndPrizeDistributionTimelock.setManager(manager)
     await tx.wait(1)
     green('Done!')
+  }
+  /**
+   * @dev The DrawBuffer is optional, but if it exists, it will be managed by the DrawAndPrizeDistributionTimelock
+   * @dev Beacon chains will not have a DrawBuffer requirement when configuring the core deployment
+   */
+  if (includeDrawBuffer) {
+    const drawBuffer = await ethers.getContract('DrawBuffer')
+    /**
+     * @dev The DrawBuffer contract will be managed by DrawAndPrizeDistributionTimelock
+     */
+    if (await drawBuffer.manager() != drawBuffer.address) {
+      cyan(`\nSetting DrawBuffer manager to ${drawAndPrizeDistributionTimelock.address}`)
+      const tx = await drawBuffer.setManager(drawAndPrizeDistributionTimelock.address)
+      await tx.wait(1)
+      green('Done!')
+    }
   }
 
   /**
