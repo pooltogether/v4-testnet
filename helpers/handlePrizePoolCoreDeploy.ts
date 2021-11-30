@@ -38,6 +38,8 @@ export async function handlePrizePoolCoreDeploy(
   const reserveResult = await deployContract(deploy, 'Reserve', deployer, [deployer, ticketResult.address])
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
   const drawCalculatorTimelockResult = await deployContract(deploy, 'DrawCalculatorTimelock', deployer, [deployer, drawCalculatorResult.address])
+  const prizeDistributionFactoryResult = await deployContract(deploy, 'PrizeDistributionFactory', deployer, [deployer, drawCalculatorResult.address])
+  const drawAndPrizeDistributionTimelockResult = await deployContract(deploy, 'DrawAndPrizeDistributionTimelock', deployer, [deployer, drawBufferResult.address, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address])
 
   return {
     drawBufferResult,
@@ -48,7 +50,9 @@ export async function handlePrizePoolCoreDeploy(
     ticketResult,
     prizeSplitStrategyResult,
     prizeSplitStrategy,
-    drawCalculatorTimelockResult
+    drawCalculatorTimelockResult,
+    prizeDistributionFactoryResult,
+    drawAndPrizeDistributionTimelockResult
   }
 }
 
