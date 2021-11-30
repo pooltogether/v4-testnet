@@ -1,19 +1,14 @@
+import { ethers } from 'hardhat-ethers'
 import { deployContract } from './deployContract'
 
-export interface handlePeripheryContractDeployConfig {
-  prizeDistributor: string,
-  prizeSplitStrategy: string,
-  reserve: string,
-}
+export async function handlePeripheryContractDeploy(deploy: Function, deployer: string) {
 
-export async function handlePeripheryContractDeploy(deploy: Function, deployer: string, config: handlePeripheryContractDeployConfig = {
-  prizeDistributor: '',
-  prizeSplitStrategy: '',
-  reserve: ''
-}) {
+  const prizeDistributor = await ethers.getContract('PrizeDistributor')
+  const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
+  const reserve = await ethers.getContract('Reserve')
 
   const EIP2612PermitAndDepositResult = await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
-  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, config.prizeDistributor, config.prizeSplitStrategy, config.reserve])
+  const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributor.address, prizeSplitStrategy.address, reserve.address])
 
   return {
     prizeFlushResult: prizeFlushResult,

@@ -1,5 +1,6 @@
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { configureCoreDeployment } from '../helpers/configureCoreDeployment'
 import { configureBeaconChainDeployment } from '../helpers/configureBeaconChainDeployment'
 import { handleMockContractDeploy, handlePrizePoolCoreDeploy, handlePrizePoolCoreDeployConfig, handlePeripheryContractDeploy } from '../helpers'
 import { handlePeripheryContractDeployConfig } from '../helpers/handlePeripheryContractDeploy'
@@ -13,6 +14,7 @@ import {
 } from '../helpers/constants'
 
 const deployRinkebyContracts = async (hardhat: HardhatRuntimeEnvironment) => {
+  // @ts-ignore
   const { ethers, deployments, getNamedAccounts } = hardhat
   const { deployer, manager } = await getNamedAccounts();
   const { deploy } = deployments;
@@ -21,43 +23,23 @@ const deployRinkebyContracts = async (hardhat: HardhatRuntimeEnvironment) => {
     dim(`Deploying to Ethereum Rinkeby testnet`)
   } else { return }
 
-  const { yieldSourcePrizePool, rngService } = await handleMockContractDeploy(deploy, deployer)
+  await handleMockContractDeploy(deploy, deployer)
 
   const coreConfig: handlePrizePoolCoreDeployConfig = {
     decimals: TOKEN_DECIMALS,
-    yieldSourcePrizePool: yieldSourcePrizePool.address,
     drawDufferCardinality: DRAW_BUFFER_CARDINALITY,
     prizeDistributionBufferCardinality: PRIZE_DISTRIBUTION_BUFFER_CARDINALITY
   }
-  const {
-    drawBufferResult,
-    prizeDistributionBufferResult,
-    drawCalculatorResult,
-    prizeDistributorResult,
-    reserveResult,
-    prizeSplitStrategyResult
-  } = await handlePrizePoolCoreDeploy(deploy, deployer, ethers, coreConfig)
-
   const receiverChainConfig: handleBeaconChainContractDeployConfig = {
-    drawCalculator: drawCalculatorResult.address,
-    drawBuffer: drawBufferResult.address,
-    prizeDistributionBuffer: prizeDistributionBufferResult.address,
-    rngService: rngService.address,
     startingDrawId: '1',
     startTimestamp: parseInt('' + new Date().getTime() / 1000),
     beaconPeriodSeconds: BEACON_PERIOD_SECONDS,
     rngTimeoutSeconds: RNG_TIMEOUT_SECONDS
   }
-
-  const { drawBeacon, L1TimelockTrigger } = await handleBeaconChainContractDeploy(deploy, deployer, receiverChainConfig)
-  await configureBeaconChainDeployment(ethers, manager, drawBeacon.address, L1TimelockTrigger.address)
-
-  const configPeriphery: handlePeripheryContractDeployConfig = {
-    prizeDistributor: prizeDistributorResult.address,
-    prizeSplitStrategy: prizeSplitStrategyResult.address,
-    reserve: reserveResult.address
-  }
-  await handlePeripheryContractDeploy(deploy, deployer, configPeriphery)
+  await handleBeaconChainContractDeploy(deploy, deployer, receiverChainConfig)
+  await handlePrizePoolCoreDeploy(deploy, deployer, ethers, coreConfig)
+  await handlePeripheryContractDeploy(deploy, deployer)
+  await configureCoreDeployment(deploy, deployer, false) // Exclude DrawBuffer configuration in Timelock contract
 }
 
 export default deployRinkebyContracts;

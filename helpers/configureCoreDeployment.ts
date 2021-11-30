@@ -1,10 +1,24 @@
 import { cyan, green } from "chalk"
 
-export async function configureCoreDeployment(ethers: any, manager: string, includeDrawBuffer: boolean) {
+export async function configureCoreDeployment(ethers: any, manager: string, includeDrawBuffer?: boolean) {
   const drawAndPrizeDistributionTimelock = await ethers.getContract('DrawAndPrizeDistributionTimelock')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+
+
+  /**
+   * MockYieldSource Configuration
+   * Sets the mock YieldSource.ticket to the MintableToken contract.
+   */
+  const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
+  const ticket = await ethers.getContract('Ticket')
+  if (await yieldSourcePrizePool.getTicket() != ticket.address) {
+    cyan('\nSetting ticket on prize pool...')
+    const tx = await yieldSourcePrizePool.setTicket(ticket.address)
+    await tx.wait(1)
+    green(`\nSet ticket!`)
+  }
 
   /**
    * Management Hierarchy
