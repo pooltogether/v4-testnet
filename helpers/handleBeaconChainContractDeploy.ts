@@ -1,4 +1,3 @@
-import { ethers } from 'hardhat-ethers'
 import { deployContract } from './deployContract'
 
 export interface handleBeaconChainContractDeployConfig {
@@ -8,9 +7,11 @@ export interface handleBeaconChainContractDeployConfig {
   rngTimeoutSeconds: number;
 }
 
-export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string, config: handleBeaconChainContractDeployConfig) {
+export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string, ethers: any, config: handleBeaconChainContractDeployConfig) {
   const drawBuffer = await ethers.getContract('DrawBuffer')
-  const rngService = await ethers.getContract('RngService')
+  const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+  const drawCalculator = await ethers.getContract('DrawCalculatorTimelock')
+  const rngService = await ethers.getContract('RNGServiceStub')
   const drawBeaconResult = await deployContract(deploy, 'DrawBeacon', deployer, [
     deployer,
     drawBuffer.address,
@@ -20,8 +21,11 @@ export async function handleBeaconChainContractDeploy(deploy: Function, deployer
     config.beaconPeriodSeconds,
     config.rngTimeoutSeconds
   ]);
+
+  const beaconTimelockAndPushRouterResult = await deployContract(deploy, 'BeaconTimelockAndPushRouter', deployer, [deployer, prizeDistributionBuffer.address, drawCalculator.address])
   return {
-    drawBeacon: drawBeaconResult
+    drawBeacon: drawBeaconResult,
+    beaconTimelockAndPushRouterResult
   }
 }
 

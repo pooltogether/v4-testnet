@@ -1,8 +1,6 @@
-import { ethers } from 'hardhat-ethers'
 import { deployContract } from './deployContract'
 
-export async function handlePeripheryContractDeploy(deploy: Function, deployer: string) {
-
+export async function handlePeripheryContractDeploy(deploy: Function, deployer: string, ethers: any) {
   const prizeDistributor = await ethers.getContract('PrizeDistributor')
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
   const reserve = await ethers.getContract('Reserve')
