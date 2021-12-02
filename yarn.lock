@@ -639,14 +639,14 @@
     deploy-eip-1820 "1.0.0"
 
 "@pooltogether/v4-periphery@1.0.0-beta.9":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/v4-periphery/-/v4-periphery-1.0.0.tgz#a24f5acee41b1673475ab6d5f0f5f4e32974445d"
-  integrity sha512-pLoVvNBS94X0NWdukZjXNV0nlJU39LqFmH9ms0MpQAbYvlt8TCAx/JS6/a9ePE4rTH7qlwcJC/QneGuIZNct0g==
+  version "1.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@pooltogether/v4-periphery/-/v4-periphery-1.0.0-beta.9.tgz#a37d17662eeeb8f61a4b07225cccb84f87105270"
+  integrity sha512-G8SGnsXJ0bIuCWSjwLdCA+JT1WwHCBWwxxYX9bxhNNse2u9XCqx1NPn7eR+S9V7BP55/M+uciZsa4XYyzDg/tA==
 
 "@pooltogether/v4-timelocks@1.0.0-beta.5":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/v4-timelocks/-/v4-timelocks-1.0.0.tgz#ae1a7a378b79c72f1c55b7cb778eb192c4dd32cc"
-  integrity sha512-8rcDPOrEab1Ka/Ws/QnUZTXef4C48iw3Rc4eHbmA59nzTe2hF36Q1Q5xX5KpWNzAAJOlzDBqGf1FOyk4rHGvxA==
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@pooltogether/v4-timelocks/-/v4-timelocks-1.0.0-beta.5.tgz#c9b684269b8f3e5e751c36468775b92c27bbd095"
+  integrity sha512-IyEVoI6OL3czM8Tx3yG60rmpBj2KdMGPWn0h0fnsU9SntQhyOumnJJWGAtKMAyT6KY3wCMH45h6ilbrW7eO9pQ==
 
 "@pooltogether/yield-source-interface@1.3.0":
   version "1.3.0"
@@ -765,6 +765,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/find@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@types/find/-/find-0.2.1.tgz#e8d0d7a952be2d90768d6f8dd7f2e6630bb260f8"
+  integrity sha512-qUrCBlWoo9ij6ZEMx8G2WEjkdpofFks37/eZSDce7e0BY8lCYS2u7dVAoBy6AKRGX8z/ukllrUAyQ8h+/zlW9w==
+
 "@types/level-errors@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/level-errors/-/level-errors-3.0.0.tgz#15c1f4915a5ef763b51651b15e90f6dc081b96a8"
@@ -788,6 +793,11 @@
   version "16.10.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.1.tgz#f3647623199ca920960006b3dccf633ea905f243"
   integrity sha512-4/Z9DMPKFexZj/Gn3LylFgamNKHm4K3QDi0gz9B26Uk0c8izYf97B5fxfpspMNkWlFupblKM/nV8+NA9Ffvr+w==
+
+"@types/node@^16.11.11":
+  version "16.11.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.11.tgz#6ea7342dfb379ea1210835bada87b3c512120234"
+  integrity sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==
 
 "@types/pbkdf2@^3.0.0":
   version "3.1.0"
