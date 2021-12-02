@@ -26,7 +26,7 @@ const deployRinkebyContracts = async (hardhat: HardhatRuntimeEnvironment) => {
   } else { return }
   const beaconChainConfig: handleBeaconChainContractDeployConfig = {
     startingDrawId: '1',
-    startTimestamp: parseInt('' + new Date().getTime() / 1000),
+    startTimestamp: parseInt('' + ((new Date().getTime() / 1000) - BEACON_PERIOD_SECONDS)), // Start first Draw in the past to start autotask after deploy
     beaconPeriodSeconds: BEACON_PERIOD_SECONDS,
     rngTimeoutSeconds: RNG_TIMEOUT_SECONDS
   }
