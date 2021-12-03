@@ -1,14 +1,18 @@
 import { cyan, green } from "chalk"
 
 export async function configureBeaconChainDeployment(ethers: any, manager: string) {
+  const drawBeacon = await ethers.getContract('DrawBeacon')
+  const drawBuffer = await ethers.getContract('DrawBuffer')
   const beaconTimelockAndPushRouter = await ethers.getContract('BeaconTimelockAndPushRouter')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
 
   /**
-   * MockYieldSource Configuration
-   * Sets the mock YieldSource.ticket to the MintableToken contract.
+   * YieldSource Hierarchy
+   * --------------------
+   * YieldSourcePrizePool   (SmartContract)
+   *   Ticket               (Minter => YieldSourcePrizePool)
    */
   const yieldSourcePrizePool = await ethers.getContract('YieldSourcePrizePool')
   const ticket = await ethers.getContract('Ticket')
@@ -17,6 +21,19 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
     const tx = await yieldSourcePrizePool.setTicket(ticket.address)
     await tx.wait(1)
     console.log(green(`\nSet ticket!`))
+  }
+
+  /**
+   * BeaconChain Management Hierarchy
+   * --------------------
+   * DrawBeacon   (SmartContract)
+   *   DrawBuffer (Manager => DrawBeacon)
+   */
+  if (await drawBuffer.manager() != drawBeacon.address) {
+    console.log(cyan(`\nSetting DrawBuffer manager to ${drawBeacon.address}`))
+    const tx = await drawBuffer.setManager(drawBeacon.address)
+    await tx.wait(1)
+    console.log(green('Done!'))
   }
 
   /**
