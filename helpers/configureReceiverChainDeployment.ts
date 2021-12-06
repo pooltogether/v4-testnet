@@ -7,6 +7,7 @@ export async function configureReceiverChainDeployment(ethers: any, manager: str
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+
   /**
    * MockYieldSource Configuration
    * Sets the mock YieldSource.ticket to the MintableToken contract.

@@ -31,7 +31,7 @@ export async function handlePrizePoolCoreDeploy(
     drawBufferResult.address,
     prizeDistributionBufferResult.address,
     ticketResult.address,
-    1000000
+    1000000 // 1 USDC
   ])
 
   return {

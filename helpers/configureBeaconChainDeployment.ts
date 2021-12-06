@@ -7,10 +7,40 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
+  const prizeTierHistory = await ethers.getContract('PrizeTierHistory')
+
+  /**
+   * Set Initial PrizeTierHistory
+   */
+
+  let pthDrawId = 0;
+  try {
+    pthDrawId = await prizeTierHistory.getNewestDrawId()
+  } catch (error) {
+    console.log('PrizeTierHistory: No PrizeTiers')
+  }
+
+  if (pthDrawId === 0) {
+    const nextPrizeTier = {
+      bitRangeSize: 2,
+      drawId: 1,
+      maxPicksPerUser: 2,
+      expiryDuration: 5184000,
+      endTimestampOffset: 900,
+      prize: 15000000000,
+      tiers: [166889185, 0, 0, 320427236, 0, 512683578, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+    }
+    console.log(cyan('\nSetting PrizeTierHistory first PrizeTier'))
+    await prizeTierHistory.push(nextPrizeTier)
+  } else {
+    const prizeD = await prizeDistributionFactory.calculatePrizeDistribution(1, '10000000')
+    prizeD
+    console.log("calculatePrizeDistribution: ", prizeD)
+  }
 
   /**
    * YieldSource Hierarchy
-   * --------------------
+   * ---------------------
    * YieldSourcePrizePool   (SmartContract)
    *   Ticket               (Minter => YieldSourcePrizePool)
    */
@@ -25,7 +55,7 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
 
   /**
    * BeaconChain Management Hierarchy
-   * --------------------
+   * -------------------------------
    * DrawBeacon   (SmartContract)
    *   DrawBuffer (Manager => DrawBeacon)
    */
@@ -37,8 +67,8 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
   }
 
   /**
-   * Management Hierarchy
-   * --------------------
+   * Timelock Management Hierarchy
+   * -----------------------------
    * Defender Autotask               (EOA)
    * BeaconTimelockAndPushRouter     (Manager => Defender Autotask)
    *   DrawCalculatorTimelock        (Manager => BeaconTimelockAndPushRouter)

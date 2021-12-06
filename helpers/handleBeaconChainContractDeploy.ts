@@ -10,7 +10,8 @@ export interface handleBeaconChainContractDeployConfig {
 export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string, ethers: any, config: handleBeaconChainContractDeployConfig) {
   const drawBuffer = await ethers.getContract('DrawBuffer')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
-  const drawCalculator = await ethers.getContract('DrawCalculatorTimelock')
+  const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
+  const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const rngService = await ethers.getContract('RNGServiceStub')
   const drawBeaconResult = await deployContract(deploy, 'DrawBeacon', deployer, [
     deployer,
@@ -22,7 +23,11 @@ export async function handleBeaconChainContractDeploy(deploy: Function, deployer
     config.rngTimeoutSeconds
   ]);
 
-  const beaconTimelockAndPushRouterResult = await deployContract(deploy, 'BeaconTimelockAndPushRouter', deployer, [deployer, prizeDistributionBuffer.address, drawCalculator.address])
+  const beaconTimelockAndPushRouterResult = await deployContract(deploy, 'BeaconTimelockAndPushRouter', deployer, [
+    deployer,
+    prizeDistributionFactory.address,
+    drawCalculatorTimelock.address
+  ])
   return {
     drawBeacon: drawBeaconResult,
     beaconTimelockAndPushRouterResult
