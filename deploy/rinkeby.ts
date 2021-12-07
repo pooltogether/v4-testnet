@@ -4,7 +4,8 @@ import {
   handleMockContractDeploy,
   handlePrizePoolCoreDeploy,
   handleBeaconChainContractDeploy,
-  configureBeaconChainDeployment
+  configureBeaconChainDeployment,
+  handlePeripheryContractDeploy
 } from '../helpers'
 import { handleBeaconChainContractDeployConfig } from '../helpers/handleBeaconChainContractDeploy'
 import {
@@ -32,6 +33,7 @@ const deployRinkebyContracts = async (hardhat: HardhatRuntimeEnvironment) => {
   }
   await handleMockContractDeploy(deploy, deployer)
   await handlePrizePoolCoreDeploy(deploy, deployer, ethers, TOKEN_DECIMALS, DRAW_BUFFER_CARDINALITY, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY);
+  await handlePeripheryContractDeploy(deploy, deployer, ethers);
   await handleBeaconChainContractDeploy(deploy, deployer, ethers, beaconChainConfig)
   await configureBeaconChainDeployment(ethers, manager)
 }

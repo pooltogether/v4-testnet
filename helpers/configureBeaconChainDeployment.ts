@@ -13,29 +13,28 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
    * Set Initial PrizeTierHistory
    */
 
-  let pthDrawId = 0;
+  let pthDrawNewestId = 0;
   try {
-    pthDrawId = await prizeTierHistory.getNewestDrawId()
+    pthDrawNewestId = await prizeTierHistory.getNewestDrawId()
   } catch (error) {
     console.log('PrizeTierHistory: No PrizeTiers')
   }
 
-  if (pthDrawId === 0) {
-    const nextPrizeTier = {
-      bitRangeSize: 2,
-      drawId: 1,
-      maxPicksPerUser: 2,
-      expiryDuration: 5184000,
-      endTimestampOffset: 900,
-      prize: 15000000000,
-      tiers: [166889185, 0, 0, 320427236, 0, 512683578, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    }
-    console.log(cyan('\nSetting PrizeTierHistory first PrizeTier'))
+  let nextPrizeTier = {
+    bitRangeSize: 2,
+    drawId: 1,
+    maxPicksPerUser: 2,
+    expiryDuration: 5184000,
+    endTimestampOffset: 900,
+    prize: 15000000000,
+    tiers: [141787658, 85072595, 136116152, 136116152, 108892921, 217785843, 174228675, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+  }
+  if (pthDrawNewestId === 0) {
+    console.log(cyan('\nPush PrizeTierHistory first PrizeTier'))
     await prizeTierHistory.push(nextPrizeTier)
   } else {
-    const prizeD = await prizeDistributionFactory.calculatePrizeDistribution(1, '10000000')
-    prizeD
-    console.log("calculatePrizeDistribution: ", prizeD)
+    console.log(cyan('\nPopAndPush PrizeTierHistory first PrizeTier'))
+    await prizeTierHistory.popAndPush(nextPrizeTier)
   }
 
   /**

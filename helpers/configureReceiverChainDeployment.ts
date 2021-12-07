@@ -10,9 +10,8 @@ export async function configureReceiverChainDeployment(ethers: any, manager: str
   const prizeTierHistory = await ethers.getContract('PrizeTierHistory')
 
   /**
-   * Set Initial PrizeTierHistory
+    * Set Initial PrizeTierHistory
    */
-
   let pthDrawId = 0;
   try {
     pthDrawId = await prizeTierHistory.getNewestDrawId()
@@ -20,22 +19,21 @@ export async function configureReceiverChainDeployment(ethers: any, manager: str
     console.log('PrizeTierHistory: No PrizeTiers')
   }
 
+  let nextPrizeTier = {
+    bitRangeSize: 2,
+    drawId: 1,
+    maxPicksPerUser: 2,
+    expiryDuration: 5184000,
+    endTimestampOffset: 900,
+    prize: 15000000000,
+    tiers: [141787658, 85072595, 136116152, 136116152, 108892921, 217785843, 174228675, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+  }
   if (pthDrawId === 0) {
-    const nextPrizeTier = {
-      bitRangeSize: 2,
-      drawId: 1,
-      maxPicksPerUser: 2,
-      expiryDuration: 5184000,
-      endTimestampOffset: 900,
-      prize: 15000000000,
-      tiers: [166889185, 0, 0, 320427236, 0, 512683578, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    }
-    console.log(cyan('\nSetting PrizeTierHistory first PrizeTier'))
+    console.log(cyan('\nPush PrizeTierHistory first PrizeTier'))
     await prizeTierHistory.push(nextPrizeTier)
   } else {
-    const prizeD = await prizeDistributionFactory.calculatePrizeDistribution(1, '10000000')
-    prizeD
-    console.log("calculatePrizeDistribution: ", prizeD)
+    console.log(cyan('\nPopAndPush PrizeTierHistory first PrizeTier'))
+    await prizeTierHistory.popAndPush(nextPrizeTier)
   }
 
   /**

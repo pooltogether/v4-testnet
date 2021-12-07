@@ -4,7 +4,6 @@ export async function handlePeripheryContractDeploy(deploy: Function, deployer: 
   const prizeDistributor = await ethers.getContract('PrizeDistributor')
   const prizeSplitStrategy = await ethers.getContract('PrizeSplitStrategy')
   const reserve = await ethers.getContract('Reserve')
-
   const EIP2612PermitAndDepositResult = await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
   const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributor.address, prizeSplitStrategy.address, reserve.address])
   const twabRewardsResult = await deployContract(deploy, 'TwabRewards', deployer, [])

@@ -90,6 +90,7 @@ const config: HardhatUserConfig = {
       "@pooltogether/v4-periphery/contracts/PrizeFlush.sol",
       "@pooltogether/v4-periphery/contracts/PrizeTierHistory.sol",
       "@pooltogether/v4-periphery/contracts/PrizeDistributionFactory.sol",
+      "@pooltogether/v4-periphery/contracts/TwabRewards.sol",
       // mock yield source
       "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol"
 
