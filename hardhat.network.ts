@@ -79,6 +79,7 @@ if (mnemonic) {
       mnemonic,
     },
   };
+
   networks.mumbai = {
     chainId: 80001,
     url: 'https://rpc-mumbai.maticvigil.com',
@@ -86,6 +87,7 @@ if (mnemonic) {
       mnemonic,
     },
   };
+  networks.polygonMumbai = networks.mumbai
 }
 
 if (infuraApiKey && mnemonic) {

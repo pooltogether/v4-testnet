@@ -1,18 +1,10 @@
 import { deployContract } from './deployContract'
 
-export interface handleReceiverChainContractDeployConfig {
-  drawCalculator: string,
-  drawBuffer: string,
-  prizeDistributionBuffer: string,
-}
-
-
-export async function handleReceiverChainContractDeploy(deploy: Function, deployer: string, config: handleReceiverChainContractDeployConfig = {
-  drawCalculator: '',
-  drawBuffer: '',
-  prizeDistributionBuffer: ''
-}) {
-  await deployContract(deploy, 'L2TimelockTrigger', deployer, [deployer, config.drawBuffer, config.prizeDistributionBuffer, config.drawCalculator])
+export async function handleReceiverChainContractDeploy(deploy: Function, deployer: string, ethers: any) {
+  const drawBuffer = await ethers.getContract('DrawBuffer')
+  const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
+  const drawCalculator = await ethers.getContract('DrawCalculatorTimelock')
+  await deployContract(deploy, 'ReceiverTimelockAndPushRouter', deployer, [deployer, drawBuffer.address, prizeDistributionFactory.address, drawCalculator.address])
 }
 
 export default handleReceiverChainContractDeploy
