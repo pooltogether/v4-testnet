@@ -7,10 +7,20 @@ export async function handlePeripheryContractDeploy(deploy: Function, deployer: 
 
   const EIP2612PermitAndDepositResult = await deployContract(deploy, 'EIP2612PermitAndDeposit', deployer, [])
   const prizeFlushResult = await deployContract(deploy, 'PrizeFlush', deployer, [deployer, prizeDistributor.address, prizeSplitStrategy.address, reserve.address])
+  const twabRewardsResult = await deployContract(deploy, 'TwabRewards', deployer, [])
 
-  return {
+  const peripheryContractDeploy = {
     prizeFlushResult: prizeFlushResult,
     EIP2612PermitAndDeposit: EIP2612PermitAndDepositResult
+  };
+
+  if (process.env.DEPLOY === 'fuji') {
+    return {
+      ...peripheryContractDeploy,
+      twabRewardsResult: twabRewardsResult
+    }
+  } else {
+    return peripheryContractDeploy;
   }
 }
 
