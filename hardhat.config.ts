@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from 'hardhat/config';
 import networks from './hardhat.network';
+import { dependencyCompiler, external } from './hardhat.config.dependencies'
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
@@ -18,22 +19,10 @@ const optimizerEnabled = true
 
 const config: HardhatUserConfig = {
   networks,
+  external,
+  dependencyCompiler,
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
-  },
-  solidity: {
-    compilers: [
-      {
-        version: '0.8.6',
-        settings: {
-          optimizer: {
-            enabled: optimizerEnabled,
-            runs: 2000,
-          },
-          evmVersion: 'berlin',
-        },
-      },
-    ],
   },
   namedAccounts: {
     deployer: {
@@ -52,50 +41,20 @@ const config: HardhatUserConfig = {
       avalancheFuji: '0x2d38318c873b7965ff3cb660461b04561cc487d1' //  Avalanche(Fuji) Defender Relayer Address
     }
   },
-  external: {
-    contracts: [
+  solidity: {
+    compilers: [
       {
-        artifacts: "node_modules/@pooltogether/pooltogether-rng-contracts/build",
+        version: '0.8.6',
+        settings: {
+          optimizer: {
+            enabled: optimizerEnabled,
+            runs: 2000,
+          },
+          evmVersion: 'berlin',
+        },
       },
-      {
-        artifacts: "node_modules/@pooltogether/yield-source-interface/artifacts"
-      }
     ],
-    deployments: {
-      rinkeby: ["node_modules/@pooltogether/pooltogether-rng-contracts/deployments/rinkeby"],
-      mumbai: ["node_modules/@pooltogether/pooltogether-rng-contracts/deployments/mumbai_80001"],
-    },
   },
-  dependencyCompiler: {
-    paths: [
-      // Core
-      "@pooltogether/v4-core/contracts/DrawBeacon.sol",
-      "@pooltogether/v4-core/contracts/DrawCalculator.sol",
-      "@pooltogether/v4-core/contracts/DrawBuffer.sol",
-      "@pooltogether/v4-core/contracts/PrizeDistributor.sol",
-      "@pooltogether/v4-core/contracts/PrizeDistributionBuffer.sol",
-      "@pooltogether/v4-core/contracts/Ticket.sol",
-      "@pooltogether/v4-core/contracts/prize-strategy/PrizeSplitStrategy.sol",
-      "@pooltogether/v4-core/contracts/Reserve.sol",
-      "@pooltogether/v4-core/contracts/prize-pool/YieldSourcePrizePool.sol",
-      "@pooltogether/v4-core/contracts/test/ERC20Mintable.sol",
-      "@pooltogether/v4-core/contracts/permit/EIP2612PermitAndDeposit.sol",
-      // Timelock
-      "@pooltogether/v4-timelocks/contracts/L1TimelockTrigger.sol",
-      "@pooltogether/v4-timelocks/contracts/L2TimelockTrigger.sol",
-      "@pooltogether/v4-timelocks/contracts/DrawCalculatorTimelock.sol",
-      "@pooltogether/v4-timelocks/contracts/BeaconTimelockAndPushRouter.sol",
-      "@pooltogether/v4-timelocks/contracts/ReceiverTimelockAndPushRouter.sol",
-      // Periphery
-      "@pooltogether/v4-periphery/contracts/PrizeFlush.sol",
-      "@pooltogether/v4-periphery/contracts/PrizeTierHistory.sol",
-      "@pooltogether/v4-periphery/contracts/PrizeDistributionFactory.sol",
-      "@pooltogether/v4-periphery/contracts/TwabRewards.sol",
-      // mock yield source
-      "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol"
-
-    ]
-  }
 };
 
 export default config;
