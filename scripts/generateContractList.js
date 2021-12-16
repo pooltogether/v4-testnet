@@ -6,15 +6,15 @@ const avalancheFujiDeployments = `${__dirname}/../deployments/avalancheFuji`;
 
 const networkDeploymentPaths = [rinkebyDeployments, mumbaiDeployments, avalancheFujiDeployments];
 
-const VERSION_ONE = {
+const CURRENT_VERSION = {
   major: 1,
-  minor: 0,
+  minor: 1,
   patch: 0,
 };
 
 const contractList = {
   name: "Testnet Linked Prize Pool",
-  version: VERSION_ONE,
+  version: CURRENT_VERSION,
   tags: {},
   contracts: [],
 };
@@ -23,7 +23,7 @@ const formatContract = (chainId, contractName, deploymentBlob) => {
   return {
     chainId,
     address: deploymentBlob.address,
-    version: VERSION_ONE,
+    version: CURRENT_VERSION,
     type: contractName,
     abi: deploymentBlob.abi,
     tags: [],
@@ -54,7 +54,7 @@ networkDeploymentPaths.forEach((networkDeploymentPath) => {
 });
 
 fs.writeFile(
-  `${__dirname}/../testnet.json`,
+  `${__dirname}/../contracts.json`,
   JSON.stringify(contractList),
   (err) => {
     if (err) {

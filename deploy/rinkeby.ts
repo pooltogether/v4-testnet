@@ -25,10 +25,12 @@ const deployRinkebyContracts = async (hardhat: HardhatRuntimeEnvironment) => {
   if (process.env.DEPLOY === 'rinkeby') {
     dim(`Deploying to Ethereum Rinkeby testnet`)
   } else { return }
+
+  const calculatedBeaconPeriodSeconds = BEACON_PERIOD_SECONDS / 6; // Update to every 4 hours for quicker testing cycles
   const beaconChainConfig: handleBeaconChainContractDeployConfig = {
     startingDrawId: '1',
-    startTimestamp: parseInt('' + ((new Date().getTime() / 1000) - BEACON_PERIOD_SECONDS)), // Start first Draw in the past to start autotask after deploy
-    beaconPeriodSeconds: BEACON_PERIOD_SECONDS,
+    startTimestamp: parseInt('' + ((new Date().getTime() / 1000) - calculatedBeaconPeriodSeconds)), // Start first Draw in the past to start autotask after deploy
+    beaconPeriodSeconds: calculatedBeaconPeriodSeconds,
     rngTimeoutSeconds: RNG_TIMEOUT_SECONDS
   }
   await handleMockContractDeploy(deploy, deployer)

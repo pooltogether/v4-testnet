@@ -9,7 +9,6 @@ export interface handleBeaconChainContractDeployConfig {
 
 export async function handleBeaconChainContractDeploy(deploy: Function, deployer: string, ethers: any, config: handleBeaconChainContractDeployConfig) {
   const drawBuffer = await ethers.getContract('DrawBuffer')
-  const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const rngService = await ethers.getContract('RNGServiceStub')
