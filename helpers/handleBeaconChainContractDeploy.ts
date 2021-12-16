@@ -23,14 +23,14 @@ export async function handleBeaconChainContractDeploy(deploy: Function, deployer
     config.rngTimeoutSeconds
   ]);
 
-  const beaconTimelockAndPushRouterResult = await deployContract(deploy, 'BeaconTimelockAndPushRouter', deployer, [
+  const beaconTimelockTriggerResult = await deployContract(deploy, 'BeaconTimelockTrigger', deployer, [
     deployer,
     prizeDistributionFactory.address,
     drawCalculatorTimelock.address
   ])
   return {
     drawBeacon: drawBeaconResult,
-    beaconTimelockAndPushRouterResult
+    beaconTimelockTriggerResult
   }
 }
 

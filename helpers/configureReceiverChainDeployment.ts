@@ -2,7 +2,7 @@
 import { cyan, green } from "chalk";
 
 export async function configureReceiverChainDeployment(ethers: any, manager: string) {
-  const receiverTimelockAndPushRouter = await ethers.getContract('ReceiverTimelockAndPushRouter')
+  const receiverTimelockTrigger = await ethers.getContract('ReceiverTimelockTrigger')
   const drawBuffer = await ethers.getContract('DrawBuffer')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
@@ -53,49 +53,49 @@ export async function configureReceiverChainDeployment(ethers: any, manager: str
    * Management Hierarchy
    * --------------------
    * Defender Autotask                 (EOA)
-   * ReceiverTimelockAndPushRouter     (Manager => Defender Autotask)
-   *   DrawBuffer                      (Manager => ReceiverTimelockAndPushRouter)
-   *   DrawCalculatorTimelock          (Manager => ReceiverTimelockAndPushRouter)
-   *   PrizeDistributionFactory        (Manager => ReceiverTimelockAndPushRouter)
+   * ReceiverTimelockTrigger     (Manager => Defender Autotask)
+   *   DrawBuffer                      (Manager => ReceiverTimelockTrigger)
+   *   DrawCalculatorTimelock          (Manager => ReceiverTimelockTrigger)
+   *   PrizeDistributionFactory        (Manager => ReceiverTimelockTrigger)
    *     PrizeDistributionBuffer       (Manager => PrizeDistributionFactory)
    */
 
   /**
-   * @dev The ReceiverTimelockAndPushRouter contract will be managed by a Defender Autotask
+   * @dev The ReceiverTimelockTrigger contract will be managed by a Defender Autotask
    */
-  if (await receiverTimelockAndPushRouter.manager() != manager) {
-    console.log(console.log(cyan(`\nSetting ReceiverTimelockAndPushRouter manager to ${manager}`)))
-    const tx = await receiverTimelockAndPushRouter.setManager(manager)
+  if (await receiverTimelockTrigger.manager() != manager) {
+    console.log(console.log(cyan(`\nSetting ReceiverTimelockTrigger manager to ${manager}`)))
+    const tx = await receiverTimelockTrigger.setManager(manager)
     await tx.wait(1)
     console.log(green('Done!'))
   }
 
   /**
-   * @dev The DrawBuffer contract will be managed by ReceiverTimelockAndPushRouter
+   * @dev The DrawBuffer contract will be managed by ReceiverTimelockTrigger
    */
-  if (await drawBuffer.manager() != receiverTimelockAndPushRouter.address) {
-    console.log(cyan(`\nSetting DrawBuffer manager to ${receiverTimelockAndPushRouter.address}`))
-    const tx = await drawBuffer.setManager(receiverTimelockAndPushRouter.address)
+  if (await drawBuffer.manager() != receiverTimelockTrigger.address) {
+    console.log(cyan(`\nSetting DrawBuffer manager to ${receiverTimelockTrigger.address}`))
+    const tx = await drawBuffer.setManager(receiverTimelockTrigger.address)
     await tx.wait(1)
     console.log(green('Done!'))
   }
 
   /**
-   * @dev The DrawCalculatorTimelock contract will be managed by ReceiverTimelockAndPushRouter
+   * @dev The DrawCalculatorTimelock contract will be managed by ReceiverTimelockTrigger
    */
-  if (await drawCalculatorTimelock.manager() != receiverTimelockAndPushRouter.address) {
-    console.log(cyan(`\nSetting DrawCalculatorTimelock manager to ${receiverTimelockAndPushRouter.address}`))
-    const tx = await drawCalculatorTimelock.setManager(receiverTimelockAndPushRouter.address)
+  if (await drawCalculatorTimelock.manager() != receiverTimelockTrigger.address) {
+    console.log(cyan(`\nSetting DrawCalculatorTimelock manager to ${receiverTimelockTrigger.address}`))
+    const tx = await drawCalculatorTimelock.setManager(receiverTimelockTrigger.address)
     await tx.wait(1)
     console.log(green('Done!'))
   }
 
   /**
-   * @dev The PrizeDistributionFactory contract will be managed by ReceiverTimelockAndPushRouter
+   * @dev The PrizeDistributionFactory contract will be managed by ReceiverTimelockTrigger
    */
-  if (await prizeDistributionFactory.manager() != receiverTimelockAndPushRouter.address) {
-    console.log(cyan(`\nSetting PrizeDistributionFactory manager to ${receiverTimelockAndPushRouter.address}`))
-    const tx = await prizeDistributionFactory.setManager(receiverTimelockAndPushRouter.address)
+  if (await prizeDistributionFactory.manager() != receiverTimelockTrigger.address) {
+    console.log(cyan(`\nSetting PrizeDistributionFactory manager to ${receiverTimelockTrigger.address}`))
+    const tx = await prizeDistributionFactory.setManager(receiverTimelockTrigger.address)
     await tx.wait(1)
     console.log(green('Done!'))
   }

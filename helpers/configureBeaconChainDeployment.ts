@@ -3,7 +3,7 @@ import { cyan, green } from "chalk"
 export async function configureBeaconChainDeployment(ethers: any, manager: string) {
   const drawBeacon = await ethers.getContract('DrawBeacon')
   const drawBuffer = await ethers.getContract('DrawBuffer')
-  const beaconTimelockAndPushRouter = await ethers.getContract('BeaconTimelockAndPushRouter')
+  const beaconTimelockTrigger = await ethers.getContract('BeaconTimelockTrigger')
   const drawCalculatorTimelock = await ethers.getContract('DrawCalculatorTimelock')
   const prizeDistributionFactory = await ethers.getContract('PrizeDistributionFactory')
   const prizeDistributionBuffer = await ethers.getContract('PrizeDistributionBuffer')
@@ -69,38 +69,38 @@ export async function configureBeaconChainDeployment(ethers: any, manager: strin
    * Timelock Management Hierarchy
    * -----------------------------
    * Defender Autotask               (EOA)
-   * BeaconTimelockAndPushRouter     (Manager => Defender Autotask)
-   *   DrawCalculatorTimelock        (Manager => BeaconTimelockAndPushRouter)
-   *   PrizeDistributionFactory      (Manager => BeaconTimelockAndPushRouter)
+   * BeaconTimelockTrigger     (Manager => Defender Autotask)
+   *   DrawCalculatorTimelock        (Manager => BeaconTimelockTrigger)
+   *   PrizeDistributionFactory      (Manager => BeaconTimelockTrigger)
    *     PrizeDistributionBuffer     (Manager => PrizeDistributionFactory)
    */
 
   /**
-   * @dev The BeaconTimelockAndPushRouter contract will be managed by a Defender Autotask
+   * @dev The BeaconTimelockTrigger contract will be managed by a Defender Autotask
    */
-  if (await beaconTimelockAndPushRouter.manager() != manager) {
-    console.log(cyan(`\nSetting BeaconTimelockAndPushRouter manager to ${manager}...`))
-    const tx = await beaconTimelockAndPushRouter.setManager(manager)
+  if (await beaconTimelockTrigger.manager() != manager) {
+    console.log(cyan(`\nSetting BeaconTimelockTrigger manager to ${manager}...`))
+    const tx = await beaconTimelockTrigger.setManager(manager)
     await tx.wait(1)
     console.log(green('Done!'))
   }
 
   /**
-   * @dev The DrawCalculatorTimelock contract will be managed by BeaconTimelockAndPushRouter
+   * @dev The DrawCalculatorTimelock contract will be managed by BeaconTimelockTrigger
    */
-  if (await drawCalculatorTimelock.manager() != beaconTimelockAndPushRouter.address) {
-    console.log(cyan(`\nSetting DrawCalculatorTimelock manager to ${beaconTimelockAndPushRouter.address}`))
-    const tx = await drawCalculatorTimelock.setManager(beaconTimelockAndPushRouter.address)
+  if (await drawCalculatorTimelock.manager() != beaconTimelockTrigger.address) {
+    console.log(cyan(`\nSetting DrawCalculatorTimelock manager to ${beaconTimelockTrigger.address}`))
+    const tx = await drawCalculatorTimelock.setManager(beaconTimelockTrigger.address)
     await tx.wait(1)
     console.log(green('Done!'))
   }
 
   /**
-   * @dev The PrizeDistributionFactory contract will be managed by BeaconTimelockAndPushRouter
+   * @dev The PrizeDistributionFactory contract will be managed by BeaconTimelockTrigger
    */
-  if (await prizeDistributionFactory.manager() != beaconTimelockAndPushRouter.address) {
-    console.log(cyan(`\nSetting PrizeDistributionFactory manager to ${beaconTimelockAndPushRouter.address}`))
-    const tx = await prizeDistributionFactory.setManager(beaconTimelockAndPushRouter.address)
+  if (await prizeDistributionFactory.manager() != beaconTimelockTrigger.address) {
+    console.log(cyan(`\nSetting PrizeDistributionFactory manager to ${beaconTimelockTrigger.address}`))
+    const tx = await prizeDistributionFactory.setManager(beaconTimelockTrigger.address)
     await tx.wait(1)
     console.log(green('Done!'))
   }
