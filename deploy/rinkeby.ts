@@ -37,9 +37,6 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const rngServiceResult = await deployAndLog('RNGServiceStub', {from:deployer, args: []})
   const mockYieldSourceResult = await deployAndLog('MockYieldSource', {from:deployer, args: ['Token', 'TOK', TOKEN_DECIMALS]})
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {from:deployer, args: [deployer, mockYieldSourceResult.address]})
-
-  const calculatedBeaconPeriodSeconds = 86400 / 6;
-
   const ticketResult = await deployAndLog('Ticket', { from: deployer, args: ["Ticket", "TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address] })
   const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', { from: deployer, args: [deployer] })
   const drawBufferResult = await deployAndLog('DrawBuffer', { from: deployer, args: [deployer, DRAW_BUFFER_CARDINALITY] })
@@ -51,6 +48,8 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer })
   
+  // New Draw Every 4 Hours
+  const calculatedBeaconPeriodSeconds = 86400 / 6;
 
   const drawBeaconResult = await deployAndLog('DrawBeacon', {from: deployer, args: [
     deployer,
