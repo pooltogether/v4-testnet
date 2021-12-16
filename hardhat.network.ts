@@ -1,8 +1,10 @@
+import { HardhatUserConfig } from 'hardhat/config';
 const alchemyUrl = process.env.ALCHEMY_URL;
 const infuraApiKey = process.env.INFURA_API_KEY;
 const mnemonic = process.env.HDWALLET_MNEMONIC;
+const avalanche = process.env.AVALANCHE_ENABLED;
 
-const networks = {
+const networks: HardhatUserConfig['networks'] = {
   coverage: {
     url: 'http://127.0.0.1:8555',
     blockGasLimit: 200000000,
@@ -36,6 +38,25 @@ if (alchemyUrl && process.env.FORK_ENABLED && mnemonic) {
   };
 }
 
+if (!!avalanche) {
+  networks.avalancheMainnet = {
+    chainId: 43115,
+    gas: 12000000,
+    url: 'https://api.avax.network/ext/bc/C/rpc',
+    accounts: {
+      mnemonic,
+    },
+  }
+
+  networks.avalancheFuji = {
+    chainId: 43113,
+    url: 'https://api.avax-test.network/ext/bc/C/rpc',
+    accounts: {
+      mnemonic,
+    },
+  }
+}
+
 if (mnemonic) {
   networks.xdai = {
     chainId: 100,
@@ -58,6 +79,7 @@ if (mnemonic) {
       mnemonic,
     },
   };
+
   networks.mumbai = {
     chainId: 80001,
     url: 'https://rpc-mumbai.maticvigil.com',
@@ -65,6 +87,7 @@ if (mnemonic) {
       mnemonic,
     },
   };
+  networks.polygonMumbai = networks.mumbai
 }
 
 if (infuraApiKey && mnemonic) {
@@ -89,7 +112,7 @@ if (infuraApiKey && mnemonic) {
       mnemonic,
     },
   };
-  
+
   networks.goerli = {
     chainId: 5,
     url: `https://goerli.infura.io/v3/${infuraApiKey}`,
@@ -108,4 +131,4 @@ if (infuraApiKey && mnemonic) {
   console.warn('No infura or hdwallet available for testnets');
 }
 
-module.exports = networks;
+export default networks;

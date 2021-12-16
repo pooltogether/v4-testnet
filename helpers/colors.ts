@@ -1,30 +1,31 @@
+// @ts-nocheck
 const chalk = require('chalk');
 
-function dim() {
+export function dim() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.dim.call(chalk, ...arguments));
   }
 }
 
-function cyan() {
+export function cyan() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.cyan.call(chalk, ...arguments));
   }
 }
 
-function yellow() {
+export function yellow() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.yellow.call(chalk, ...arguments));
   }
 }
 
-function green() {
+export function green() {
   if (!process.env.HIDE_DEPLOY_LOG) {
     console.log(chalk.green.call(chalk, ...arguments));
   }
 }
 
-function displayResult(name, result) {
+export function displayResult(name, result) {
   if (!result.newlyDeployed) {
     yellow(`Re-used existing ${name} at ${result.address}`);
   } else {
@@ -32,6 +33,6 @@ function displayResult(name, result) {
   }
 }
 
-module.exports = {
+export default {
   dim, cyan, yellow, green, displayResult
 }
