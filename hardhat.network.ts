@@ -48,7 +48,7 @@ if (!!avalanche) {
     },
   }
 
-  networks.avalancheFuji = {
+  networks.fuji = {
     chainId: 43113,
     url: 'https://api.avax-test.network/ext/bc/C/rpc',
     accounts: {
