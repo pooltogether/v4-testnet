@@ -21,9 +21,9 @@
     "deploy:goerli": "DEPLOY=goerli hardhat deploy --network goerli",
     "deploy:mumbai": "DEPLOY=mumbai hardhat deploy --network mumbai",
     "deploy:fuji": "DEPLOY=fuji hardhat deploy --network avalancheFuji",
-    "node:mumbai": "DEPLOY=mumbai hardhat node --network hardhat",
-    "node:rinkeby": "DEPLOY=rinkeby hardhat node --network hardhat",
-    "node:fuji": "DEPLOY=fuji hardhat node --network hardhat",
+    "node:rinkeby": "DEPLOY=v1.1.0.rinkeby hardhat node --network hardhat",
+    "node:mumbai": "DEPLOY=v1.1.0.mumbai hardhat node --network hardhat",
+    "node:fuji": "DEPLOY=v1.1.0.fuji hardhat node --network hardhat",
     "node:goerli": "DEPLOY=goerli hardhat node",
     "verify:rinkeby": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network goerli",
     "verify:goerli": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network goerli",
@@ -34,6 +34,7 @@
     "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse avalancheFuji ; yarn deposit avalancheFuji"
   },
   "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
     "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "@openzeppelin/contracts": "4.3.2",
     "@pooltogether/draw-calculator-js": "^1.0.0-beta.25",
@@ -61,7 +62,6 @@
     "hardhat-dependency-compiler": "^1.1.1",
     "hardhat-deploy": "^0.9.1",
     "hardhat-deploy-ethers": "^0.3.0-beta.10",
-    "hardhat-ethers": "^1.0.1",
     "idx": "^2.5.6",
     "luxon": "^2.0.2",
     "neo-blessed": "^0.2.0",

@@ -1,13 +1,13 @@
-const { yellow, green } = require('./colors')
+import { yellow, green } from './colors'
 
-function displayResult(name, result) {
+export function displayResult(name: string, result: any) {
     if (!result.newlyDeployed) {
         yellow(`Re-used existing ${name} at ${result.address}`);
     } else {
         green(`${name} deployed at ${result.address}`);
     }
 }
-
-module.exports = {
+  
+export default {
     displayResult
 }
