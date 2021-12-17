@@ -26,7 +26,6 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
 
   const {
     deployer,
-    executiveTeam,
     defenderRelayer,
   } = await getNamedAccounts()
 
@@ -42,7 +41,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const drawBufferResult = await deployAndLog('DrawBuffer', { from: deployer, args: [deployer, DRAW_BUFFER_CARDINALITY] })
   const prizeDistributionBufferResult = await deployAndLog('PrizeDistributionBuffer', { from: deployer, args: [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY] })
   const drawCalculatorResult = await deployAndLog('DrawCalculator', { from: deployer, args: [ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address] })
-  const prizeDistributorResult = await deployAndLog('PrizeDistributor', { from: deployer, args: [executiveTeam, ticketResult.address, drawCalculatorResult.address] })
+  const prizeDistributorResult = await deployAndLog('PrizeDistributor', { from: deployer, args: [deployer, ticketResult.address, drawCalculatorResult.address] })
   const prizeSplitStrategyResult = await deployAndLog('PrizeSplitStrategy', { from: deployer, args: [deployer, yieldSourcePrizePoolResult.address] })
   const reserveResult = await deployAndLog('Reserve', { from: deployer, args: [deployer, ticketResult.address] })
   const drawCalculatorTimelockResult = await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
@@ -51,15 +50,21 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   // New Draw Every 4 Hours
   const calculatedBeaconPeriodSeconds = 86400 / 6;
 
-  const drawBeaconResult = await deployAndLog('DrawBeacon', {from: deployer, args: [
-    deployer,
-    drawBufferResult.address,
-    rngServiceResult.address,
-    1,
-    parseInt('' + ((new Date().getTime() / 1000) - calculatedBeaconPeriodSeconds)),
-    calculatedBeaconPeriodSeconds,
-    RNG_TIMEOUT_SECONDS
-]});
+  let drawBeaconResult
+
+  // Check to see if a DrawBeacon exists before deploying with new input parameters
+  drawBeaconResult = await hardhat.ethers.getContract('DrawBeacon')
+  if(!drawBeaconResult) { 
+    drawBeaconResult = await deployAndLog('DrawBeacon', {from: deployer, args: [
+      deployer,
+      drawBufferResult.address,
+      rngServiceResult.address,
+      1,
+      parseInt('' + ((new Date().getTime() / 1000) - calculatedBeaconPeriodSeconds)),
+      calculatedBeaconPeriodSeconds,
+      RNG_TIMEOUT_SECONDS
+    ]});
+  }
 
   const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
     from: deployer,
@@ -91,14 +96,14 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await setManager('PrizeDistributionFactory', null, beaconTimelockTriggerResult.address)
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address)
 
-  await transferOwnership('PrizeDistributionFactory', null, executiveTeam)
-  await transferOwnership('DrawCalculatorTimelock', null, executiveTeam)
-  await transferOwnership('PrizeFlush', null, executiveTeam)
-  await transferOwnership('Reserve', null, executiveTeam)
-  await transferOwnership('YieldSourcePrizePool', null, executiveTeam)
-  await transferOwnership('PrizeTierHistory', null, executiveTeam)
-  await transferOwnership('PrizeSplitStrategy', null, executiveTeam)
-  await transferOwnership('DrawBuffer', null, executiveTeam)
-  await transferOwnership('PrizeDistributionBuffer', null, executiveTeam)
-  await transferOwnership('BeaconTimelockTrigger', null, executiveTeam)
+  await transferOwnership('PrizeDistributionFactory', null, deployer)
+  await transferOwnership('DrawCalculatorTimelock', null, deployer)
+  await transferOwnership('PrizeFlush', null, deployer)
+  await transferOwnership('Reserve', null, deployer)
+  await transferOwnership('YieldSourcePrizePool', null, deployer)
+  await transferOwnership('PrizeTierHistory', null, deployer)
+  await transferOwnership('PrizeSplitStrategy', null, deployer)
+  await transferOwnership('DrawBuffer', null, deployer)
+  await transferOwnership('PrizeDistributionBuffer', null, deployer)
+  await transferOwnership('BeaconTimelockTrigger', null, deployer)
 }
