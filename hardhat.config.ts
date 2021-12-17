@@ -1,19 +1,11 @@
 import { HardhatUserConfig } from 'hardhat/config';
-import networks from './hardhat.network';
-import { dependencyCompiler, external } from './hardhat.config.dependencies'
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
 import "@nomiclabs/hardhat-etherscan";
 import '@pooltogether/hardhat-deploy-markdown-export';
-import './tasks/calculations';
-import './tasks/administrative';
-import './tasks/DrawBuffer';
-import './tasks/PrizeDistributor';
-import './tasks/PrizeDistributionBuffer';
-import './tasks/PrizePool';
-import './tasks/Ticket';
-import './tasks/PrizeTierHistory';
+import networks from './hardhat.network';
+import { dependencyCompiler, external } from './hardhat.config.dependencies'
 
 const optimizerEnabled = true
 const config: HardhatUserConfig = {
