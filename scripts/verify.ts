@@ -35,7 +35,9 @@ async function run() {
   })
 
   info(`Attempting to verify ${toplevelContracts.length} smart contracts`)
-  toplevelContracts.forEach(async (contract: any) => {
+
+  for (let index = 0; index < toplevelContracts.length; index++) {
+    const contract = toplevelContracts[index];
     let args = ""
     let argsArray: Array<any> = []
     if (contract.constructorArgs.length > 0) {
@@ -45,7 +47,7 @@ async function run() {
       })
     }
     await verifyAddress(hardhat, contract.address, argsArray)
-  })
+  }
 
   success('Done!')
 }
