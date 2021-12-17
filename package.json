@@ -31,8 +31,6 @@
     "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji"
   },
   "dependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.3",
-    "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "@openzeppelin/contracts": "4.3.2",
     "@pooltogether/draw-calculator-js": "^1.0.0-beta.25",
     "@pooltogether/hardhat-deploy-markdown-export": "^0.1.0",
@@ -46,11 +44,10 @@
   },
   "devDependencies": {
     "@ethersproject/hardware-wallets": "^5.0.14",
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
+    "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "@types/find": "^0.2.1",
     "@types/node": "^16.11.11",
-    "ajv": "^6.12.2",
-    "blessed": "^0.1.81",
-    "blessed-contrib": "^4.10.1",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
     "debug": "^4.3.2",
@@ -61,11 +58,6 @@
     "hardhat-deploy-ethers": "^0.3.0-beta.10",
     "idx": "^2.5.6",
     "luxon": "^2.0.2",
-    "neo-blessed": "^0.2.0",
-    "node-emoji": "^1.11.0",
-    "node-pty": "^0.10.1",
-    "prompt": "^1.2.0",
-    "term.js": "^0.0.7",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
   },
@@ -73,6 +65,7 @@
     "artifacts",
     "deployments/mumbai",
     "deployments/rinkeby",
+    "deployments/fuji",
     "contracts.json"
   ]
 }

@@ -16,7 +16,6 @@ import './tasks/Ticket';
 import './tasks/PrizeTierHistory';
 
 const optimizerEnabled = true
-
 const config: HardhatUserConfig = {
   networks,
   external,
@@ -30,9 +29,9 @@ const config: HardhatUserConfig = {
     },
     defenderRelayer: {
       default: 0,
-      rinkeby: '0x7025879c052bbac44fb24600087fe30a0f32edfe',      // Ethereum (Rinkeby) Defender Relayer
-      mumbai: '0xbce45a1c2c1eff18e77f217a62a44f885b26099f',       // Polygon (Mumbai) Defender Relayer
-      fuji: '0x2d38318c873b7965ff3cb660461b04561cc487d1' // Avalanche (Fuji) Defender Relayer
+      rinkeby: '0x7025879c052bbac44fb24600087fe30a0f32edfe',  // Ethereum (Rinkeby) Defender Relayer
+      mumbai: '0xbce45a1c2c1eff18e77f217a62a44f885b26099f',   // Polygon (Mumbai) Defender Relayer
+      fuji: '0x2d38318c873b7965ff3cb660461b04561cc487d1'      // Avalanche (Fuji) Defender Relayer
     },
   },
   solidity: {
