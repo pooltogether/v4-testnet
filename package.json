@@ -1,6 +1,6 @@
 {
   "name": "@pooltogether/v4-testnet",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0-beta.2",
   "main": "index.js",
   "repository": "git@github.com:pooltogether/v4-testnet.git",
   "author": "Brendan Asselstine <mail.asselstine@gmail.com>",
@@ -23,7 +23,7 @@
     "node:rinkeby": "DEPLOY=v1.1.0.rinkeby hardhat node --network hardhat",
     "node:mumbai": "DEPLOY=v1.1.0.mumbai hardhat node --network hardhat",
     "node:fuji": "DEPLOY=v1.1.0.fuji hardhat node --network hardhat",
-    "verify:rinkeby": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network goerli",
+    "verify:rinkeby": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network rinkeby",
     "verify:mumbai": "hardhat --config hardhat.config.polygon.ts run ./scripts/verify.ts --network mumbai",
     "verify:fuji": "hardhat --config hardhat.config.avalanche.ts run ./scripts/verify.ts --network fuji",
     "setup:rinkeby": "yarn deploy-rinkeby ; yarn verify-rinkeby ; yarn disburse rinkeby ; yarn deposit rinkeby",

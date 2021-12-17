@@ -45,7 +45,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const prizeDistributorResult = await deployAndLog('PrizeDistributor', { from: deployer, args: [executiveTeam, ticketResult.address, drawCalculatorResult.address] })
   const prizeSplitStrategyResult = await deployAndLog('PrizeSplitStrategy', { from: deployer, args: [deployer, yieldSourcePrizePoolResult.address] })
   const reserveResult = await deployAndLog('Reserve', { from: deployer, args: [deployer, ticketResult.address] })
-  await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
+  const drawCalculatorTimelockResult = await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer })
   
   // New Draw Every 4 Hours
@@ -74,7 +74,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   })
 
   const prizeFlushResult = await deployAndLog('PrizeFlush', { from: deployer, args: [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address]})
-  const beaconTimelockTriggerResult = await deployAndLog('BeaconTimelockTrigger', { from: deployer, args: [deployer, prizeDistributionFactoryResult.address, drawCalculatorResult.address]})
+  const beaconTimelockTriggerResult = await deployAndLog('BeaconTimelockTrigger', { from: deployer, args: [deployer, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address]})
 
   // ===================================================
   // Configure Contracts

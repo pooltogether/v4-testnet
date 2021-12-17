@@ -45,7 +45,7 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   const prizeDistributorResult = await deployAndLog('PrizeDistributor', { from: deployer, args: [executiveTeam, ticketResult.address, drawCalculatorResult.address] })
   const prizeSplitStrategyResult = await deployAndLog('PrizeSplitStrategy', { from: deployer, args: [deployer, yieldSourcePrizePoolResult.address] })
   const reserveResult = await deployAndLog('Reserve', { from: deployer, args: [deployer, ticketResult.address] })
-  await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
+  const drawCalculatorTimelockResult = await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
 
   const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
     from: deployer,
@@ -60,7 +60,7 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   })
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer })
   const prizeFlushResult = await deployAndLog('PrizeFlush', { from: deployer, args: [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address]})
-  const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', { from: deployer, args: [deployer, drawBufferResult.address, prizeDistributionFactoryResult.address, drawCalculatorResult.address]})
+  const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', { from: deployer, args: [deployer, drawBufferResult.address, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address]})
 
   // ===================================================
   // Configure Contracts
