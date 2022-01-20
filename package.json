@@ -31,7 +31,7 @@
     "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.3.2",
+    "@openzeppelin/contracts": "4.4.2",
     "@pooltogether/draw-calculator-js": "^1.0.0-beta.25",
     "@pooltogether/hardhat-deploy-markdown-export": "^0.1.0",
     "@pooltogether/owner-manager-contracts": "1.1.0",
