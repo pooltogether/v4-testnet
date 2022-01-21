@@ -14,20 +14,21 @@ import { transferOwnership } from '../src/transferOwnership';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
 import { pushDraw1 } from '../src/pushDraw1';
+import { Contract } from 'ethers';
+import { DeployResult } from 'hardhat-deploy/types';
 
 export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.rinkeby') {
-    dim(`Deploying: Beacon Ethereum Rinkeby`)
-    dim(`Version: 1.1.0`)
-  } else { return }
+    dim(`Deploying: Beacon Ethereum Rinkeby`);
+    dim(`Version: 1.1.0`);
+  } else { return };
 
-  // @ts-ignore
-  const { getNamedAccounts } = hardhat
+  const { getNamedAccounts, ethers } = hardhat;
 
   const {
     deployer,
     defenderRelayer,
-  } = await getNamedAccounts()
+  } = await getNamedAccounts();
 
   // ===================================================
   // Deploy Contracts
@@ -46,24 +47,28 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const reserveResult = await deployAndLog('Reserve', { from: deployer, args: [deployer, ticketResult.address] })
   const drawCalculatorTimelockResult = await deployAndLog('DrawCalculatorTimelock', { from: deployer, args: [deployer, drawCalculatorResult.address] })
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer })
-  
+  await deployAndLog('TwabRewards', { from: deployer, args: [ticketResult.address] });
+
   // New Draw Every 4 Hours
   const calculatedBeaconPeriodSeconds = 86400 / 6;
 
-  let drawBeaconResult
+  let drawBeaconResult: Contract | DeployResult;
 
   // Check to see if a DrawBeacon exists before deploying with new input parameters
-  drawBeaconResult = await hardhat.ethers.getContract('DrawBeacon')
-  if(!drawBeaconResult) { 
-    drawBeaconResult = await deployAndLog('DrawBeacon', {from: deployer, args: [
-      deployer,
-      drawBufferResult.address,
-      rngServiceResult.address,
-      1,
-      parseInt('' + ((new Date().getTime() / 1000) - calculatedBeaconPeriodSeconds)),
-      calculatedBeaconPeriodSeconds,
-      RNG_TIMEOUT_SECONDS
-    ]});
+  try {
+    drawBeaconResult = await ethers.getContract('DrawBeacon');
+  } catch {
+    drawBeaconResult = await deployAndLog('DrawBeacon', {
+      from: deployer, args: [
+        deployer,
+        drawBufferResult.address,
+        rngServiceResult.address,
+        1,
+        parseInt('' + ((new Date().getTime() / 1000) - calculatedBeaconPeriodSeconds)),
+        calculatedBeaconPeriodSeconds,
+        RNG_TIMEOUT_SECONDS
+      ]
+    });
   }
 
   const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
@@ -74,7 +79,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
       drawBufferResult.address,
       prizeDistributionBufferResult.address,
       ticketResult.address,
-      PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST // 1 USDC
+      PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST
     ]
   })
 

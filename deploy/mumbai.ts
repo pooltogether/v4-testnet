@@ -20,7 +20,6 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
     dim(`Version: 1.1.0`)
   } else { return }
 
-  // @ts-ignore
   const { getNamedAccounts } = hardhat
 
   const {
@@ -32,7 +31,6 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
   // Deploy Contracts
   // ===================================================
 
-  const rngServiceResult = await deployAndLog('RNGServiceStub', {from:deployer, args: []})
   const mockYieldSourceResult = await deployAndLog('MockYieldSource', {from:deployer, args: ['Token', 'TOK', TOKEN_DECIMALS]})
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {from:deployer, args: [deployer, mockYieldSourceResult.address]})
 
@@ -54,10 +52,13 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
       drawBufferResult.address,
       prizeDistributionBufferResult.address,
       ticketResult.address,
-      PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST // 1 USDC
+      PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST
     ]
   })
+
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer })
+  await deployAndLog('TwabRewards', { from: deployer, args: [ticketResult.address] });
+
   const prizeFlushResult = await deployAndLog('PrizeFlush', { from: deployer, args: [deployer, prizeDistributorResult.address, prizeSplitStrategyResult.address, reserveResult.address]})
   const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', { from: deployer, args: [deployer, drawBufferResult.address, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address]})
 
