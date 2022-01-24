@@ -11,7 +11,7 @@ export async function pushDraw1() {
     yellow(`\nPushing Prize Tier configuration for Draw 1 onto the Prize Tier History...`)
     const prizeTierHistory = await hardhat.ethers.getContract('PrizeTierHistoryV2')
     try {
-        const oldestDrawId = await prizeTierHistory.getNewestDrawId()
+        await prizeTierHistory.getNewestDrawId()
     } catch (error) {
         const pushTx = await prizeTierHistory.push({
             drawId: 1,

@@ -28,15 +28,15 @@ yarn
 
 ## New Deployments
 ```.sh
-yarn deploy-rinkeby
+yarn deploy:rinkeby
 ```
 
 ```.sh
-yarn deploy-mumbai
+yarn deploy:mumbai
 ```
 
 ```.sh
-yarn deploy-fuji
+yarn deploy:fuji
 ```
 
 ## Acquire Tokens & Tickets
@@ -68,14 +68,14 @@ yarn deposit fuji
 ## Test Deployment Scripts
 
 ```.sh
-yarn node-rinkeby
+yarn node:rinkeby
 ```
 
 ```.sh
-yarn node-mumbai
+yarn node:mumbai
 ```
 
 
 ```.sh
-yarn node-fuji
+yarn node:fuji
 ```
