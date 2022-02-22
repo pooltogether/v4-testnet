@@ -117,6 +117,12 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
     skipIfAlreadyDeployed: true,
   });
 
+  await deployAndLog('TWABDelegator', {
+    from: deployer,
+    args: ['PoolTogether Staked aUSDC Ticket', 'stkPTaUSDC', ticketResult.address],
+    skipIfAlreadyDeployed: true,
+  });
+
   const prizeFlushResult = await deployAndLog('PrizeFlush', {
     from: deployer,
     args: [
