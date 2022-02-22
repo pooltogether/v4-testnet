@@ -41,6 +41,6 @@ export const dependencyCompiler = {
     '@pooltogether/v4-twab-delegator/contracts/TWABDelegator.sol',
     // mock yield source
     '@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol',
-    '@pooltogether/pooltogether-rng-contracts/contracts/test/RNGServiceStub.sol'
+    '@pooltogether/pooltogether-rng-contracts/contracts/test/RNGServiceStub.sol',
   ],
 };

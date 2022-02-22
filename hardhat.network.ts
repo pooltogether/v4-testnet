@@ -46,7 +46,7 @@ if (!!avalanche) {
     accounts: {
       mnemonic,
     },
-  }
+  };
 
   networks.fuji = {
     chainId: 43113,
@@ -54,7 +54,7 @@ if (!!avalanche) {
     accounts: {
       mnemonic,
     },
-  }
+  };
 }
 
 if (mnemonic) {
@@ -87,7 +87,7 @@ if (mnemonic) {
       mnemonic,
     },
   };
-  networks.polygonMumbai = networks.mumbai
+  networks.polygonMumbai = networks.mumbai;
 }
 
 if (infuraApiKey && mnemonic) {
