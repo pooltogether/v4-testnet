@@ -113,6 +113,12 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
     skipIfAlreadyDeployed: true,
   });
 
+  await deployAndLog('TWABDelegator', {
+    from: deployer,
+    args: ['PoolTogether Staked aUSDC Ticket', 'stkPTaUSDC', ticketResult.address],
+    skipIfAlreadyDeployed: true,
+  });
+
   // New Draw Every 4 Hours
   const calculatedBeaconPeriodSeconds = 86400 / 6;
 
