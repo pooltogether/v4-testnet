@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { dim, cyan, green } from './colors'
 import hardhat from 'hardhat'
 import { Contract } from 'ethers'

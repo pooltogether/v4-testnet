@@ -2,6 +2,7 @@ import { HardhatUserConfig } from 'hardhat/config';
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
+import "hardhat-gas-reporter"
 import "@nomiclabs/hardhat-etherscan";
 import '@pooltogether/hardhat-deploy-markdown-export';
 import networks from './hardhat.network';
@@ -10,10 +11,17 @@ import { dependencyCompiler, external } from './hardhat.config.dependencies'
 const optimizerEnabled = true
 const config: HardhatUserConfig = {
   networks,
+  // @ts-ignore
   external,
+  // @ts-ignore
   dependencyCompiler,
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  gasReporter: {
+    enabled: true,
+    currency: 'USD',
+    gasPrice: 21
   },
   namedAccounts: {
     deployer: {

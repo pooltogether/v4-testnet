@@ -1,3 +1,4 @@
+// @ts-ignore
 import hre from 'hardhat'
 import { Contract } from 'ethers'
 import { cyan, green } from './colors'

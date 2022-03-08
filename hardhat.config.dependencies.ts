@@ -35,10 +35,12 @@ export const dependencyCompiler = {
     // Periphery
     "@pooltogether/v4-periphery/contracts/PrizeFlush.sol",
     "@pooltogether/v4-periphery/contracts/PrizeTierHistory.sol",
+    "@pooltogether/v4-periphery/contracts/PrizeTierHistoryV2.sol",
     "@pooltogether/v4-periphery/contracts/PrizeDistributionFactory.sol",
     "@pooltogether/v4-periphery/contracts/TwabRewards.sol",
     // mock yield source
-    "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol"
+    "@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol",
+    "@pooltogether/pooltogether-rng-contracts/contracts/test/RNGServiceStub.sol"
 
   ]
 }

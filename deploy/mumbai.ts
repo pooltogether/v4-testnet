@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import {
@@ -14,7 +15,7 @@ import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
 import { pushDraw1 } from '../src/pushDraw1';
 
-export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment) {
+export default async function deployToMumbai(hardhat: any) {
   if (process.env.DEPLOY === 'v1.1.0.mumbai') {
     dim(`Deploying: Receiver Chain Polygon Mumbai`)
     dim(`Version: 1.1.0`)

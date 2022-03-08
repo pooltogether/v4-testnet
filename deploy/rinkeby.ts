@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import {
@@ -37,7 +38,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const mockYieldSourceResult = await deployAndLog('MockYieldSource', {from:deployer, args: ['Token', 'TOK', TOKEN_DECIMALS]})
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {from:deployer, args: [deployer, mockYieldSourceResult.address]})
   const ticketResult = await deployAndLog('Ticket', { from: deployer, args: ["Ticket", "TICK", TOKEN_DECIMALS, yieldSourcePrizePoolResult.address] })
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', { from: deployer, args: [deployer] })
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', { from: deployer, args: [deployer, []] })
   const drawBufferResult = await deployAndLog('DrawBuffer', { from: deployer, args: [deployer, DRAW_BUFFER_CARDINALITY] })
   const prizeDistributionBufferResult = await deployAndLog('PrizeDistributionBuffer', { from: deployer, args: [deployer, PRIZE_DISTRIBUTION_BUFFER_CARDINALITY] })
   const drawCalculatorResult = await deployAndLog('DrawCalculator', { from: deployer, args: [ticketResult.address, drawBufferResult.address, prizeDistributionBufferResult.address] })
@@ -51,10 +52,9 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   const calculatedBeaconPeriodSeconds = 86400 / 6;
 
   let drawBeaconResult
-
-  // Check to see if a DrawBeacon exists before deploying with new input parameters
-  drawBeaconResult = await hardhat.ethers.getContract('DrawBeacon')
-  if(!drawBeaconResult) { 
+  try {
+    drawBeaconResult = await hardhat.ethers.getContract('DrawBeacon')
+  } catch (error) {
     drawBeaconResult = await deployAndLog('DrawBeacon', {from: deployer, args: [
       deployer,
       drawBufferResult.address,
@@ -64,6 +64,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
       calculatedBeaconPeriodSeconds,
       RNG_TIMEOUT_SECONDS
     ]});
+    
   }
 
   const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
@@ -101,7 +102,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await transferOwnership('PrizeFlush', null, deployer)
   await transferOwnership('Reserve', null, deployer)
   await transferOwnership('YieldSourcePrizePool', null, deployer)
-  await transferOwnership('PrizeTierHistory', null, deployer)
+  await transferOwnership('PrizeTierHistoryV2', null, deployer)
   await transferOwnership('PrizeSplitStrategy', null, deployer)
   await transferOwnership('DrawBuffer', null, deployer)
   await transferOwnership('PrizeDistributionBuffer', null, deployer)

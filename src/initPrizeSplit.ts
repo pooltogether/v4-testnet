@@ -1,3 +1,4 @@
+// @ts-nocheck
 import hardhat from 'hardhat'
 import { cyan, green } from './colors'
 
