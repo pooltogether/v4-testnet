@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import {
@@ -15,7 +14,7 @@ import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
 import { pushDraw1 } from '../src/pushDraw1';
 
-export default async function deployToFuji(hardhat: any) {
+export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.fuji') {
     dim(`Deploying: Receiver Chain Avalanche Mainnet`);
     dim(`Version: 1.1.0`);

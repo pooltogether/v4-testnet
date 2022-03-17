@@ -34,7 +34,7 @@ export const dependencyCompiler = {
     '@pooltogether/v4-timelocks/contracts/ReceiverTimelockTrigger.sol',
     // Periphery
     '@pooltogether/v4-periphery/contracts/PrizeFlush.sol',
-    '@pooltogether/v4-periphery/contracts/PrizeTierHistoryV2.sol',
+    '@pooltogether/v4-periphery/contracts/PrizeTierHistory.sol',
     '@pooltogether/v4-periphery/contracts/PrizeDistributionFactory.sol',
     '@pooltogether/v4-periphery/contracts/TwabRewards.sol',
     // TWAB Delegator

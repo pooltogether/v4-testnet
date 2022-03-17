@@ -57,9 +57,9 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
     from: deployer,
-    args: [deployer, []],
+    args: [deployer],
     skipIfAlreadyDeployed: true,
   });
 
@@ -193,7 +193,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await transferOwnership('PrizeFlush', null, deployer);
   await transferOwnership('Reserve', null, deployer);
   await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistoryV2', null, deployer)
+  await transferOwnership('PrizeTierHistory', null, deployer)
   await transferOwnership('PrizeSplitStrategy', null, deployer);
   await transferOwnership('DrawBuffer', null, deployer);
   await transferOwnership('PrizeDistributionBuffer', null, deployer);
