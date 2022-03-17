@@ -867,6 +867,7 @@
   integrity sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==
 
 "@nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers", hardhat-deploy-ethers@0.3.0-beta.13:
+  name "@nomiclabs/hardhat-ethers"
   version "0.3.0-beta.13"
   resolved "https://registry.yarnpkg.com/hardhat-deploy-ethers/-/hardhat-deploy-ethers-0.3.0-beta.13.tgz#b96086ff768ddf69928984d5eb0a8d78cfca9366"
   integrity sha512-PdWVcKB9coqWV1L7JTpfXRCI91Cgwsm7KLmBcwZ8f0COSm1xtABHZTyz3fvF6p42cTnz1VM0QnfDvMFlIRkSNw==
@@ -949,10 +950,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/v4-timelocks/-/v4-timelocks-1.1.0.tgz#c34389917f210c4802ad8d37ba8c3356ce0d23a9"
   integrity sha512-8YaBUy9HaF9zuyPNtt4dt4KA6NFYawhxfqEuxZSHv/lMgU/cSltaZu4DomFRncEDzlGbRvZ4oSMVsO11FIGjgw==
 
-"@pooltogether/v4-twab-delegator@1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@pooltogether/v4-twab-delegator/-/v4-twab-delegator-1.0.0-beta.1.tgz#e4664a0bf5334b142d487f8d8100b9355ec2d3bb"
-  integrity sha512-RlTgp5wP3OcqXJrk5YX+nO7XknNKe6XDUokU4CPHWBev1DHEm88bcRvpsLKENX9+bAXyPY9B6Tni7yD+VVe0MQ==
+"@pooltogether/v4-twab-delegator@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/v4-twab-delegator/-/v4-twab-delegator-1.0.0.tgz#655b842e36ca7f20eb134c04977aaabeef6245d5"
+  integrity sha512-hb6Sybs20LcB8njan29Ysm6+4J1lxGREGrmzA9p21o/LXxUaaX1fOaS1FvXGqecpe3QNzkRXaJ27o5mpuCJlZg==
   dependencies:
     "@openzeppelin/contracts" "4.5.0"
     "@pooltogether/v4-core" "1.2.0"
