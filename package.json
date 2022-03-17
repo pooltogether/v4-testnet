@@ -36,7 +36,7 @@
     "@openzeppelin/contracts": "4.4.2",
     "@pooltogether/draw-calculator-js": "1.0.3-beta.4",
     "@pooltogether/owner-manager-contracts": "1.1.0",
-    "@pooltogether/pooltogether-rng-contracts": "1.4.0",
+    "@pooltogether/pooltogether-rng-contracts": "1.5.0",
     "@pooltogether/v4-core": "1.2.0",
     "@pooltogether/v4-periphery": "1.2.0",
     "@pooltogether/v4-timelocks": "1.1.0",
