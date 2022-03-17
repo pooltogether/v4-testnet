@@ -1,5 +1,3 @@
-// @ts-nocheck
-import { parseUnits } from 'ethers/utils'
 import hardhat from 'hardhat'
 import { green, yellow } from './colors'
 import {
@@ -8,10 +6,14 @@ import {
 } from './constants'
 
 export async function pushDraw1() {
+    const { ethers } = hardhat;
+    const { getContract, utils } = ethers;
+    const { parseUnits } = utils;
+
     yellow(`\nPushing Prize Tier configuration for Draw 1 onto the Prize Tier History...`)
-    const prizeTierHistory = await hardhat.ethers.getContract('PrizeTierHistoryV2')
+    const prizeTierHistory = await getContract('PrizeTierHistory')
     try {
-        const oldestDrawId = await prizeTierHistory.getNewestDrawId()
+        await prizeTierHistory.getNewestDrawId()
     } catch (error) {
         const pushTx = await prizeTierHistory.push({
             drawId: 1,
