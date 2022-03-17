@@ -10,17 +10,10 @@ import { dependencyCompiler, external } from './hardhat.config.dependencies';
 const optimizerEnabled = true;
 const config: HardhatUserConfig = {
   networks,
-  // @ts-ignore
   external,
-  // @ts-ignore
   dependencyCompiler,
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
-  },
-  gasReporter: {
-    enabled: true,
-    currency: 'USD',
-    gasPrice: 21,
   },
   namedAccounts: {
     deployer: {
