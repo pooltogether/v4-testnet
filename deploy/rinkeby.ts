@@ -33,9 +33,14 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   // Deploy Contracts
   // ===================================================
 
-  const rngServiceResult = await deployAndLog('RNGServiceStub', {
+  const rngServiceResult = await deployAndLog('RNGChainlinkV2', {
     from: deployer,
-    args: [],
+    args: [
+      deployer,
+      '0x6168499c0cFfCaCD319c818142124B7A15E857ab', // VRF Coordinator address
+      73, // Subscription id
+      '0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc', // 30 gwei key hash gas lane
+    ],
     skipIfAlreadyDeployed: true,
   });
 
@@ -181,6 +186,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
   await setManager('BeaconTimelockTrigger', null, defenderRelayer);
+  await setManager('RNGChainlinkV2', null, drawBeaconResult.address);
   await setManager('DrawBuffer', null, drawBeaconResult.address);
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
