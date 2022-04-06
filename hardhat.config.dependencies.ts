@@ -39,8 +39,11 @@ export const dependencyCompiler = {
     '@pooltogether/v4-periphery/contracts/TwabRewards.sol',
     // TWAB Delegator
     '@pooltogether/v4-twab-delegator/contracts/TWABDelegator.sol',
+    // Chainlink VRF
+    '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol',
+    // RNG Service
+    '@pooltogether/pooltogether-rng-contracts/contracts/RNGChainlinkV2.sol',
     // mock yield source
     '@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol',
-    '@pooltogether/pooltogether-rng-contracts/contracts/test/RNGServiceStub.sol',
   ],
 };
