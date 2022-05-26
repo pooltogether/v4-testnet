@@ -14,7 +14,7 @@ import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
 import { pushDraw1 } from '../src/pushDraw1';
 
-export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
+export default async function deployToOptimisticKovan(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.optimismkovan') {
     dim(`Deploying: Receiver Chain Optimism Kovan`);
     dim(`Version: 1.1.0`);
