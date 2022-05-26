@@ -22,15 +22,19 @@
     "deploy:rinkeby": "DEPLOY=v1.1.0.rinkeby hardhat deploy --network rinkeby",
     "deploy:mumbai": "DEPLOY=v1.1.0.mumbai hardhat deploy --network mumbai",
     "deploy:fuji": "DEPLOY=v1.1.0.fuji hardhat deploy --network fuji",
+    "deploy:optimismkovan": "DEPLOY=v1.1.0.optimismkovan hardhat deploy --network optimismkovan",
     "node:rinkeby": "DEPLOY=v1.1.0.rinkeby hardhat node --network hardhat",
     "node:mumbai": "DEPLOY=v1.1.0.mumbai hardhat node --network hardhat",
     "node:fuji": "DEPLOY=v1.1.0.fuji hardhat node --network hardhat",
+    "node:optimismkovan": "DEPLOY=v1.1.0.optimismkovan hardhat node --network hardhat",
     "verify:rinkeby": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network rinkeby",
     "verify:mumbai": "hardhat --config hardhat.config.polygon.ts run ./scripts/verify.ts --network mumbai",
     "verify:fuji": "hardhat --config hardhat.config.avalanche.ts run ./scripts/verify.ts --network fuji",
+    "verify:optimismkovan": "hardhat --config hardhat.config.optimism.ts run ./scripts/verify.ts --network optimismkovan",
     "setup:rinkeby": "yarn deploy-rinkeby ; yarn verify-rinkeby ; yarn disburse rinkeby ; yarn deposit rinkeby",
     "setup:mumbai": "yarn deploy-mumbai ; yarn verify:mumbai ; yarn disburse mumbai ; yarn deposit mumbai",
-    "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji"
+    "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji",
+    "setup:optimismkovan": "yarn deploy-optimismkovan ; yarn verify:optimismkovan ; yarn disburse optimismkovan ; yarn deposit optimismkovan"
   },
   "dependencies": {
     "@chainlink/contracts": "0.4.0",
