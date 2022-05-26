@@ -39,6 +39,10 @@ yarn deploy:mumbai
 yarn deploy:fuji
 ```
 
+```.sh
+yarn deploy:optimismkovan
+```
+
 ## Acquire Tokens & Tickets
 
 ```.sh
@@ -54,6 +58,10 @@ yarn disburse fuji
 ```
 
 ```sh
+yarn disburse optimismkovan
+```
+
+```sh
 yarn deposit rinkeby
 ```
 
@@ -63,6 +71,10 @@ yarn deposit mumbai
 
 ```sh
 yarn deposit fuji
+```
+
+```sh
+yarn deposit optimismkovan
 ```
 
 ## Test Deployment Scripts
@@ -75,7 +87,10 @@ yarn node:rinkeby
 yarn node:mumbai
 ```
 
-
 ```.sh
 yarn node:fuji
+```
+
+```.sh
+yarn node:optimismkovan
 ```
