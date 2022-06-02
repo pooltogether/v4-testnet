@@ -91,6 +91,13 @@ if (mnemonic) {
 }
 
 if (infuraApiKey && mnemonic) {
+  networks.optimismkovan = {
+    url: `https://optimism-kovan.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+
   networks.kovan = {
     url: `https://kovan.infura.io/v3/${infuraApiKey}`,
     accounts: {
