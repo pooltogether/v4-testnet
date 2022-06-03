@@ -54,7 +54,7 @@
     "@ethersproject/hardware-wallets": "5.5.0",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-etherscan": "3.0.0",
-    "@pooltogether/hardhat-deploy-markdown-export": "0.2.1",
+    "@pooltogether/hardhat-deploy-markdown-export": "0.3.1",
     "@types/find": "0.2.1",
     "@types/node": "17.0.10",
     "chalk": "4.1.2",
