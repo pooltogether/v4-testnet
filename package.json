@@ -76,6 +76,7 @@
     "deployments/mumbai",
     "deployments/rinkeby",
     "deployments/fuji",
+    "deployments/optimismkovan",
     "contracts.json"
   ]
 }
