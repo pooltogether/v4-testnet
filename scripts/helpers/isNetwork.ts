@@ -22,5 +22,5 @@ export function isOptimismKovan(hardhat: HardhatRuntimeEnvironment) {
 
 export function isArbitrumRinkeby(hardhat: HardhatRuntimeEnvironment) {
   const network = hardhat.network.name
-  return /arbitrum/.test(network) || /rinkeby/.test(network) || /arbitrumrinkeby/.test(network)
+  return /arbitrum/.test(network) || /arbitrumrinkeby/.test(network)
 }
