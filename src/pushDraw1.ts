@@ -22,8 +22,7 @@ export async function pushDraw1() {
             endTimestampOffset: END_TIMESTAMP_OFFSET,
             prize: '17632000000',
             tiers: ['141787658', '85072595', '136116152', '136116152', '108892921', '217785843', '174228675', 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            expiryDuration: EXPIRY_DURATION,
-            dpr: parseUnits('0.1', '9'),
+            expiryDuration: EXPIRY_DURATION
         })
         await pushTx.wait(1)
         green(`Done!`)
