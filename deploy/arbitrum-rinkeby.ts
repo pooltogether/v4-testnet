@@ -119,7 +119,7 @@ export default async function deployToArbitrumRinkeby(hardhat: HardhatRuntimeEnv
 
   await deployAndLog('TWABDelegator', {
     from: deployer,
-    args: ['PoolTogether Staked aUSDC Ticket', 'stkPTaUSDC', ticketResult.address],
+    args: ['Staked Ticket', 'stkTICK', ticketResult.address],
     skipIfAlreadyDeployed: true,
   });
 
