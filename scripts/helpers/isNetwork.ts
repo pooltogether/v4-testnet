@@ -19,3 +19,8 @@ export function isOptimismKovan(hardhat: HardhatRuntimeEnvironment) {
   const network = hardhat.network.name
   return /optimism/.test(network) || /kovan/.test(network) || /optimismkovan/.test(network)
 }
+
+export function isArbitrumRinkeby(hardhat: HardhatRuntimeEnvironment) {
+  const network = hardhat.network.name
+  return /arbitrum/.test(network) || /rinkeby/.test(network) || /arbitrumrinkeby/.test(network)
+}

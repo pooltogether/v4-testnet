@@ -25,6 +25,7 @@ const config: HardhatUserConfig = {
       mumbai: '0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f', // Polygon (Mumbai) Defender Relayer
       fuji: '0x2d38318C873b7965Ff3cB660461b04561CC487d1', // Avalanche (Fuji) Defender Relayer
       optimismkovan: '0xe1864e95c1e8e73c61700d3a92e87d9e59846c68', // Optimism (Kovan) Defender Relayer
+      arbitrumrinkeby: '0x1ed65d97c41facf86a4dd729014a0fd5dc359e26' // Arbitrum (Rinkeby) Defender Relayer
     },
   },
   solidity: {

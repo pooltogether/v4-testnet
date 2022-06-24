@@ -4,8 +4,9 @@ const rinkebyDeployments = `${__dirname}/../deployments/rinkeby`;
 const mumbaiDeployments = `${__dirname}/../deployments/mumbai`;
 const avalancheFujiDeployments = `${__dirname}/../deployments/fuji`;
 const optimismKovanDeployments = `${__dirname}/../deployments/optimismkovan`;
+const arbitrumRinkebyDeployments = `${__dirname}/../deployments/arbitrumrinkeby`;
 
-const networkDeploymentPaths = [rinkebyDeployments, mumbaiDeployments, avalancheFujiDeployments, optimismKovanDeployments];
+const networkDeploymentPaths = [rinkebyDeployments, mumbaiDeployments, avalancheFujiDeployments, optimismKovanDeployments, arbitrumRinkebyDeployments];
 
 const CURRENT_VERSION = {
   major: 1,
