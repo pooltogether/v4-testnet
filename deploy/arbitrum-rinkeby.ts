@@ -161,14 +161,4 @@ export default async function deployToArbitrumRinkeby(hardhat: HardhatRuntimeEnv
   await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 
-  await transferOwnership('PrizeDistributionFactory', null, deployer);
-  await transferOwnership('DrawCalculatorTimelock', null, deployer);
-  await transferOwnership('PrizeFlush', null, deployer);
-  await transferOwnership('Reserve', null, deployer);
-  await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistory', null, deployer);
-  await transferOwnership('PrizeSplitStrategy', null, deployer);
-  await transferOwnership('DrawBuffer', null, deployer);
-  await transferOwnership('PrizeDistributionBuffer', null, deployer);
-  await transferOwnership('ReceiverTimelockTrigger', null, deployer);
 }
