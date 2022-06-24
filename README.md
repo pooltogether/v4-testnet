@@ -43,6 +43,10 @@ yarn deploy:fuji
 yarn deploy:optimismkovan
 ```
 
+```.sh
+yarn deploy:arbitrumrinkeby
+```
+
 ## Acquire Tokens & Tickets
 
 ```.sh
@@ -62,6 +66,10 @@ yarn disburse optimismkovan
 ```
 
 ```sh
+yarn disburse arbitrumrinkeby
+```
+
+```sh
 yarn deposit rinkeby
 ```
 
@@ -75,6 +83,10 @@ yarn deposit fuji
 
 ```sh
 yarn deposit optimismkovan
+```
+
+```sh
+yarn deposit arbitrumrinkeby
 ```
 
 ## Test Deployment Scripts
@@ -93,4 +105,8 @@ yarn node:fuji
 
 ```.sh
 yarn node:optimismkovan
+```
+
+```.sh
+yarn node:arbitrumrinkeby
 ```

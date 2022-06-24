@@ -91,6 +91,13 @@ if (mnemonic) {
 }
 
 if (infuraApiKey && mnemonic) {
+  networks.arbitrumrinkeby = {
+    url: `https://arbitrum-rinkeby.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+  
   networks.optimismkovan = {
     url: `https://optimism-kovan.infura.io/v3/${infuraApiKey}`,
     accounts: {
