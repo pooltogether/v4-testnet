@@ -3,6 +3,7 @@ const alchemyUrl = process.env.ALCHEMY_URL;
 const infuraApiKey = process.env.INFURA_API_KEY;
 const mnemonic = process.env.HDWALLET_MNEMONIC;
 const avalanche = process.env.AVALANCHE_ENABLED;
+const optimismKovanRPCUrl = process.env.OPTIMISM_KOVAN_RPC_URL;
 
 const networks: HardhatUserConfig['networks'] = {
   coverage: {
@@ -92,7 +93,9 @@ if (mnemonic) {
 
 if (infuraApiKey && mnemonic) {
   networks.optimismkovan = {
-    url: process.env.ALCHEMY_URL,
+    url: optimismKovanRPCUrl
+      ? optimismKovanRPCUrl
+      : `https://optimism-kovan.infura.io/v3/${infuraApiKey}`,
     accounts: {
       mnemonic,
     },
