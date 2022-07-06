@@ -24,21 +24,35 @@ export default async function deployToOptimisticKovan(hardhat: HardhatRuntimeEnv
 
   const { getNamedAccounts } = hardhat;
 
-  const { deployer, defenderRelayer } = await getNamedAccounts();
+  const {
+    deployer,
+    defenderRelayer,
+    aUSDC,
+    aaveIncentivesController,
+    aaveLendingPoolAddressesProviderRegistry
+  } = await getNamedAccounts();
 
   // ===================================================
   // Deploy Contracts
   // ===================================================
 
-  const mockYieldSourceResult = await deployAndLog('MockYieldSource', {
+  const aaveUsdcYieldSourceResult = await deployAndLog('AaveV3YieldSource', {
     from: deployer,
-    args: ['Token', 'TOK', TOKEN_DECIMALS],
+    args: [
+      aUSDC,
+      aaveIncentivesController,
+      aaveLendingPoolAddressesProviderRegistry,
+      'PoolTogether aOptUSDC Yield',
+      'PTaOptUSDCY',
+      TOKEN_DECIMALS,
+      deployer,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {
     from: deployer,
-    args: [deployer, mockYieldSourceResult.address],
+    args: [deployer, aaveUsdcYieldSourceResult.address],
     skipIfAlreadyDeployed: true,
   });
 
@@ -160,15 +174,4 @@ export default async function deployToOptimisticKovan(hardhat: HardhatRuntimeEnv
   await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
   await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
-
-  await transferOwnership('PrizeDistributionFactory', null, deployer);
-  await transferOwnership('DrawCalculatorTimelock', null, deployer);
-  await transferOwnership('PrizeFlush', null, deployer);
-  await transferOwnership('Reserve', null, deployer);
-  await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistory', null, deployer);
-  await transferOwnership('PrizeSplitStrategy', null, deployer);
-  await transferOwnership('DrawBuffer', null, deployer);
-  await transferOwnership('PrizeDistributionBuffer', null, deployer);
-  await transferOwnership('ReceiverTimelockTrigger', null, deployer);
 }

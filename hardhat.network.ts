@@ -92,7 +92,7 @@ if (mnemonic) {
 
 if (infuraApiKey && mnemonic) {
   networks.optimismkovan = {
-    url: `https://optimism-kovan.infura.io/v3/${infuraApiKey}`,
+    url: process.env.ALCHEMY_URL,
     accounts: {
       mnemonic,
     },

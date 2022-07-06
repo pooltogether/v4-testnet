@@ -43,5 +43,6 @@ export const dependencyCompiler = {
     '@pooltogether/pooltogether-rng-contracts/contracts/RNGChainlinkV2.sol',
     // mock yield source
     '@pooltogether/yield-source-interface/contracts/test/MockYieldSource.sol',
+    '@pooltogether/aave-v3-yield-source/contracts/AaveV3YieldSource.sol',
   ],
 };
