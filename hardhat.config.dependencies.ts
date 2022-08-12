@@ -11,7 +11,6 @@ export const external = {
     },
   ],
   deployments: {
-    rinkeby: ['node_modules/@pooltogether/pooltogether-rng-contracts/deployments/rinkeby'],
     mumbai: ['node_modules/@pooltogether/pooltogether-rng-contracts/deployments/mumbai_80001'],
   },
 };
