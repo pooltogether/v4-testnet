@@ -1,5 +1,8 @@
 import { dim } from 'chalk';
+import { Contract } from 'ethers';
+import { DeployResult } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
 import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
@@ -12,9 +15,7 @@ import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
-import { pushDraw1 } from '../src/pushDraw1';
-import { Contract } from 'ethers';
-import { DeployResult } from 'hardhat-deploy/types';
+import pushDraw from '../src/pushDraw';
 
 export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.goerli') {
@@ -152,7 +153,7 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
         deployer,
         drawBufferResult.address,
         rngServiceResult.address,
-        1,
+        1065, // DrawID, should be 1 if deploying a new pool
         parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
         calculatedBeaconPeriodSeconds,
         RNG_TIMEOUT_SECONDS,
@@ -194,7 +195,11 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
   // Configure Contracts
   // ===================================================
 
-  await pushDraw1();
+  await pushDraw(
+    1065, // DrawID, should be 1 if deploying a new pool
+    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  );
+
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
