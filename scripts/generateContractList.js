@@ -3,7 +3,7 @@ const fs = require("fs");
 const goerliDeployments = `${__dirname}/../deployments/goerli`;
 const mumbaiDeployments = `${__dirname}/../deployments/mumbai`;
 const avalancheFujiDeployments = `${__dirname}/../deployments/fuji`;
-const optimismGoerliDeployments = `${__dirname}/../deployments/optimismgoerli`;
+const optimismGoerliDeployments = `${__dirname}/../deployments/optimismGoerli`;
 
 const networkDeploymentPaths = [goerliDeployments, mumbaiDeployments, avalancheFujiDeployments, optimismGoerliDeployments];
 
