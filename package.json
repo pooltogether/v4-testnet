@@ -1,6 +1,6 @@
 {
   "name": "@pooltogether/v4-testnet",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "main": "index.js",
   "repository": "git@github.com:pooltogether/v4-testnet.git",
   "author": "Brendan Asselstine <mail.asselstine@gmail.com>",
@@ -17,24 +17,24 @@
     "prepare-deploy": "yarn clean && yarn compile",
     "prepack": "yarn generate",
     "reinstall": "rm -rf node_modules/ && yarn cache clean && yarn",
-    "format": "prettier --config .prettierrc --write \"**/*.*.{ts,js}\"",
+    "format": "prettier --config .prettierrc --write \"**/*.{ts,js}\"",
     "format:file": "prettier --config .prettierrc --write",
     "deploy:goerli": "DEPLOY=v1.1.0.goerli hardhat deploy --network goerli",
     "deploy:mumbai": "DEPLOY=v1.1.0.mumbai hardhat deploy --network mumbai",
     "deploy:fuji": "DEPLOY=v1.1.0.fuji hardhat deploy --network fuji",
-    "deploy:optimismkovan": "DEPLOY=v1.1.0.optimismkovan hardhat deploy --network optimismkovan",
+    "deploy:optimismgoerli": "DEPLOY=v1.1.0.optimismgoerli hardhat deploy --network optimismGoerli",
     "node:goerli": "DEPLOY=v1.1.0.goerli hardhat node --network hardhat",
     "node:mumbai": "DEPLOY=v1.1.0.mumbai hardhat node --network hardhat",
     "node:fuji": "DEPLOY=v1.1.0.fuji hardhat node --network hardhat",
-    "node:optimismkovan": "DEPLOY=v1.1.0.optimismkovan hardhat node --network hardhat",
+    "node:optimismgoerli": "DEPLOY=v1.1.0.optimismgoerli hardhat node --network hardhat",
     "verify:goerli": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network goerli",
     "verify:mumbai": "hardhat --config hardhat.config.polygon.ts run ./scripts/verify.ts --network mumbai",
     "verify:fuji": "hardhat --config hardhat.config.avalanche.ts run ./scripts/verify.ts --network fuji",
-    "verify:optimismkovan": "hardhat --config hardhat.config.optimism.ts run ./scripts/verify.ts --network optimismkovan",
+    "verify:optimismgoerli": "hardhat --config hardhat.config.optimism.ts run ./scripts/verify.ts --network optimismGoerli",
     "setup:goerli": "yarn deploy-goerli ; yarn verify-goerli ; yarn disburse goerli ; yarn deposit goerli",
     "setup:mumbai": "yarn deploy-mumbai ; yarn verify:mumbai ; yarn disburse mumbai ; yarn deposit mumbai",
     "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji",
-    "setup:optimismkovan": "yarn deploy-optimismkovan ; yarn verify:optimismkovan ; yarn disburse optimismkovan ; yarn deposit optimismkovan"
+    "setup:optimismgoerli": "yarn deploy-optimismgoerli ; yarn verify:optimismgoerli ; yarn disburse optimismgoerli ; yarn deposit optimismgoerli"
   },
   "dependencies": {
     "@chainlink/contracts": "0.4.2",
@@ -54,7 +54,7 @@
     "@ethersproject/hardware-wallets": "5.6.1",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-etherscan": "3.1.0",
-    "@pooltogether/hardhat-deploy-markdown-export": "0.3.2",
+    "@pooltogether/hardhat-deploy-markdown-export": "0.3.3",
     "@types/find": "0.2.1",
     "@types/node": "18.7.5",
     "chalk": "4.1.2",
@@ -76,7 +76,7 @@
     "deployments/mumbai",
     "deployments/goerli",
     "deployments/fuji",
-    "deployments/optimismkovan",
+    "deployments/optimismgoerli",
     "contracts.json"
   ]
 }

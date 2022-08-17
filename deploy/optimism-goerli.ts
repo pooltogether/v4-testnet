@@ -1,5 +1,6 @@
 import { dim } from 'chalk';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
 import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
@@ -9,27 +10,27 @@ import {
 import { deployAndLog } from '../src/deployAndLog';
 import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
-import { transferOwnership } from '../src/transferOwnership';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
-import { pushDraw1 } from '../src/pushDraw1';
+import pushDraw from '../src/pushDraw';
 
-export default async function deployToOptimisticKovan(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY === 'v1.1.0.optimismkovan') {
-    dim(`Deploying: Receiver Chain Optimism Kovan`);
+export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvironment) {
+  if (process.env.DEPLOY === 'v1.1.0.optimismgoerli') {
+    dim(`Deploying: Receiver Chain Optimism Goerli`);
     dim(`Version: 1.1.0`);
   } else {
     return;
   }
 
-  const { getNamedAccounts } = hardhat;
+  const { ethers, getNamedAccounts } = hardhat;
+  const { getContract } = ethers;
 
   const {
     deployer,
     defenderRelayer,
     aUSDC,
     aaveIncentivesController,
-    aaveLendingPoolAddressesProviderRegistry
+    aaveLendingPoolAddressesProviderRegistry,
   } = await getNamedAccounts();
 
   // ===================================================
@@ -163,7 +164,46 @@ export default async function deployToOptimisticKovan(hardhat: HardhatRuntimeEnv
   // Configure Contracts
   // ===================================================
 
-  await pushDraw1();
+  await pushDraw(
+    1072, // DrawID, should be 1 if deploying a new pool
+    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  );
+
+  // Should not be called if deploying a new pool
+  const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
+  await prizeDistributionBufferContract.pushPrizeDistribution(1071, [
+    '2',
+    '8',
+    '14400',
+    '900',
+    '2',
+    '5184000',
+    '9005',
+    [
+      '141787658',
+      '85072595',
+      '136116152',
+      '136116152',
+      '108892921',
+      '217785843',
+      '174228675',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ],
+    '17632000000',
+  ]);
+
+  // Should not be called if deploying a new pool
+  const drawCalculatorTimelockContract = await getContract('DrawCalculatorTimelock');
+  await drawCalculatorTimelockContract.setTimelock({ timestamp: 1660695744, drawId: 1071 });
+
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
