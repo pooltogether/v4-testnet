@@ -28,7 +28,7 @@ yarn
 
 ## New Deployments
 ```.sh
-yarn deploy:rinkeby
+yarn deploy:goerli
 ```
 
 ```.sh
@@ -46,7 +46,7 @@ yarn deploy:optimismkovan
 ## Acquire Tokens & Tickets
 
 ```.sh
-yarn disburse rinkeby
+yarn disburse goerli
 ```
 
 ```sh
@@ -62,7 +62,7 @@ yarn disburse optimismkovan
 ```
 
 ```sh
-yarn deposit rinkeby
+yarn deposit goerli
 ```
 
 ```sh
@@ -80,7 +80,7 @@ yarn deposit optimismkovan
 ## Test Deployment Scripts
 
 ```.sh
-yarn node:rinkeby
+yarn node:goerli
 ```
 
 ```.sh

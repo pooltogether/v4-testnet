@@ -1,5 +1,8 @@
 import { dim } from 'chalk';
+import { Contract } from 'ethers';
+import { DeployResult } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
 import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
@@ -10,16 +13,13 @@ import {
 import { deployAndLog } from '../src/deployAndLog';
 import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
-import { transferOwnership } from '../src/transferOwnership';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
-import { pushDraw1 } from '../src/pushDraw1';
-import { Contract, } from 'ethers';
-import { DeployResult } from 'hardhat-deploy/types';
+import pushDraw from '../src/pushDraw';
 
-export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY === 'v1.1.0.rinkeby') {
-    dim(`Deploying: Beacon Ethereum Rinkeby`);
+export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment) {
+  if (process.env.DEPLOY === 'v1.1.0.goerli') {
+    dim(`Deploying: Ethereum Goerli`);
     dim(`Version: 1.1.0`);
   } else {
     return;
@@ -27,7 +27,13 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
 
   const { getNamedAccounts, ethers } = hardhat;
 
-  const { deployer, defenderRelayer } = await getNamedAccounts();
+  const {
+    deployer,
+    defenderRelayer,
+    aUSDC,
+    aaveIncentivesController,
+    aaveLendingPoolAddressesProviderRegistry,
+  } = await getNamedAccounts();
 
   // ===================================================
   // Deploy Contracts
@@ -37,22 +43,30 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
     from: deployer,
     args: [
       deployer,
-      '0x6168499c0cFfCaCD319c818142124B7A15E857ab', // VRF Coordinator address
-      73, // Subscription id
-      '0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc', // 30 gwei key hash gas lane
+      '0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D', // VRF Coordinator address
+      10, // Subscription id
+      '0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15', // 30 gwei key hash gas lane
     ],
     skipIfAlreadyDeployed: true,
   });
 
-  const mockYieldSourceResult = await deployAndLog('MockYieldSource', {
+  const aaveUsdcYieldSourceResult = await deployAndLog('AaveV3YieldSource', {
     from: deployer,
-    args: ['Token', 'TOK', TOKEN_DECIMALS],
+    args: [
+      aUSDC,
+      aaveIncentivesController,
+      aaveLendingPoolAddressesProviderRegistry,
+      'PoolTogether aEthUSDC Yield',
+      'PTaEthUSDCY',
+      TOKEN_DECIMALS,
+      deployer,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {
     from: deployer,
-    args: [deployer, mockYieldSourceResult.address],
+    args: [deployer, aaveUsdcYieldSourceResult.address],
     skipIfAlreadyDeployed: true,
   });
 
@@ -139,7 +153,7 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
         deployer,
         drawBufferResult.address,
         rngServiceResult.address,
-        1,
+        1065, // DrawID, should be 1 if deploying a new pool
         parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
         calculatedBeaconPeriodSeconds,
         RNG_TIMEOUT_SECONDS,
@@ -181,7 +195,11 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   // Configure Contracts
   // ===================================================
 
-  await pushDraw1();
+  await pushDraw(
+    1065, // DrawID, should be 1 if deploying a new pool
+    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  );
+
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
@@ -193,15 +211,4 @@ export default async function deployToRinkeby(hardhat: HardhatRuntimeEnvironment
   await setManager('DrawCalculatorTimelock', null, beaconTimelockTriggerResult.address);
   await setManager('PrizeDistributionFactory', null, beaconTimelockTriggerResult.address);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
-
-  await transferOwnership('PrizeDistributionFactory', null, deployer);
-  await transferOwnership('DrawCalculatorTimelock', null, deployer);
-  await transferOwnership('PrizeFlush', null, deployer);
-  await transferOwnership('Reserve', null, deployer);
-  await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistory', null, deployer)
-  await transferOwnership('PrizeSplitStrategy', null, deployer);
-  await transferOwnership('DrawBuffer', null, deployer);
-  await transferOwnership('PrizeDistributionBuffer', null, deployer);
-  await transferOwnership('BeaconTimelockTrigger', null, deployer);
 }

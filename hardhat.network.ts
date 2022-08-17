@@ -6,11 +6,6 @@ const avalanche = process.env.AVALANCHE_ENABLED;
 const optimismKovanRPCUrl = process.env.OPTIMISM_KOVAN_RPC_URL;
 
 const networks: HardhatUserConfig['networks'] = {
-  coverage: {
-    url: 'http://127.0.0.1:8555',
-    blockGasLimit: 200000000,
-    allowUnlimitedContractSize: true,
-  },
   localhost: {
     chainId: 1,
     url: 'http://127.0.0.1:8545',
@@ -40,15 +35,6 @@ if (alchemyUrl && process.env.FORK_ENABLED && mnemonic) {
 }
 
 if (!!avalanche) {
-  networks.avalancheMainnet = {
-    chainId: 43115,
-    gas: 12000000,
-    url: 'https://api.avax.network/ext/bc/C/rpc',
-    accounts: {
-      mnemonic,
-    },
-  };
-
   networks.fuji = {
     chainId: 43113,
     url: 'https://api.avax-test.network/ext/bc/C/rpc',
@@ -59,28 +45,6 @@ if (!!avalanche) {
 }
 
 if (mnemonic) {
-  networks.xdai = {
-    chainId: 100,
-    url: 'https://rpc.xdaichain.com/',
-    accounts: {
-      mnemonic,
-    },
-  };
-  networks.poaSokol = {
-    chainId: 77,
-    url: 'https://sokol.poa.network',
-    accounts: {
-      mnemonic,
-    },
-  };
-  networks.matic = {
-    chainId: 137,
-    url: 'https://rpc-mainnet.maticvigil.com',
-    accounts: {
-      mnemonic,
-    },
-  };
-
   networks.mumbai = {
     chainId: 80001,
     url: 'https://rpc-mumbai.maticvigil.com',
@@ -96,28 +60,6 @@ if (infuraApiKey && mnemonic) {
     url: optimismKovanRPCUrl
       ? optimismKovanRPCUrl
       : `https://optimism-kovan.infura.io/v3/${infuraApiKey}`,
-    accounts: {
-      mnemonic,
-    },
-  };
-
-  networks.kovan = {
-    url: `https://kovan.infura.io/v3/${infuraApiKey}`,
-    accounts: {
-      mnemonic,
-    },
-  };
-
-  networks.ropsten = {
-    url: `https://ropsten.infura.io/v3/${infuraApiKey}`,
-    accounts: {
-      mnemonic,
-    },
-  };
-
-  networks.rinkeby = {
-    chainId: 4,
-    url: `https://rinkeby.infura.io/v3/${infuraApiKey}`,
     accounts: {
       mnemonic,
     },
