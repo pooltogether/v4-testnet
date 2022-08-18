@@ -3,6 +3,7 @@ const alchemyUrl = process.env.ALCHEMY_URL;
 const infuraApiKey = process.env.INFURA_API_KEY;
 const mnemonic = process.env.HDWALLET_MNEMONIC;
 const avalanche = process.env.AVALANCHE_ENABLED;
+const arbitrumGoerliRPCUrl = process.env.ARBITRUM_GOERLI_RPC_URL;
 const optimismGoerliRPCUrl = process.env.OPTIMISM_GOERLI_RPC_URL;
 
 const networks: HardhatUserConfig['networks'] = {
@@ -56,6 +57,15 @@ if (mnemonic) {
 }
 
 if (infuraApiKey && mnemonic) {
+  networks.arbitrumGoerli = {
+    url: arbitrumGoerliRPCUrl
+      ? arbitrumGoerliRPCUrl
+      : `https://arbitrum-goerli.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+
   networks.optimismGoerli = {
     url: optimismGoerliRPCUrl
       ? optimismGoerliRPCUrl

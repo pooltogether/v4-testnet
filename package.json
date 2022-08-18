@@ -23,18 +23,21 @@
     "deploy:mumbai": "DEPLOY=v1.1.0.mumbai hardhat deploy --network mumbai",
     "deploy:fuji": "DEPLOY=v1.1.0.fuji hardhat deploy --network fuji",
     "deploy:optimismgoerli": "DEPLOY=v1.1.0.optimismgoerli hardhat deploy --network optimismGoerli",
+    "deploy:arbitrumgoerli": "DEPLOY=v1.1.0.arbitrumgoerli hardhat deploy --network arbitrumGoerli",
     "node:goerli": "DEPLOY=v1.1.0.goerli hardhat node --network hardhat",
     "node:mumbai": "DEPLOY=v1.1.0.mumbai hardhat node --network hardhat",
     "node:fuji": "DEPLOY=v1.1.0.fuji hardhat node --network hardhat",
     "node:optimismgoerli": "DEPLOY=v1.1.0.optimismgoerli hardhat node --network hardhat",
+    "node:arbitrumgoerli": "DEPLOY=v1.1.0.arbitrumgoerli hardhat node --network hardhat",
     "verify:goerli": "hardhat --config hardhat.config.ts run ./scripts/verify.ts --network goerli",
     "verify:mumbai": "hardhat --config hardhat.config.polygon.ts run ./scripts/verify.ts --network mumbai",
     "verify:fuji": "hardhat --config hardhat.config.avalanche.ts run ./scripts/verify.ts --network fuji",
     "verify:optimismgoerli": "hardhat --config hardhat.config.optimism.ts run ./scripts/verify.ts --network optimismGoerli",
+    "verify:arbitrumgoerli": "hardhat --config hardhat.config.arbitrum.ts run ./scripts/verify.ts --network arbitrumGoerli",
     "setup:goerli": "yarn deploy-goerli ; yarn verify-goerli ; yarn disburse goerli ; yarn deposit goerli",
     "setup:mumbai": "yarn deploy-mumbai ; yarn verify:mumbai ; yarn disburse mumbai ; yarn deposit mumbai",
     "setup:fuji": "yarn deploy-fuji ; yarn verify:fuji ; yarn disburse fuji ; yarn deposit fuji",
-    "setup:optimismgoerli": "yarn deploy-optimismgoerli ; yarn verify:optimismgoerli ; yarn disburse optimismgoerli ; yarn deposit optimismgoerli"
+    "setup:arbitrumgoerli": "yarn deploy-arbitrumgoerli ; yarn verify:arbitrumgoerli ; yarn disburse arbitrumgoerli ; yarn deposit arbitrumgoerli"
   },
   "dependencies": {
     "@chainlink/contracts": "0.4.2",

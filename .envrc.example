@@ -4,6 +4,9 @@ export HDWALLET_MNEMONIC=''
 # Used to deploy to testnets
 export INFURA_API_KEY=''
 
+# Used to deploy on Arbitrum if RPC used is not Infura
+export ARBITRUM_GOERLI_RPC_URL=''
+
 # Used to deploy on Optimism if RPC used is not Infura
 export OPTIMISM_GOERLI_RPC_URL=''
 
@@ -15,6 +18,9 @@ export POLYGONSCAN_API_KEY=''
 
 # Used for verifying contracts on Snowtrace
 export SNOWTRACE_API_KEY=''
+
+# Used for verifying contracts on Arbitrum Etherscan
+export ARB_ETHERSCAN_API_KEY=''
 
 # Used for verifying contracts on Optimism Etherscan
 export OP_ETHERSCAN_API_KEY=''
