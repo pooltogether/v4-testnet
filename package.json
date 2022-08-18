@@ -80,6 +80,7 @@
     "deployments/goerli",
     "deployments/fuji",
     "deployments/optimismgoerli",
+    "deployments/arbitrumgoerli",
     "contracts.json"
   ]
 }
