@@ -43,6 +43,10 @@ yarn deploy:fuji
 yarn deploy:optimismgoerli
 ```
 
+```.sh
+yarn deploy:arbitrumgoerli
+```
+
 ## Acquire Tokens & Tickets
 
 ```.sh
@@ -62,6 +66,10 @@ yarn disburse optimismgoerli
 ```
 
 ```sh
+yarn disburse arbitrumgoerli
+```
+
+```sh
 yarn deposit goerli
 ```
 
@@ -75,6 +83,10 @@ yarn deposit fuji
 
 ```sh
 yarn deposit optimismgoerli
+```
+
+```sh
+yarn deposit arbitrumgoerli
 ```
 
 ## Test Deployment Scripts
@@ -93,4 +105,8 @@ yarn node:fuji
 
 ```.sh
 yarn node:optimismgoerli
+```
+
+```.sh
+yarn node:arbitrumgoerli
 ```

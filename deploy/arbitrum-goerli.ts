@@ -14,9 +14,9 @@ import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
 import pushDraw from '../src/pushDraw';
 
-export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY === 'v1.1.0.optimismgoerli') {
-    dim(`Deploying: Receiver Chain Optimism Goerli`);
+export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvironment) {
+  if (process.env.DEPLOY === 'v1.1.0.arbitrumgoerli') {
+    dim(`Deploying: Receiver Chain Arbitrum Goerli`);
     dim(`Version: 1.1.0`);
   } else {
     return;
@@ -43,8 +43,8 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
       aUSDC,
       aaveIncentivesController,
       aaveLendingPoolAddressesProviderRegistry,
-      'PoolTogether aOptUSDC Yield',
-      'PTaOptUSDCY',
+      'PoolTogether aArbUSDC Yield',
+      'PTaArbUSDCY',
       TOKEN_DECIMALS,
       deployer,
     ],
@@ -165,44 +165,27 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   // ===================================================
 
   await pushDraw(
-    1072, // DrawID, should be 1 if deploying a new pool
+    1083, // DrawID, should be 1 if deploying a new pool
     ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   );
 
   // Should not be called if deploying a new pool since we won't need to sync with the mainnet draw
   const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
-  await prizeDistributionBufferContract.pushPrizeDistribution(1071, [
+  await prizeDistributionBufferContract.pushPrizeDistribution(1082, [
     '2',
-    '8',
+    '7',
     '14400',
     '900',
-    '2',
+    '1',
     '5184000',
-    '9005',
-    [
-      '141787658',
-      '85072595',
-      '136116152',
-      '136116152',
-      '108892921',
-      '217785843',
-      '174228675',
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-    ],
-    '17632000000',
+    '0',
+    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    '4802000000',
   ]);
 
   // Should not be called if deploying a new pool since we won't need to sync with the mainnet draw
   const drawCalculatorTimelockContract = await getContract('DrawCalculatorTimelock');
-  await drawCalculatorTimelockContract.setTimelock({ timestamp: 1660695744, drawId: 1071 });
+  await drawCalculatorTimelockContract.setTimelock({ timestamp: 1660855644, drawId: 1082 });
 
   await initPrizeSplit();
   await setTicket(ticketResult.address);

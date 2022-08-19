@@ -25,21 +25,25 @@ const config: HardhatUserConfig = {
       mumbai: '0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f', // Polygon (Mumbai) Defender Relayer
       fuji: '0x2d38318C873b7965Ff3cB660461b04561CC487d1', // Avalanche (Fuji) Defender Relayer
       optimismGoerli: '0x7edb3772c952C0Eb22E156f443A6B91829237592', // Optimism (Goerli) Defender Relayer
+      arbitrumGoerli: '0xaf57Ac7d4616829645CA1b19e471C1204C185FcC', // Arbitrum (Goerli) Defender Relayer
     },
     aUSDC: {
       default: 0,
       5: '0x1Ee669290939f8a8864497Af3BC83728715265FF',
       420: '0xa0c014681515cB33176A885a0fCE0c458aC5de2d',
+      421613: '0x4de6918B9D2c953bb003168D64A49A6A189510D5',
     },
     aaveIncentivesController: {
       default: 0,
       5: '0x0C501fB73808e1BD73cBDdd0c99237bbc481Bb58',
       420: '0x0C501fB73808e1BD73cBDdd0c99237bbc481Bb58',
+      421613: '0xCf9C57744E10495490cB873612Db709417cFe4f4',
     },
     aaveLendingPoolAddressesProviderRegistry: {
       default: 0,
       5: '0xC87385b5E62099f92d490750Fcd6C901a524BBcA',
       420: '0xA33cB62d453891A1DC80F4A092F4990539e5FA07',
+      421613: '0x596b5804E1f541baC5f265aF7C4bcc5077522876'
     },
   },
   solidity: {
