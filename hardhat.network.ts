@@ -67,11 +67,9 @@ if (infuraApiKey && mnemonic) {
     },
   };
 
-  networks.polygonMumbai = {
+  networks.mumbai = {
     chainId: 80001,
-    url: mumbaiRPCUrl
-      ? mumbaiRPCUrl
-      : `https://polygon-mumbai.infura.io/v3/${infuraApiKey}`,
+    url: mumbaiRPCUrl ? mumbaiRPCUrl : `https://polygon-mumbai.infura.io/v3/${infuraApiKey}`,
     accounts: {
       mnemonic,
     },
@@ -80,6 +78,14 @@ if (infuraApiKey && mnemonic) {
   networks.goerli = {
     chainId: 5,
     url: `https://goerli.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+
+  networks.sepolia = {
+    chainId: 11155111,
+    url: 'https://rpc.sepolia.org',
     accounts: {
       mnemonic,
     },
