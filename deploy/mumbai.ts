@@ -30,10 +30,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
 
   const { getNamedAccounts, ethers } = hardhat;
 
-  const {
-    deployer,
-    defenderRelayer,
-  } = await getNamedAccounts();
+  const { deployer, defenderRelayer } = await getNamedAccounts();
 
   const { getContractAt, utils } = ethers;
   const { parseEther: toWei, parseUnits } = utils;
@@ -67,7 +64,12 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
 
   const ticketResult = await deployAndLog('Ticket', {
     from: deployer,
-    args: ['PoolTogether aPolUSDC Ticket', 'PTaPolUSDC', TOKEN_DECIMALS, yieldSourcePrizePoolResult.address],
+    args: [
+      'PoolTogether aPolUSDC Ticket',
+      'PTaPolUSDC',
+      TOKEN_DECIMALS,
+      yieldSourcePrizePoolResult.address,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
@@ -195,10 +197,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
   const tokenFaucet = await getContractAt('TokenFaucet', tokenFaucetResult.address);
   const mockYieldSource = await getContractAt('MockYieldSource', mockYieldSourceResult.address);
 
-  const usdc = await getContractAt(
-    erc20MintableContractPath,
-    await mockYieldSource.depositToken(),
-  );
+  const usdc = await getContractAt(erc20MintableContractPath, await mockYieldSource.depositToken());
 
   await usdc.grantRole(usdc.MINTER_ROLE(), mockYieldSourceResult.address);
 

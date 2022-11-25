@@ -43,7 +43,7 @@ const config: HardhatUserConfig = {
       default: 0,
       5: '0xC87385b5E62099f92d490750Fcd6C901a524BBcA',
       420: '0xA33cB62d453891A1DC80F4A092F4990539e5FA07',
-      421613: '0x596b5804E1f541baC5f265aF7C4bcc5077522876'
+      421613: '0x596b5804E1f541baC5f265aF7C4bcc5077522876',
     },
   },
   solidity: {
