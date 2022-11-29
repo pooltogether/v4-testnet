@@ -93,25 +93,19 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
   // New Draw Every 4 Hours
   const calculatedBeaconPeriodSeconds = 86400 / 6;
 
-  let drawBeaconResult: Contract | DeployResult;
-
-  // Check to see if a DrawBeacon exists before deploying with new input parameters
-  try {
-    drawBeaconResult = await ethers.getContract('DrawBeacon');
-  } catch {
-    drawBeaconResult = await deployAndLog('DrawBeacon', {
-      from: deployer,
-      args: [
-        deployer,
-        drawBufferResult.address,
-        rngServiceResult.address,
-        1623, // DrawID, should be 1 if deploying a new pool
-        parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
-        calculatedBeaconPeriodSeconds,
-        RNG_TIMEOUT_SECONDS,
-      ],
-    });
-  }
+  const drawBeaconResult = await deployAndLog('DrawBeacon', {
+    from: deployer,
+    args: [
+      deployer,
+      drawBufferResult.address,
+      rngServiceResult.address,
+      1641, // DrawID, should be 1 if deploying a new pool
+      parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
+      calculatedBeaconPeriodSeconds,
+      RNG_TIMEOUT_SECONDS,
+    ],
+    skipIfAlreadyDeployed: true,
+  });
 
   const prizeDistributionBufferResult = await deployAndLog('PrizeDistributionBuffer', {
     from: deployer,
@@ -199,7 +193,8 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
 
   const usdc = await getContractAt(erc20MintableContractPath, await mockYieldSource.depositToken());
 
-  await usdc.grantRole(usdc.MINTER_ROLE(), mockYieldSourceResult.address);
+  const grantRoleTx = await usdc.grantRole(usdc.MINTER_ROLE(), mockYieldSourceResult.address);
+  await grantRoleTx.wait();
 
   if ((await mockYieldSource.ratePerSecond()).eq('0')) {
     console.log(dim('Setting APY of Yield Source to 0.5%...'));
@@ -216,7 +211,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
   // ===================================================
 
   await pushDraw(
-    1623, // DrawID, should be 1 if deploying a new pool
+    1641, // DrawID, should be 1 if deploying a new pool
     [
       '132275132',
       0,
