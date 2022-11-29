@@ -1,4 +1,4 @@
-import chalk  from 'chalk';
+import chalk from 'chalk';
 
 export function dim(...args: string[]) {
   if (!process.env.HIDE_DEPLOY_LOG) {

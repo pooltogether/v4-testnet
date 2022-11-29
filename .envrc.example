@@ -10,6 +10,9 @@ export ARBITRUM_GOERLI_RPC_URL=''
 # Used to deploy on Optimism if RPC used is not Infura
 export OPTIMISM_GOERLI_RPC_URL=''
 
+# Used to deploy on Mumbai if RPC used is not Infura
+export MUMBAI_RPC_URL=''
+
 # Used for verifying contracts on Etherscan
 export ETHERSCAN_API_KEY=''
 

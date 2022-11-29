@@ -1,39 +1,58 @@
-// @ts-nocheck
 import { dim } from 'chalk';
+import { Contract } from 'ethers';
+import { DeployResult } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+
 import {
   DRAW_BUFFER_CARDINALITY,
+  ONE_YEAR_IN_SECONDS,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST,
+  RNG_TIMEOUT_SECONDS,
   TOKEN_DECIMALS,
 } from '../src/constants';
 import { deployAndLog } from '../src/deployAndLog';
 import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
-import { transferOwnership } from '../src/transferOwnership';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
-import { pushDraw1 } from '../src/pushDraw1';
+import pushDraw from '../src/pushDraw';
 
-export default async function deployToMumbai(hardhat: any) {
-  if (process.env.DEPLOY === 'v1.1.0.mumbai') {
-    dim(`Deploying: Receiver Chain Polygon Mumbai`);
-    dim(`Version: 1.1.0`);
+const erc20MintableContractPath =
+  '@pooltogether/v4-core/contracts/test/ERC20Mintable.sol:ERC20Mintable';
+
+export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment) {
+  if (process.env.DEPLOY === 'mumbai') {
+    dim(`Deploying: Ethereum Goerli`);
   } else {
     return;
   }
 
-  const { getNamedAccounts } = hardhat;
+  const { getNamedAccounts, ethers } = hardhat;
 
   const { deployer, defenderRelayer } = await getNamedAccounts();
+
+  const { getContractAt, utils } = ethers;
+  const { parseEther: toWei, parseUnits } = utils;
 
   // ===================================================
   // Deploy Contracts
   // ===================================================
 
+  const rngServiceResult = await deployAndLog('RNGChainlinkV2', {
+    from: deployer,
+    args: [
+      deployer,
+      '0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed', // VRF Coordinator address
+      2435, // Subscription id
+      '0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f', // 500 gwei key hash gas lane
+    ],
+    skipIfAlreadyDeployed: true,
+  });
+
   const mockYieldSourceResult = await deployAndLog('MockYieldSource', {
     from: deployer,
-    args: ['Token', 'TOK', TOKEN_DECIMALS],
+    args: ['USD Coin', 'USDC', TOKEN_DECIMALS],
     skipIfAlreadyDeployed: true,
   });
 
@@ -45,7 +64,17 @@ export default async function deployToMumbai(hardhat: any) {
 
   const ticketResult = await deployAndLog('Ticket', {
     from: deployer,
-    args: ['Ticket', 'TICK', TOKEN_DECIMALS, yieldSourcePrizePoolResult.address],
+    args: [
+      'PoolTogether aPolUSDC Ticket',
+      'PTaPolUSDC',
+      TOKEN_DECIMALS,
+      yieldSourcePrizePoolResult.address,
+    ],
+    skipIfAlreadyDeployed: true,
+  });
+
+  const tokenFaucetResult = await deployAndLog('TokenFaucet', {
+    from: deployer,
     skipIfAlreadyDeployed: true,
   });
 
@@ -58,6 +87,23 @@ export default async function deployToMumbai(hardhat: any) {
   const drawBufferResult = await deployAndLog('DrawBuffer', {
     from: deployer,
     args: [deployer, DRAW_BUFFER_CARDINALITY],
+    skipIfAlreadyDeployed: true,
+  });
+
+  // New Draw Every 4 Hours
+  const calculatedBeaconPeriodSeconds = 86400 / 6;
+
+  const drawBeaconResult = await deployAndLog('DrawBeacon', {
+    from: deployer,
+    args: [
+      deployer,
+      drawBufferResult.address,
+      rngServiceResult.address,
+      1642, // DrawID, should be 1 if deploying a new pool
+      parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
+      calculatedBeaconPeriodSeconds,
+      RNG_TIMEOUT_SECONDS,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
@@ -135,41 +181,67 @@ export default async function deployToMumbai(hardhat: any) {
     skipIfAlreadyDeployed: true,
   });
 
-  const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', {
+  const beaconTimelockTriggerResult = await deployAndLog('BeaconTimelockTrigger', {
     from: deployer,
-    args: [
-      deployer,
-      drawBufferResult.address,
-      prizeDistributionFactoryResult.address,
-      drawCalculatorTimelockResult.address,
-    ],
+    args: [deployer, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address],
     skipIfAlreadyDeployed: true,
   });
+
+  // Mint deposit tokens to faucet
+  const tokenFaucet = await getContractAt('TokenFaucet', tokenFaucetResult.address);
+  const mockYieldSource = await getContractAt('MockYieldSource', mockYieldSourceResult.address);
+
+  const usdc = await getContractAt(erc20MintableContractPath, await mockYieldSource.depositToken());
+
+  const grantRoleTx = await usdc.grantRole(usdc.MINTER_ROLE(), mockYieldSourceResult.address);
+  await grantRoleTx.wait();
+
+  if ((await mockYieldSource.ratePerSecond()).eq('0')) {
+    console.log(dim('Setting APY of Yield Source to 0.5%...'));
+    await mockYieldSource.setRatePerSecond(toWei('0.005').div(ONE_YEAR_IN_SECONDS)); // 0.5% APY
+  }
+
+  if ((await usdc.balanceOf(tokenFaucet.address)).eq('0')) {
+    console.log(dim('Minting 100M USDC to tokenFaucet...'));
+    await usdc.mint(tokenFaucet.address, parseUnits('100000000', TOKEN_DECIMALS)); // 100M
+  }
 
   // ===================================================
   // Configure Contracts
   // ===================================================
 
-  await pushDraw1();
+  await pushDraw(
+    1641, // DrawID, should be 1 if deploying a new pool
+    [
+      '132275132',
+      0,
+      '26455026',
+      '52910053',
+      '5291005',
+      0,
+      '21164021',
+      0,
+      '84656085',
+      0,
+      '338624339',
+      '338624339',
+      0,
+      0,
+      0,
+      0,
+    ],
+  );
+
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
-  await setManager('ReceiverTimelockTrigger', null, defenderRelayer);
-  await setManager('DrawBuffer', null, receiverTimelockAndPushRouterResult.address);
+
+  await setManager('BeaconTimelockTrigger', null, defenderRelayer);
+  await setManager('RNGChainlinkV2', null, drawBeaconResult.address);
+  await setManager('DrawBuffer', null, drawBeaconResult.address);
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
-  await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
-  await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('DrawCalculatorTimelock', null, beaconTimelockTriggerResult.address);
+  await setManager('PrizeDistributionFactory', null, beaconTimelockTriggerResult.address);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
-
-  await transferOwnership('PrizeDistributionFactory', null, deployer);
-  await transferOwnership('DrawCalculatorTimelock', null, deployer);
-  await transferOwnership('PrizeFlush', null, deployer);
-  await transferOwnership('Reserve', null, deployer);
-  await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistory', null, deployer);
-  await transferOwnership('PrizeSplitStrategy', null, deployer);
-  await transferOwnership('DrawBuffer', null, deployer);
-  await transferOwnership('PrizeDistributionBuffer', null, deployer);
-  await transferOwnership('ReceiverTimelockTrigger', null, deployer);
 }

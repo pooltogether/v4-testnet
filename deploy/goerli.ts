@@ -45,7 +45,7 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
       deployer,
       '0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D', // VRF Coordinator address
       10, // Subscription id
-      '0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15', // 30 gwei key hash gas lane
+      '0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15', // 150 gwei key hash gas lane
     ],
     skipIfAlreadyDeployed: true,
   });
@@ -197,7 +197,7 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
 
   await pushDraw(
     1065, // DrawID, should be 1 if deploying a new pool
-    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   );
 
   await initPrizeSplit();

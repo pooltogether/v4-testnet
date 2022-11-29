@@ -7,6 +7,9 @@ export const external = {
       artifacts: 'node_modules/@pooltogether/yield-source-interface/artifacts',
     },
     {
+      artifacts: 'node_modules/@pooltogether/v4-core/artifacts',
+    },
+    {
       artifacts: 'node_modules/@pooltogether/v4-periphery/artifacts',
     },
   ],

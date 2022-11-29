@@ -1,5 +1,11 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { isBinance, isAvalancheFuji, isPolygon, isArbitrumGoerli, isOptimismGoerli } from './isNetwork';
+import {
+  isBinance,
+  isAvalancheFuji,
+  isPolygon,
+  isArbitrumGoerli,
+  isOptimismGoerli,
+} from './isNetwork';
 
 export function getHardhatConfigFile(hardhat: HardhatRuntimeEnvironment) {
   let config;

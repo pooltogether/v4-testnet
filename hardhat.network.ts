@@ -5,6 +5,7 @@ const mnemonic = process.env.HDWALLET_MNEMONIC;
 const avalanche = process.env.AVALANCHE_ENABLED;
 const arbitrumGoerliRPCUrl = process.env.ARBITRUM_GOERLI_RPC_URL;
 const optimismGoerliRPCUrl = process.env.OPTIMISM_GOERLI_RPC_URL;
+const mumbaiRPCUrl = process.env.MUMBAI_RPC_URL;
 
 const networks: HardhatUserConfig['networks'] = {
   localhost: {
@@ -45,19 +46,9 @@ if (!!avalanche) {
   };
 }
 
-if (mnemonic) {
-  networks.mumbai = {
-    chainId: 80001,
-    url: 'https://rpc-mumbai.maticvigil.com',
-    accounts: {
-      mnemonic,
-    },
-  };
-  networks.polygonMumbai = networks.mumbai;
-}
-
 if (infuraApiKey && mnemonic) {
   networks.arbitrumGoerli = {
+    chainId: 421613,
     url: arbitrumGoerliRPCUrl
       ? arbitrumGoerliRPCUrl
       : `https://arbitrum-goerli.infura.io/v3/${infuraApiKey}`,
@@ -67,6 +58,7 @@ if (infuraApiKey && mnemonic) {
   };
 
   networks.optimismGoerli = {
+    chainId: 420,
     url: optimismGoerliRPCUrl
       ? optimismGoerliRPCUrl
       : `https://optimism-goerli.infura.io/v3/${infuraApiKey}`,
@@ -75,9 +67,25 @@ if (infuraApiKey && mnemonic) {
     },
   };
 
+  networks.mumbai = {
+    chainId: 80001,
+    url: mumbaiRPCUrl ? mumbaiRPCUrl : `https://polygon-mumbai.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+
   networks.goerli = {
     chainId: 5,
     url: `https://goerli.infura.io/v3/${infuraApiKey}`,
+    accounts: {
+      mnemonic,
+    },
+  };
+
+  networks.sepolia = {
+    chainId: 11155111,
+    url: 'https://rpc.sepolia.org',
     accounts: {
       mnemonic,
     },

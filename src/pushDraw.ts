@@ -15,7 +15,7 @@ export default async function pushDraw(
     await prizeTierHistory.getNewestDrawId();
   } catch (error) {
     const pushTx = await prizeTierHistory.push({
-      bitRangeSize: 2,
+      bitRangeSize: 1,
       drawId,
       maxPicksPerUser: 1,
       expiryDuration: EXPIRY_DURATION,
