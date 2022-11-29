@@ -99,7 +99,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
       deployer,
       drawBufferResult.address,
       rngServiceResult.address,
-      1641, // DrawID, should be 1 if deploying a new pool
+      1642, // DrawID, should be 1 if deploying a new pool
       parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
       calculatedBeaconPeriodSeconds,
       RNG_TIMEOUT_SECONDS,
