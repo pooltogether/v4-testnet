@@ -21,7 +21,7 @@ const erc20MintableContractPath =
 
 export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'mumbai') {
-    dim(`Deploying: Mumbai`);
+    dim(`Deploying: Polygon Mumbai as Beacon Chain`);
   } else {
     return;
   }

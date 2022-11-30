@@ -15,8 +15,9 @@ import { initPrizeSplit } from '../src/initPrizeSplit';
 import pushDraw from '../src/pushDraw';
 
 export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY === 'fuji') {
-    dim(`Deploying: Fuji`);
+  if (process.env.DEPLOY === 'v1.1.0.fuji') {
+    dim(`Deploying: Avalanche Fuji as Receiver Chain`);
+    dim(`Version: 1.1.0`);
   } else {
     return;
   }
