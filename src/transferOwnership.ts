@@ -17,9 +17,7 @@ export async function transferOwnership(
     const contractOwner = await contract?.owner();
     const pendingOwner = await contract?.pendingOwner();
 
-    return (
-      contractOwner !== AddressZero || contractOwner == desiredOwner || pendingOwner == desiredOwner
-    );
+    return contractOwner == desiredOwner || pendingOwner == desiredOwner;
   };
 
   if (!(await ownerIsSet())) {
@@ -28,6 +26,6 @@ export async function transferOwnership(
     await tx.wait(1);
     green(`Transfer complete!`);
   } else {
-    dim(`\nOwner for ${name} has already been set`);
+    dim(`\nOwner for ${name} has already been set to ${desiredOwner}`);
   }
 }

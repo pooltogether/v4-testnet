@@ -19,7 +19,7 @@ import pushDraw from '../src/pushDraw';
 
 export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.goerli') {
-    dim(`Deploying: Ethereum Goerli`);
+    dim(`Deploying: Ethereum Goerli as Beacon Chain`);
     dim(`Version: 1.1.0`);
   } else {
     return;
@@ -76,7 +76,7 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
     from: deployer,
     args: [deployer],
     skipIfAlreadyDeployed: true,
@@ -161,7 +161,7 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
     });
   }
 
-  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
+  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactoryV2', {
     from: deployer,
     args: [
       deployer,
@@ -209,6 +209,6 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, beaconTimelockTriggerResult.address);
-  await setManager('PrizeDistributionFactory', null, beaconTimelockTriggerResult.address);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 }

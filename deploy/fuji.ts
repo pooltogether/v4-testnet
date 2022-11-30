@@ -16,7 +16,7 @@ import { pushDraw1 } from '../src/pushDraw1';
 
 export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.fuji') {
-    dim(`Deploying: Receiver Chain Avalanche Mainnet`);
+    dim(`Deploying: Avalanche Mainnet as Receiver Chain`);
     dim(`Version: 1.1.0`);
   } else {
     return;
@@ -48,7 +48,7 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
     from: deployer,
     args: [deployer],
     skipIfAlreadyDeployed: true,
@@ -96,7 +96,7 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
+  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactoryV2', {
     from: deployer,
     args: [
       deployer,
@@ -158,15 +158,15 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
-  await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 
-  await transferOwnership('PrizeDistributionFactory', null, deployer);
+  await transferOwnership('PrizeDistributionFactoryV2', null, deployer);
   await transferOwnership('DrawCalculatorTimelock', null, deployer);
   await transferOwnership('PrizeFlush', null, deployer);
   await transferOwnership('Reserve', null, deployer);
   await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistory', null, deployer);
+  await transferOwnership('PrizeTierHistoryV2', null, deployer);
   await transferOwnership('PrizeSplitStrategy', null, deployer);
   await transferOwnership('DrawBuffer', null, deployer);
   await transferOwnership('PrizeDistributionBuffer', null, deployer);

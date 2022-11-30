@@ -16,7 +16,7 @@ import pushDraw from '../src/pushDraw';
 
 export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'v1.1.0.arbitrumgoerli') {
-    dim(`Deploying: Receiver Chain Arbitrum Goerli`);
+    dim(`Deploying: Arbitrum Goerli as Receiver Chain `);
     dim(`Version: 1.1.0`);
   } else {
     return;
@@ -63,7 +63,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
     from: deployer,
     args: [deployer],
     skipIfAlreadyDeployed: true,
@@ -111,7 +111,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
+  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactoryV2', {
     from: deployer,
     args: [
       deployer,
@@ -195,6 +195,6 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
-  await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 }
