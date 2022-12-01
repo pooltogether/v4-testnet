@@ -21,7 +21,7 @@ const erc20MintableContractPath =
 
 export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment) {
   if (process.env.DEPLOY === 'mumbai') {
-    dim(`Deploying: Polygon Mumbai as Beacon Chain`);
+    dim(`Deploying: Mumbai`);
   } else {
     return;
   }
@@ -97,7 +97,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
       deployer,
       drawBufferResult.address,
       rngServiceResult.address,
-      1642, // DrawID, should be 1 if deploying a new pool
+      1642, // DrawID, must be the next DrawID
       parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
       calculatedBeaconPeriodSeconds,
       RNG_TIMEOUT_SECONDS,

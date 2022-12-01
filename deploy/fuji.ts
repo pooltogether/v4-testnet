@@ -4,47 +4,76 @@ import {
   DRAW_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST,
+  RNG_TIMEOUT_SECONDS,
   TOKEN_DECIMALS,
 } from '../src/constants';
 import { deployAndLog } from '../src/deployAndLog';
 import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
-import { transferOwnership } from '../src/transferOwnership';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
-import { pushDraw1 } from '../src/pushDraw1';
+import pushDraw from '../src/pushDraw';
 
 export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY === 'v1.1.0.fuji') {
-    dim(`Deploying: Avalanche Mainnet as Receiver Chain`);
-    dim(`Version: 1.1.0`);
+  if (process.env.DEPLOY === 'fuji') {
+    dim(`Deploying: Fuji`);
   } else {
     return;
   }
 
   const { getNamedAccounts } = hardhat;
 
-  const { deployer, defenderRelayer } = await getNamedAccounts();
+  const {
+    deployer,
+    defenderRelayer,
+    aUSDC,
+    aaveIncentivesController,
+    aaveLendingPoolAddressesProviderRegistry,
+  } = await getNamedAccounts();
 
   // ===================================================
   // Deploy Contracts
   // ===================================================
 
-  const mockYieldSourceResult = await deployAndLog('MockYieldSource', {
+  const rngServiceResult = await deployAndLog('RNGChainlinkV2', {
     from: deployer,
-    args: ['Token', 'TOK', TOKEN_DECIMALS],
+    args: [
+      deployer,
+      '0x2eD832Ba664535e5886b75D64C46EB9a228C2610', // VRF Coordinator address
+      502, // Subscription id
+      '0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61', // 300 gwei key hash gas lane
+    ],
+    skipIfAlreadyDeployed: true,
+  });
+
+  const aaveUsdcYieldSourceResult = await deployAndLog('AaveV3YieldSource', {
+    from: deployer,
+    args: [
+      aUSDC,
+      aaveIncentivesController,
+      aaveLendingPoolAddressesProviderRegistry,
+      'PoolTogether aAvaUSDC Yield',
+      'PTaAvaUSDCY',
+      TOKEN_DECIMALS,
+      deployer,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
   const yieldSourcePrizePoolResult = await deployAndLog('YieldSourcePrizePool', {
     from: deployer,
-    args: [deployer, mockYieldSourceResult.address],
+    args: [deployer, aaveUsdcYieldSourceResult.address],
     skipIfAlreadyDeployed: true,
   });
 
   const ticketResult = await deployAndLog('Ticket', {
     from: deployer,
-    args: ['Ticket', 'TICK', TOKEN_DECIMALS, yieldSourcePrizePoolResult.address],
+    args: [
+      'PoolTogether aAvaUSDC Ticket',
+      'PTaAvaUSDC',
+      TOKEN_DECIMALS,
+      yieldSourcePrizePoolResult.address,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
@@ -57,6 +86,23 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
   const drawBufferResult = await deployAndLog('DrawBuffer', {
     from: deployer,
     args: [deployer, DRAW_BUFFER_CARDINALITY],
+    skipIfAlreadyDeployed: true,
+  });
+
+  // New Draw Every 4 Hours
+  const calculatedBeaconPeriodSeconds = 86400 / 6;
+
+  const drawBeaconResult = await deployAndLog('DrawBeacon', {
+    from: deployer,
+    args: [
+      deployer,
+      drawBufferResult.address,
+      rngServiceResult.address,
+      1655, // DrawID, must be the next DrawID
+      parseInt('' + (new Date().getTime() / 1000 - calculatedBeaconPeriodSeconds)),
+      calculatedBeaconPeriodSeconds,
+      RNG_TIMEOUT_SECONDS,
+    ],
     skipIfAlreadyDeployed: true,
   });
 
@@ -109,6 +155,12 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
     skipIfAlreadyDeployed: true,
   });
 
+  const beaconTimelockTriggerResult = await deployAndLog('BeaconTimelockTrigger', {
+    from: deployer,
+    args: [deployer, prizeDistributionFactoryResult.address, drawCalculatorTimelockResult.address],
+    skipIfAlreadyDeployed: true,
+  });
+
   await deployAndLog('EIP2612PermitAndDeposit', { from: deployer, skipIfAlreadyDeployed: true });
 
   await deployAndLog('TwabRewards', {
@@ -134,41 +186,42 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
     skipIfAlreadyDeployed: true,
   });
 
-  const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', {
-    from: deployer,
-    args: [
-      deployer,
-      drawBufferResult.address,
-      prizeDistributionFactoryResult.address,
-      drawCalculatorTimelockResult.address,
-    ],
-    skipIfAlreadyDeployed: true,
-  });
-
   // ===================================================
   // Configure Contracts
   // ===================================================
 
-  await pushDraw1();
+  await pushDraw(
+    1654, // DrawID, should be 1 if deploying a new pool
+    [
+      '132275132',
+      0,
+      0,
+      '132275132',
+      '26455026',
+      '52910053',
+      '105820106',
+      '211640212',
+      0,
+      '338624339',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ],
+  );
+
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
-  await setManager('ReceiverTimelockTrigger', null, defenderRelayer);
-  await setManager('DrawBuffer', null, receiverTimelockAndPushRouterResult.address);
+
+  await setManager('BeaconTimelockTrigger', null, defenderRelayer);
+  await setManager('RNGChainlinkV2', null, drawBeaconResult.address);
+  await setManager('DrawBuffer', null, drawBeaconResult.address);
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
-  await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('DrawCalculatorTimelock', null, beaconTimelockTriggerResult.address);
   await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
-
-  await transferOwnership('PrizeDistributionFactoryV2', null, deployer);
-  await transferOwnership('DrawCalculatorTimelock', null, deployer);
-  await transferOwnership('PrizeFlush', null, deployer);
-  await transferOwnership('Reserve', null, deployer);
-  await transferOwnership('YieldSourcePrizePool', null, deployer);
-  await transferOwnership('PrizeTierHistoryV2', null, deployer);
-  await transferOwnership('PrizeSplitStrategy', null, deployer);
-  await transferOwnership('DrawBuffer', null, deployer);
-  await transferOwnership('PrizeDistributionBuffer', null, deployer);
-  await transferOwnership('ReceiverTimelockTrigger', null, deployer);
 }
