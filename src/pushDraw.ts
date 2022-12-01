@@ -20,7 +20,7 @@ export default async function pushDraw(
       maxPicksPerUser: 1,
       expiryDuration: EXPIRY_DURATION,
       endTimestampOffset: END_TIMESTAMP_OFFSET,
-      prize: '4802000000',
+      prize: '1512000000',
       tiers,
     });
     await pushTx.wait(1);
