@@ -29,7 +29,10 @@ export default async function deployToFuji(hardhat: HardhatRuntimeEnvironment) {
     aUSDC,
     aaveIncentivesController,
     aaveLendingPoolAddressesProviderRegistry,
+<<<<<<< HEAD
     executiveTeam,
+=======
+>>>>>>> b98920d (feat(deploy): add DrawBeacon to Fuji)
   } = await getNamedAccounts();
 
   // ===================================================
