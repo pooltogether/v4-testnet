@@ -33,6 +33,13 @@ const config: HardhatUserConfig = {
       420: '0xa0c014681515cB33176A885a0fCE0c458aC5de2d',
       421613: '0x4de6918B9D2c953bb003168D64A49A6A189510D5',
     },
+    executiveTeam: {
+      default: 0,
+      1: '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0',
+      137: '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0',
+      43114: '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0',
+      10: '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0',
+    },
     aaveIncentivesController: {
       default: 0,
       5: '0x0C501fB73808e1BD73cBDdd0c99237bbc481Bb58',
