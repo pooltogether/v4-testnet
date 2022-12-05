@@ -24,13 +24,13 @@ const NEW_PDFV2_MANAGER = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likel
 /* ================================ */
 
 const validateConfig = () => {
-  if (!NEW_PDFV2_OWNER || !isAddress(NEW_PDFV2_OWNER))
+  if (!isAddress(NEW_PDFV2_OWNER))
     throw new Error('Must set NEW_PDFV2_OWNER to a valid address');
-  if (!NEW_PTHV2_OWNER || !isAddress(NEW_PTHV2_OWNER))
+  if (!isAddress(NEW_PTHV2_OWNER))
     throw new Error('Must set NEW_PTHV2_OWNER to a valid address');
-  if (!NEW_PTHV2_MANAGER || !isAddress(NEW_PTHV2_MANAGER))
+  if (!isAddress(NEW_PTHV2_MANAGER))
     throw new Error('Must set NEW_PTHV2_MANAGER to a valid address');
-  if (!NEW_PDFV2_MANAGER || !isAddress(NEW_PDFV2_MANAGER))
+  if (!isAddress(NEW_PDFV2_MANAGER))
     throw new Error('Must set NEW_PDFV2_MANAGER to a valid address');
 };
 
