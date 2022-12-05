@@ -17,10 +17,10 @@ import { transferOwnership } from './transferOwnership';
 /* ============ Config ============ */
 
 // Parameters needed for update.
-const NEW_PTHV2_OWNER: string = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
-const NEW_PTHV2_MANAGER: string = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
-const NEW_PDFV2_OWNER: string = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
-const NEW_PDFV2_MANAGER: string = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely a Defender Relayer
+const NEW_PTHV2_OWNER = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
+const NEW_PTHV2_MANAGER = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
+const NEW_PDFV2_OWNER = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely the exec team
+const NEW_PDFV2_MANAGER = '0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0'; // Likely a Defender Relayer
 
 /* ================================ */
 
