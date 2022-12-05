@@ -1,10 +1,9 @@
 import * as hre from 'hardhat';
-import { green, yellow } from './colors';
+import { dim, green, yellow } from './colors';
 import { PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST } from './constants';
 import { deployAndLog } from './deployAndLog';
 import { setManager } from './setManager';
 import { transferOwnership } from './transferOwnership';
-import { getContract } from '../scripts/helpers/getContract';
 
 /**
  * Upgrades a PoolTogether Prize Pool Network from a v1.2.0 architecture tov1.3.0.
@@ -12,10 +11,11 @@ import { getContract } from '../scripts/helpers/getContract';
  *
  * NOTE: The final step to complete the update is a transition of the manager role on a PrizeDistributionBuffer to be the newly deployed PrizeDistributionFactoryV2.
  */
-async function prepUpdate() {
+async function migrate() {
   dim(`Starting...`);
   const network = hre.network.name;
-  const { getNamedAccounts } = hre;
+  const { ethers, getNamedAccounts } = hre;
+  const { getContract } = ethers;
   const { deployer, defenderRelayer, executiveTeam } = await getNamedAccounts();
   dim(`Deployer: ${deployer}`);
   dim(`Network : ${network}`);
@@ -46,11 +46,11 @@ async function prepUpdate() {
   });
 
   // 0. Load contracts
-  const prizeTierHistoryV2Contract = await getContract(hre, 'PrizeTierHistoryV2');
-  const prizeDistributionFactoryV2Contract = await getContract(hre, 'PrizeDistributionFactoryV2');
-  const prizeDistributionBufferContract = await getContract(hre, 'PrizeDistributionBuffer');
-  const prizeDistributorContract = await getContract(hre, 'PrizeDistributor');
-  const drawCalculatorContract = await getContract(hre, 'DrawCalculator');
+  const prizeTierHistoryV2Contract = await getContract('PrizeTierHistoryV2');
+  const prizeDistributionFactoryV2Contract = await getContract('PrizeDistributionFactoryV2');
+  const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
+  const prizeDistributorContract = await getContract('PrizeDistributor');
+  const drawCalculatorContract = await getContract('DrawCalculator');
 
   // 1. Set Managers on new contracts
   await setManager('PrizeTierHistoryV2', prizeTierHistoryV2Contract, executiveTeam);
