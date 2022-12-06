@@ -18,6 +18,8 @@ async function migrate() {
   const { getContract } = ethers;
   const { deployer, defenderRelayer, executiveTeam } = await getNamedAccounts();
   dim(`Deployer: ${deployer}`);
+  dim(`Defender Relayer: ${defenderRelayer}`);
+  dim(`Executive Team: ${executiveTeam}`);
   dim(`Network : ${network}`);
 
   const ticket = await hre.deployments.get('Ticket');
@@ -46,31 +48,20 @@ async function migrate() {
   });
 
   // 0. Load contracts
-  const prizeTierHistoryV2Contract = await getContract('PrizeTierHistoryV2');
-  const prizeDistributionFactoryV2Contract = await getContract('PrizeDistributionFactoryV2');
-  const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
   const prizeDistributorContract = await getContract('PrizeDistributor');
   const drawCalculatorContract = await getContract('DrawCalculator');
 
   // 1. Set Managers on new contracts
-  await setManager('PrizeTierHistoryV2', prizeTierHistoryV2Contract, executiveTeam);
-  await setManager('PrizeDistributionFactoryV2', prizeTierHistoryV2Contract, defenderRelayer);
+  await setManager('PrizeTierHistoryV2', null, executiveTeam);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
 
   // 2. Transfer Ownership on new contracts
-  await transferOwnership('PrizeTierHistoryV2', prizeTierHistoryV2Contract, executiveTeam);
-  await transferOwnership(
-    'PrizeDistributionFactoryV2',
-    prizeDistributionFactoryV2Contract,
-    executiveTeam,
-  );
+  await transferOwnership('PrizeTierHistoryV2', null, executiveTeam);
+  await transferOwnership('PrizeDistributionFactoryV2', null, executiveTeam);
 
   // 3. Complete Migration of old system
   // transition to new Prize Distribution Factory
-  await setManager(
-    'PrizeDistributionBuffer',
-    prizeDistributionBufferContract,
-    prizeDistributionFactoryV2.address,
-  );
+  await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryV2.address);
   // remove timelock
   await prizeDistributorContract.setDrawCalculator(drawCalculatorContract.address);
 
