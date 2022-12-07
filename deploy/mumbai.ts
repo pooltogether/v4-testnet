@@ -28,7 +28,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
 
   const { getNamedAccounts, ethers } = hardhat;
 
-  const { deployer, defenderRelayer } = await getNamedAccounts();
+  const { deployer, defenderRelayer, executiveTeam } = await getNamedAccounts();
 
   const { getContractAt, utils } = ethers;
   const { parseEther: toWei, parseUnits } = utils;
@@ -76,7 +76,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
     from: deployer,
     args: [deployer],
     skipIfAlreadyDeployed: true,
@@ -141,7 +141,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
+  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactoryV2', {
     from: deployer,
     args: [
       deployer,
@@ -240,6 +240,7 @@ export default async function deployToMumbai(hardhat: HardhatRuntimeEnvironment)
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, beaconTimelockTriggerResult.address);
-  await setManager('PrizeDistributionFactory', null, beaconTimelockTriggerResult.address);
+  await setManager('PrizeTierHistoryV2', null, executiveTeam);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 }
