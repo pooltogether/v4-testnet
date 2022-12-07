@@ -1,10 +1,14 @@
 {
   "name": "@pooltogether/v4-testnet",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "version": "1.10.0-beta.3",
 =======
   "version": "1.10.0-beta.1",
 >>>>>>> 006661e (feat(deploy): release beta npm version)
+=======
+  "version": "1.10.0-beta.2",
+>>>>>>> a24e87d (v1.10.0-beta.2)
   "main": "index.js",
   "repository": "git@github.com:pooltogether/v4-testnet.git",
   "author": "PoolTogether Inc.",
