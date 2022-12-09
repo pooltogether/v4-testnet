@@ -6,7 +6,7 @@ import { setManager } from './setManager';
 import { transferOwnership } from './transferOwnership';
 
 /**
- * Upgrades a PoolTogether Prize Pool Network from a v1.2.0 architecture tov1.3.0.
+ * Upgrades a PoolTogether Prize Pool Network from a v1.2.0 architecture to v1.3.0.
  * PrizeTierHistory and PrizeDistributionFactory will be migrated to PrizeTierHistoryV2 and PrizeDistributionFactoryV2 and timelocks are no longer required.
  *
  * NOTE: The final step to complete the update is a transition of the manager role on a PrizeDistributionBuffer to be the newly deployed PrizeDistributionFactoryV2.
