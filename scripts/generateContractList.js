@@ -28,11 +28,18 @@ const contractList = {
 };
 
 const formatContract = (chainId, contractName, deploymentBlob) => {
+  const regex = /V[1-9+]((.[0-9+]){0,2})$/g;
+  const version = contractName.match(regex)?.[0]?.slice(1).split('.') || [1, 0, 0];
+  const type = contractName.split(regex)[0];
   return {
     chainId,
     address: deploymentBlob.address,
-    version: CURRENT_VERSION,
-    type: contractName,
+    version: {
+      major: Number(version[0]),
+      minor: Number(version[1]) || 0,
+      patch: Number(version[2]) || 0,
+    },
+    type: type,
     abi: deploymentBlob.abi,
     tags: [],
     extensions: {},
