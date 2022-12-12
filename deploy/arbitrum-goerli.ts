@@ -31,6 +31,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
     aUSDC,
     aaveIncentivesController,
     aaveLendingPoolAddressesProviderRegistry,
+    executiveTeam,
   } = await getNamedAccounts();
 
   // ===================================================
@@ -63,7 +64,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistory', {
+  const prizeTierHistoryResult = await deployAndLog('PrizeTierHistoryV2', {
     from: deployer,
     args: [deployer],
     skipIfAlreadyDeployed: true,
@@ -111,7 +112,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactory', {
+  const prizeDistributionFactoryResult = await deployAndLog('PrizeDistributionFactoryV2', {
     from: deployer,
     args: [
       deployer,
@@ -195,6 +196,7 @@ export default async function deployToArbitrumGoerli(hardhat: HardhatRuntimeEnvi
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
-  await setManager('PrizeDistributionFactory', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('PrizeTierHistoryV2', null, executiveTeam);
+  await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
 }
