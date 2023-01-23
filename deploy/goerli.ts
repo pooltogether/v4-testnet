@@ -192,6 +192,12 @@ export default async function deployToGoerli(hardhat: HardhatRuntimeEnvironment)
     skipIfAlreadyDeployed: true,
   });
 
+  await deployAndLog('DrawDispatcher', {
+    from: deployer,
+    args: [drawBufferResult.address],
+    skipIfAlreadyDeployed: true,
+  });
+
   // ===================================================
   // Configure Contracts
   // ===================================================
