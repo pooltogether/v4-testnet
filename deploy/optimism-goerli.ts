@@ -144,17 +144,16 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  // TODO: Deploy new contract to be the contract executing the relayed calls
-  // const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', {
-  //   from: deployer,
-  //   args: [
-  //     deployer,
-  //     drawBufferResult.address,
-  //     prizeDistributionFactoryResult.address,
-  //     drawCalculatorTimelockResult.address,
-  //   ],
-  //   skipIfAlreadyDeployed: true,
-  // });
+  const drawExecutorResult = await deployAndLog('DrawExecutor', {
+    from: deployer,
+    args: [
+      5,
+      '0xc5590A366924FDd8F9d1d565adB077E0119602C8', // DrawDispatcher address on Ethereum Goerli
+      '0xc5165406dB791549f0D2423D1483c1EA10A3A206', // MessageExecutor address on Optimism Goerli
+      drawBufferResult.address
+    ],
+    skipIfAlreadyDeployed: true,
+  });
 
   // ===================================================
   // Configure Contracts
@@ -203,11 +202,7 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
-
-  // TODO: Update the manager on the DrawBuffer contract to be the contract executing the relayed calls
-  // await setManager('ReceiverTimelockTrigger', null, defenderRelayer);
-  // await setManager('DrawBuffer', null, receiverTimelockAndPushRouterResult.address);
-
+  await setManager('DrawBuffer', null, drawExecutorResult.address);
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
   await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
