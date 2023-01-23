@@ -10,3 +10,9 @@ export const EXPIRY_DURATION = 60 * 86400; // 2 months
 export const ONE_YEAR_IN_SECONDS = 31557600;
 
 export const TOKEN_DECIMALS = 6;
+
+export const ARBITRUM_GOERLI_CHAIN_ID = 421613;
+export const FUJI_CHAIN_ID = 43113;
+export const GOERLI_CHAIN_ID = 5;
+export const MUMBAI_CHAIN_ID = 80001;
+export const OPTIMISM_GOERLI_CHAIN_ID = 420;

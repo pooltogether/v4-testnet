@@ -3,6 +3,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
   DRAW_BUFFER_CARDINALITY,
+  GOERLI_CHAIN_ID,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST,
   TOKEN_DECIMALS,
@@ -12,6 +13,7 @@ import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
+import { getContractAddress } from '../scripts/helpers/getContract';
 import pushDraw from '../src/pushDraw';
 
 export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvironment) {
@@ -23,15 +25,16 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   }
 
   const { ethers, getNamedAccounts } = hardhat;
-  const { getContract } = ethers;
 
   const {
+    crossChainExecutor,
     deployer,
     defenderRelayer,
     aUSDC,
     aaveIncentivesController,
     aaveLendingPoolAddressesProviderRegistry,
     executiveTeam,
+    messageExecutor
   } = await getNamedAccounts();
 
   // ===================================================
@@ -150,12 +153,14 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
+  const drawDispatcherAddress = await getContractAddress('DrawDispatcher', GOERLI_CHAIN_ID);
+
   const drawExecutorResult = await deployAndLog('DrawExecutor', {
     from: deployer,
     args: [
       5,
-      '0xc5590A366924FDd8F9d1d565adB077E0119602C8', // DrawDispatcher address on Ethereum Goerli
-      '0xc5165406dB791549f0D2423D1483c1EA10A3A206', // MessageExecutor address on Optimism Goerli
+      drawDispatcherAddress,
+      messageExecutor,
       drawBufferResult.address
     ],
     skipIfAlreadyDeployed: true,
@@ -165,10 +170,10 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   // Configure Contracts
   // ===================================================
 
-  await pushDraw(
-    1072, // DrawID, should be 1 if deploying a new pool
-    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  );
+  // await pushDraw(
+  //   1072, // DrawID, should be 1 if deploying a new pool
+  //   ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // );
 
   // Should not be called if deploying a new pool since we won't need to sync with the mainnet draw
   // const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
