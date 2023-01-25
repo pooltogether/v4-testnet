@@ -27,7 +27,6 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   const { ethers, getNamedAccounts } = hardhat;
 
   const {
-    crossChainExecutor,
     deployer,
     defenderRelayer,
     aUSDC,
@@ -158,7 +157,7 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   const drawExecutorResult = await deployAndLog('DrawExecutor', {
     from: deployer,
     args: [
-      5,
+      GOERLI_CHAIN_ID,
       drawDispatcherAddress,
       messageExecutor,
       drawBufferResult.address
