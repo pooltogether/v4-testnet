@@ -3,6 +3,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import {
   DRAW_BUFFER_CARDINALITY,
+  GOERLI_CHAIN_ID,
   PRIZE_DISTRIBUTION_BUFFER_CARDINALITY,
   PRIZE_DISTRIBUTION_FACTORY_MINIMUM_PICK_COST,
   TOKEN_DECIMALS,
@@ -12,6 +13,7 @@ import { setPrizeStrategy } from '../src/setPrizeStrategy';
 import { setTicket } from '../src/setTicket';
 import { setManager } from '../src/setManager';
 import { initPrizeSplit } from '../src/initPrizeSplit';
+import { getContractAddress } from '../scripts/helpers/getContract';
 import pushDraw from '../src/pushDraw';
 
 export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvironment) {
@@ -23,7 +25,6 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   }
 
   const { ethers, getNamedAccounts } = hardhat;
-  const { getContract } = ethers;
 
   const {
     deployer,
@@ -32,6 +33,7 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
     aaveIncentivesController,
     aaveLendingPoolAddressesProviderRegistry,
     executiveTeam,
+    messageExecutor
   } = await getNamedAccounts();
 
   // ===================================================
@@ -150,13 +152,15 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
     skipIfAlreadyDeployed: true,
   });
 
-  const receiverTimelockAndPushRouterResult = await deployAndLog('ReceiverTimelockTrigger', {
+  const drawDispatcherAddress = await getContractAddress('DrawDispatcher', GOERLI_CHAIN_ID);
+
+  const drawExecutorResult = await deployAndLog('DrawExecutor', {
     from: deployer,
     args: [
-      deployer,
-      drawBufferResult.address,
-      prizeDistributionFactoryResult.address,
-      drawCalculatorTimelockResult.address,
+      GOERLI_CHAIN_ID,
+      drawDispatcherAddress,
+      messageExecutor,
+      drawBufferResult.address
     ],
     skipIfAlreadyDeployed: true,
   });
@@ -165,54 +169,48 @@ export default async function deployToOptimismGoerli(hardhat: HardhatRuntimeEnvi
   // Configure Contracts
   // ===================================================
 
-  await pushDraw(
-    1072, // DrawID, should be 1 if deploying a new pool
-    ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  );
+  // await pushDraw(
+  //   1072, // DrawID, should be 1 if deploying a new pool
+  //   ['210329030', 0, '789670970', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // );
 
   // Should not be called if deploying a new pool since we won't need to sync with the mainnet draw
-  const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
-  await prizeDistributionBufferContract.pushPrizeDistribution(1071, [
-    '2',
-    '8',
-    '14400',
-    '900',
-    '2',
-    '5184000',
-    '9005',
-    [
-      '141787658',
-      '85072595',
-      '136116152',
-      '136116152',
-      '108892921',
-      '217785843',
-      '174228675',
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-    ],
-    '17632000000',
-  ]);
-
-  // Should not be called if deploying a new pool since we won't need to sync with the mainnet draw
-  const drawCalculatorTimelockContract = await getContract('DrawCalculatorTimelock');
-  await drawCalculatorTimelockContract.setTimelock({ timestamp: 1660695744, drawId: 1071 });
+  // const prizeDistributionBufferContract = await getContract('PrizeDistributionBuffer');
+  // await prizeDistributionBufferContract.pushPrizeDistribution(1071, [
+  //   '2',
+  //   '8',
+  //   '14400',
+  //   '900',
+  //   '2',
+  //   '5184000',
+  //   '9005',
+  //   [
+  //     '141787658',
+  //     '85072595',
+  //     '136116152',
+  //     '136116152',
+  //     '108892921',
+  //     '217785843',
+  //     '174228675',
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //   ],
+  //   '17632000000',
+  // ]);
 
   await initPrizeSplit();
   await setTicket(ticketResult.address);
   await setPrizeStrategy(prizeSplitStrategyResult.address);
-  await setManager('ReceiverTimelockTrigger', null, defenderRelayer);
-  await setManager('DrawBuffer', null, receiverTimelockAndPushRouterResult.address);
+  await setManager('DrawBuffer', null, drawExecutorResult.address);
   await setManager('PrizeFlush', null, defenderRelayer);
   await setManager('Reserve', null, prizeFlushResult.address);
-  await setManager('DrawCalculatorTimelock', null, receiverTimelockAndPushRouterResult.address);
   await setManager('PrizeTierHistoryV2', null, executiveTeam);
   await setManager('PrizeDistributionFactoryV2', null, defenderRelayer);
   await setManager('PrizeDistributionBuffer', null, prizeDistributionFactoryResult.address);
